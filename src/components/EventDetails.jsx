@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Button, Container, Row, Col, Image } from 'react-bootstrap';
-import './styles/EventDetails.css'; // Ensure you have this file for custom styles
+// import './styles/EventDetails.css'; // Ensure you have this file for custom styles
 
 const EventDetails = () => {
   const { eventId } = useParams(); // Get the event eventId from the route parameters

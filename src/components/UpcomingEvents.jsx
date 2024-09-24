@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import UpcomingEventCard from './UpcomingEventCard';
-import './styles/UpcomingEvents.css'; // Import CSS for styling
+// import './styles/UpcomingEvents.css'; // Import CSS for styling
 import { Spinner, Alert } from 'react-bootstrap'; // Optional: for loading and error handling
 import toast from 'react-hot-toast';
 

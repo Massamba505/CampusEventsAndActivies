@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import './styles/CategoryList.css'; // Import the CSS for styling
+// import './styles/CategoryList.css'; // Import the CSS for styling
 
 const categories = [
   { name: 'Technology', path: '/technology', icon: '💻' },
