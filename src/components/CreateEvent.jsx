@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import ReactQuill from 'react-quill'; // Import React Quill
 import { Editor } from '@tinymce/tinymce-react';
 import 'react-quill/dist/quill.snow.css'; // Import styles for the editor
+import { myConstant } from '../const/const';
 
 const dummyLocations = [
   'New York',
@@ -38,7 +39,7 @@ const CreateEvent = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/category');
+        const response = await fetch(myConstant + '/api/category');
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }
@@ -118,7 +119,7 @@ const CreateEvent = () => {
         }
       }
 
-      const response = await fetch('/api/events/new', {
+      const response = await fetch(myConstant + '/api/events/new', {
         method: 'POST',
         body: formDataObj
       });

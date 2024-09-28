@@ -1,0 +1,1 @@
+export const myConstant = 'https://eventsapi3a.azurewebsites.net';

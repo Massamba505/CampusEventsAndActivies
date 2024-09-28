@@ -4,6 +4,7 @@ import UpcomingEventCard from './UpcomingEventCard';
 import { Spinner, Alert } from 'react-bootstrap'; // Optional: for loading and error handling
 import toast from 'react-hot-toast';
 import EventList from './EventList';
+import { myConstant } from '../const/const';
 
 const PopularEvents = () => {
   const [events, setEvents] = useState([]);
@@ -13,7 +14,7 @@ const PopularEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('/api/events');
+        const response = await fetch(myConstant + '/api/events');
         const data = await response.json();
 
         if (response.ok) {

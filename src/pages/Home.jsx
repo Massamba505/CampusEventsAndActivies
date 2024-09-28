@@ -5,6 +5,7 @@ import CategoryList from '../components/CategoryList';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import PopularEvents from '../components/PopularEvents';
+import { myConstant } from '../const/const';
 
 const Home = () => {
   
@@ -14,7 +15,7 @@ const Home = () => {
     if (!events || events.length == 0) {
       const fetchEvents = async () => {
         try {
-          const response = await fetch('/api/events'); // Make sure this endpoint is correct
+          const response = await fetch(myConstant + '/api/events'); // Make sure this endpoint is correct
           const data = await response.json();
 
           if (response.ok) {

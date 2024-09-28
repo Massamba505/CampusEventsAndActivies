@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithGoogle } from '../utils/auth';
 import { useAuthContext } from '../context/AuthContext.jsx';
+import { myConstant } from '../const/const.js';
 
 const Signup = () => {
     const [firstName, setFirstName] = useState('');
@@ -55,7 +56,7 @@ const Signup = () => {
         }
 
         try {
-            const response = await fetch('/api/auth/signup', {
+            const response = await fetch(myConstant + '/api/auth/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

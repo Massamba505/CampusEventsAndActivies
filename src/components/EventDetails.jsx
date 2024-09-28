@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FaMapMarkerAlt, FaUser, FaEnvelope } from 'react-icons/fa';
 import ImageCarousel from './ImageCarousel'; // Import the carousel
+import { myConstant } from '../const/const';
 
 const EventDetails = () => {
   const { eventId } = useParams(); // Get the eventId from the route parameters
@@ -12,7 +13,7 @@ const EventDetails = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await fetch(`/api/events/${eventId}`);
+        const response = await fetch(myConstant + `/api/events/${eventId}`);
         if (!response.ok) throw new Error('Failed to fetch event');
         const data = await response.json();
         console.log(data.data)

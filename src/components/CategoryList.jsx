@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { myConstant } from '../const/const';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -8,7 +9,7 @@ const CategoryList = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/category'); // Adjust the URL as necessary
+        const response = await fetch(myConstant + '/api/category'); // Adjust the URL as necessary
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }

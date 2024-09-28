@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { myConstant } from '../const/const';
 
 // CategoriesManagement component
 const CategoriesManagement = () => {
@@ -18,7 +19,7 @@ const CategoriesManagement = () => {
   // Fetch categories from the API
   const fetchCategories = async () => {
     try {
-      const response = await fetch('/api/category');
+      const response = await fetch(myConstant + '/api/category');
       const data = await response.json();
       setCategories(data); // Set the categories from the API response
     } catch (error) {
@@ -57,7 +58,7 @@ const CategoriesManagement = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await fetch(`/api/category/${deleteCategoryId}`, { method: 'DELETE' });
+      await fetch(myConstant + `/api/category/${deleteCategoryId}`, { method: 'DELETE' });
       setCategories(categories.filter((category) => category._id !== deleteCategoryId));
       setDeleteCategoryId(null); // Reset delete ID
       toast.success('Category deleted successfully!');
@@ -78,7 +79,7 @@ const CategoriesManagement = () => {
     try {
       if (editCategory) {
         // Update existing category
-        await fetch(`/api/category/${editCategory._id}`, {
+        await fetch(myConstant + `/api/category/${editCategory._id}`, {
           method: 'PUT',
           body: formData,
         });
@@ -88,7 +89,7 @@ const CategoriesManagement = () => {
         toast.success('Category updated successfully!');
       } else {
         // Add new category
-        const response = await fetch('/api/category', {
+        const response = await fetch(myConstant + '/api/category', {
           method: 'POST',
           body: formData,
         });

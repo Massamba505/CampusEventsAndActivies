@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAuthContext } from '../context/AuthContext';
+import { myConstant } from '../const/const';
 
 export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,7 +21,7 @@ export default function Navbar() {
   };
 
   const handleLogout = async() => {
-    const response = await fetch("/api/auth/logout", {
+    const response = await fetch(myConstant + "/api/auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

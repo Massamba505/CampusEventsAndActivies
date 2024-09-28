@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { myConstant } from '../../const/const';
 
 const SetNewPassword = () => {
     const { userId } = useParams();  // Get userId from route params
@@ -48,7 +49,7 @@ const SetNewPassword = () => {
         setIsSubmitting(true);
 
         try {
-            const response = await fetch('/api/auth/set-new-password', {
+            const response = await fetch(myConstant + '/api/auth/set-new-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

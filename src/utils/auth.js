@@ -2,6 +2,7 @@
 import toast from 'react-hot-toast';
 import { auth, provider } from '../firebase.config';
 import { signInWithPopup, getIdToken } from 'firebase/auth';
+import { myConstant } from '../const/const';
 
 // Sign in with Google
 export const signInWithGoogle = async (setAuthUser) => {
@@ -20,7 +21,7 @@ export const signInWithGoogle = async (setAuthUser) => {
 // Send Google ID token to backend
 const sendGoogleTokenToBackend = async (googleIdToken,setAuthUser) => {
   try {
-    const response = await fetch('/api/auth/login', {
+    const response = await fetch(myConstant + '/api/auth/login', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + googleIdToken,

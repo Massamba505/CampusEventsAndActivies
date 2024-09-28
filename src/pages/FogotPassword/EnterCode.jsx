@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { myConstant } from '../../const/const';
 
 const CodeInput = () => {
     const { email } = useParams();
@@ -27,7 +28,7 @@ const CodeInput = () => {
         const otpCode = otp.join('');
 
         try {
-            const response = await fetch(`/api/auth/reset-password/${otpCode}`, {
+            const response = await fetch(myConstant + `/api/auth/reset-password/${otpCode}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,7 +61,7 @@ const CodeInput = () => {
     const handleResendCode = async () => {
 
         try {
-            const response = await fetch('/api/auth/forgot-password', {
+            const response = await fetch(myConstant + '/api/auth/forgot-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

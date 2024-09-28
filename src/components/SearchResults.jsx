@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import EventCard from './EventCard'; // Make sure to adjust this import based on your file structure
 import NavbarComponent from '../components/Navbar';
 import toast from 'react-hot-toast';
+import { myConstant } from '../const/const';
 
 const SearchResults = () => {
   const location = useLocation();
@@ -15,7 +16,7 @@ const SearchResults = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch(`/api/events/search?query=${query}`);
+        const response = await fetch(myConstant + `/api/events/search?query=${query}`);
         if (!response.ok) {
           const data = await response.json();
           throw new Error(data.error);
