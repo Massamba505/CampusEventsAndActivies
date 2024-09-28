@@ -20,7 +20,12 @@ export default function Navbar() {
   };
 
   const handleLogout = async() => {
-    const response = await fetch("/api/auth/logout");
+    const response = await fetch("/api/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
     if(response.ok){
       toast("Logged out successfully!"); // Show a message or toast
       localStorage.removeItem("events-app");
