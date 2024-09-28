@@ -6,12 +6,14 @@ import Landing from './pages/Landing';
 import Home from './pages/Home';
 import { Toaster } from 'react-hot-toast';
 import { useAuthContext } from './context/AuthContext.jsx';
-import CreateEvent from './pages/CreateEvent.jsx';
+import CreateEvent from './components/CreateEvent.jsx';
 import EventDetails from './components/EventDetails.jsx';
 import Error404 from './components/Error404.jsx';
 import ForgotPassword from './pages/FogotPassword/ForgotPassword.jsx';
 import EnterCode from './pages/FogotPassword/EnterCode.jsx';
 import SetNewPassword from './pages/FogotPassword/SetNewPassword.jsx';
+import CategoriesManagement from './pages/CategoryManagement.jsx';
+import SearchResults from './components/SearchResults.jsx';
 
 function App() {
   const { authUser } = useAuthContext();
@@ -31,6 +33,10 @@ function App() {
         <Route path="/events" element={authUser ? <Home /> : <Navigate to='/login' />} />
         <Route path="/create-event" element={authUser ? <CreateEvent /> : <Navigate to='/login' />} />
         <Route path="/events/:eventId" element={authUser ? <EventDetails /> : <Navigate to='/login' />} />
+        <Route path="/search" element={authUser ? <SearchResults /> : <Navigate to='/login' />} />
+
+
+        <Route path="/admin/category" element={authUser ? <CategoriesManagement /> : <Navigate to='/login' />} />
 
         {/* Redirect to login if no match */}
         <Route path="*" element={<Error404 />} />

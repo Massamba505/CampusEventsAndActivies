@@ -1,26 +1,56 @@
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import {BellIcon} from '@heroicons/react/24/outline'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
+import { BellIcon } from '@heroicons/react/24/outline';
 import logo from "../assets/logo.jpeg";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { useAuthContext } from '../context/AuthContext';
 
 export default function Navbar() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const{setAuthUser} = useAuthContext();
+  const navigate = useNavigate(); // Use navigate for navigation
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Redirect to search results page (you can adjust the path based on your routing)
+    if (searchTerm) {
+      navigate(`/search?query=${searchTerm}`); // Use navigate instead of history
+    }
+  };
+
+  const handleLogout = async() => {
+    const response = await fetch("/api/auth/logout");
+    if(response.ok){
+      toast("Logged out successfully!"); // Show a message or toast
+      localStorage.removeItem("events-app");
+      setAuthUser(null);
+      return;
+    }
+    const data = await response.json();
+    toast(data.error); // Show a message or toast
+
+  };
+
   return (
     <nav className="bg-white p-4 pb-4">
       <div className="mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between">
           <div className="flex">
             <Link to={"/"} className="flex items-center">
-              <img className="w-24 h-16" src={logo}/>
+              <img className="w-24 h-16" src={logo} alt="Logo" />
             </Link>
           </div>
 
-          <div className="flex max-w-5xl flex-1 items-center justify-center">
+          <form onSubmit={handleSearch} className="flex max-w-5xl flex-1 items-center justify-center">
             <input
               type="text"
               placeholder="Search..."
-              className="w-4/5 h-12 px-4 rounded-md text-lg bg-white text-black placeholder-black border border-gray-700 shadow-md focus:outline-black focus:ring-2 focus:ring-black focus:border"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value.trim())}
+              className="w-4/5 h-12 px-4 rounded-md text-lg bg-white text-black placeholder-black border focus:outline-none border-gray-700 shadow-md "
             />
-          </div>
+          </form>
 
           <div className="flex items-center">
             <button
@@ -50,19 +80,14 @@ export default function Navbar() {
                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
               >
                 <MenuItem>
-                  <Link href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                  <Link to="/profile" className="block text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
                     Your Profile
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
-                    Settings
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
-                    Sign out
-                  </Link>
+                  <div onClick={handleLogout} className="block cursor-pointer text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                    Logout
+                  </div>
                 </MenuItem>
               </MenuItems>
             </Menu>
@@ -70,5 +95,5 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
-  )
+  );
 }

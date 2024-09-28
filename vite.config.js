@@ -8,7 +8,7 @@ export default defineConfig({
     port:5000,
     proxy:{
       "/api":{
-        target:"https://campus-events-and-activies-api.vercel.app/"
+        target:"http://localhost:3000/"
       }
     }
   }

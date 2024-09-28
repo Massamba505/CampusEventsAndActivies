@@ -3,8 +3,9 @@ import UpcomingEventCard from './UpcomingEventCard';
 // import './styles/UpcomingEvents.css'; // Import CSS for styling
 import { Spinner, Alert } from 'react-bootstrap'; // Optional: for loading and error handling
 import toast from 'react-hot-toast';
+import EventList from './EventList';
 
-const UpcomingEvents = () => {
+const PopularEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -41,18 +42,16 @@ const UpcomingEvents = () => {
 
   return (
     <div className="upcoming-events-container  mb-3">
-      <h3 className='text-decoration-underline underline-offset-4'>Upcoming Events</h3>
+      <h3 className='text-decoration-underline underline-offset-4'>Popular Events Events</h3>
       <div className="upcoming-events mt-10">
         {events.length > 0 ? (
-          events.map((event, index) => (
-            <UpcomingEventCard key={index} event={event} />
-          ))
+            <EventList events={events} />
         ) : (
-          <p>No upcoming events available</p>
+          <p>No popular events available</p>
         )}
       </div>
     </div>
   );
 };
 
-export default UpcomingEvents;
+export default PopularEvents;

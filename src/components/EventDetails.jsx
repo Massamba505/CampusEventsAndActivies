@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Button, Container, Row, Col, Image } from 'react-bootstrap';
-// import './styles/EventDetails.css'; // Ensure you have this file for custom styles
+import { FaMapMarkerAlt, FaUser, FaEnvelope } from 'react-icons/fa';
+import ImageCarousel from './ImageCarousel'; // Import the carousel
 
 const EventDetails = () => {
-  const { eventId } = useParams(); // Get the event eventId from the route parameters
+  const { eventId } = useParams(); // Get the eventId from the route parameters
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,6 +15,7 @@ const EventDetails = () => {
         const response = await fetch(`/api/events/${eventId}`);
         if (!response.ok) throw new Error('Failed to fetch event');
         const data = await response.json();
+        console.log(data.data)
         setEvent(data.data);
       } catch (error) {
         setError(error.message);
@@ -40,71 +41,112 @@ const EventDetails = () => {
     ticketPrice,
     description,
     images,
+    isPaid,
+    category,  // Categories array
+    maxAttendees,
+    currentAttendees,
+    email
   } = event;
 
-  const imageUrl = images && images.length > 0 ? images[0] : 'https://via.placeholder.com/350x150';
-  const hostImage = images && images.length >= 2 ? images[1] : 'https://via.placeholder.com/150';
+  const headerImage = images && images.length > 0 ? images[0] : 'https://via.placeholder.com/350x150';
+  const carouselImages = images && images.length > 1 ? images.slice(1) : [];
+  const organizerImage = eventAuthor?.profilePicture || 'https://via.placeholder.com/100';
 
   return (
-    <Container className="mt-4">
-      <Card className="shadow-lg p-3 mb-5 bg-white rounded">
-        <Card.Img variant="top" src={imageUrl} alt={title} />
-        <Card.Body>
-          <Row>
-            <Col>
-              <h2>{title}</h2>
-              <p className="text-muted">{date}, {startTime} - {endTime}</p>
-            </Col>
-            <Col className="text-end">
-              <Button variant="outline-primary" className="me-2">Invite</Button>
-              <span className="fw-bold">+20 Going</span>
-            </Col>
-          </Row>
-          <hr />
-          <Row>
-            <Col>
-              <h5><i className="bi bi-geo-alt-fill"></i> {location}</h5>
-            </Col>
-          </Row>
-          <hr />
-          <Row>
-            <Col md={2}>
-              <Image src={hostImage} roundedCircle alt="Host" />
-            </Col>
-            <Col>
-              <h5>About Event</h5>
-              <p>
-                <strong>{eventAuthor?.name}</strong>, {eventAuthor?.profession}
-              </p>
-              <Button variant="primary">Follow</Button>
-            </Col>
-          </Row>
-          <hr />
-          <Row>
-            <Col>
-              <p>{description}</p>
-            </Col>
-          </Row>
-          <Row className="my-3">
-            <h5>Location</h5>
-            <div style={{ width: '100%', height: '300px' }}>
-              <iframe
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                style={{ border: 0 }}
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`}
-                allowFullScreen
-                title="Event Location"
-              ></iframe>
-            </div>
-          </Row>
-          <Button variant="primary" className="mt-3 w-100">
-            Buy Ticket {ticketPrice ? `R${ticketPrice}` : 'Free'}
-          </Button>
-        </Card.Body>
-      </Card>
-    </Container>
+    <div className="container mx-auto p-4">
+      {/* Header Image */}
+      <div className="relative mb-4">
+        <img src={headerImage} alt={title} className="w-full rounded-lg shadow-md h-96 object-cover" />
+        <h1 className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 px-4 py-2 rounded-lg text-2xl font-bold">
+          {title}
+        </h1>
+      </div>
+
+      {/* Event Details Card */}
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        {/* Event Title and Date */}
+        <div className="flex justify-between items-center mb-4">
+          <div>
+            <h1 className="text-5xl font-bold text-gray-800">{title}</h1>
+            <p className="text-gray-600">{date}, {startTime} - {endTime}</p>
+          </div>
+          <div className="text-right">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg">{isPaid ? `Buy Ticket for R${ticketPrice}` : 'Get Ticket'}</button>
+            <span className="block font-semibold text-green-600 mt-2">{currentAttendees}/{maxAttendees || ''} Going</span>
+          </div>
+        </div>
+
+        {/* Organizer Info */}
+        <div className="flex items-center mb-6">
+          <img src={organizerImage} alt="Organizer" className="w-16 h-16 rounded-full object-cover mr-4" />
+          <div>
+            <h5 className="text-lg font-semibold">Organizer: {eventAuthor || 'Anonymous'}</h5>
+            <p className="text-gray-600"><FaEnvelope className="inline-block mr-1" /> {email || 'No email available'}</p>
+          </div>
+        </div>
+
+        <hr className="my-4" />
+
+        {/* Event Categories */}
+        <div className="mb-6">
+          <h5 className="text-lg font-bold text-gray-800 mb-2">Categories</h5>
+          <div  className="flex flex-wrap space-x-2">
+            {category && category.length > 0 ? (
+              category.map((cat) => (
+                <span key={cat._id} className="bg-gray-200 text-gray-800 py-1 px-3 rounded-full text-sm">
+                  {cat.name}
+                </span>
+              ))
+            ) : (
+              <span className="text-gray-600">No categories available</span>
+            )}
+          </div>
+        </div>
+
+
+        <hr className="my-4" />
+
+        {/* Event Description */}
+        <div className="mb-6">
+          <h5 className="text-xl font-bold text-gray-800 mb-2">About the Event</h5>
+          <p className="text-gray-600">{description}</p>
+        </div>
+
+        <hr className="my-4" />
+        {/* Carousel for additional images */}
+        <div className="container mx-auto my-6">
+          <h5 className="text-xl font-bold text-gray-800 mb-2">Event Highlights</h5>
+          <p className="text-gray-600 text-m mb-5">
+            Explore some memorable moments and glimpses of {"what's"} to come at this event. Take a look at our event highlights through these featured images.
+          </p>
+          <ImageCarousel images={carouselImages} />
+        </div>
+
+        <hr className="my-4" />
+
+        {/* Event Location */}
+        <div className="mb-6">
+          <h5 className="text-lg font-bold text-gray-800 mb-2"><FaMapMarkerAlt className="inline-block mr-2" /> Event Location</h5>
+          <div className="w-full h-64">
+            <iframe
+              width="100%"
+              height="100%"
+              className="rounded-lg"
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`}
+              allowFullScreen
+              title="Event Location"
+            ></iframe>
+          </div>
+        </div>
+
+        {/* Ticket Section */}
+        <div className="mt-6">
+          <button className={`w-full py-3 rounded-lg text-white font-bold transition ${isPaid ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}>
+            {isPaid ? `Buy Ticket for R${ticketPrice}` : 'Get Ticket'}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
