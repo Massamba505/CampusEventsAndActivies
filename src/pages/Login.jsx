@@ -32,7 +32,7 @@ const Login = () => {
 
             localStorage.setItem("events-app",JSON.stringify(data)); // has the userId in database
             setAuthUser(data)
-            navigate('/dashboard');
+            navigate('/');
         } catch (error) {
             toast.error(error.message);
         }
