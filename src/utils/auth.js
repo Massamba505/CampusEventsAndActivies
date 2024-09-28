@@ -14,6 +14,7 @@ export const signInWithGoogle = async (setAuthUser) => {
     // Send the token to your backend
     await sendGoogleTokenToBackend(googleIdToken,setAuthUser);
   } catch (error) {
+    console.error('Error signing in with Google:', error);
     toast.error('Error signing in with Google:', error);
   }
 };
