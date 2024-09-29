@@ -2,23 +2,13 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { BellIcon } from '@heroicons/react/24/outline';
 import logo from "../assets/logo.jpeg";
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAuthContext } from '../context/AuthContext';
 import { myConstant } from '../const/const';
 
 export default function Navbar() {
-  const [searchTerm, setSearchTerm] = useState('');
   const{setAuthUser} = useAuthContext();
-  const navigate = useNavigate(); // Use navigate for navigation
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // Redirect to search results page (you can adjust the path based on your routing)
-    if (searchTerm) {
-      navigate(`/search?query=${searchTerm}`); // Use navigate instead of history
-    }
-  };
+  const navigate = useNavigate();
 
   const handleLogout = async() => {
     const response = await fetch(myConstant + "/api/auth/logout", {
@@ -37,27 +27,19 @@ export default function Navbar() {
     toast(data.error); // Show a message or toast
 
   };
+  const handleCreate = async() => {
+    navigate("/create-event");
+  };
 
   return (
-    <nav className="bg-white p-4 pb-4">
-      <div className="mx-auto px-2 sm:px-6 lg:px-8">
+    <nav className="bg-white px-4 pt-4 pb-1 sticky top-0 z-10">
+      <div className="mx-auto px-2 py-2 sm:px-6 lg:px-8 border rounded w-11/12 shadow-md">
         <div className="relative flex items-center justify-between">
           <div className="flex">
             <Link to={"/"} className="flex items-center">
               <img className="w-24 h-16" src={logo} alt="Logo" />
             </Link>
           </div>
-
-          <form onSubmit={handleSearch} className="flex max-w-5xl flex-1 items-center justify-center">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value.trim())}
-              className="w-4/5 h-12 px-4 rounded-md text-lg bg-white text-black placeholder-black border focus:outline-none border-gray-700 shadow-md "
-            />
-          </form>
-
           <div className="flex items-center">
             <button
               type="button"
@@ -87,12 +69,17 @@ export default function Navbar() {
               >
                 <MenuItem>
                   <Link to="/profile" className="block text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
-                    Your Profile
+                    Profile
                   </Link>
                 </MenuItem>
                 <MenuItem>
                   <div onClick={handleLogout} className="block cursor-pointer text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
                     Logout
+                  </div>
+                </MenuItem>
+                <MenuItem>
+                  <div onClick={handleCreate} className="block cursor-pointer text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                    Create Event
                   </div>
                 </MenuItem>
               </MenuItems>

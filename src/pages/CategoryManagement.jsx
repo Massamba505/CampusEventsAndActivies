@@ -15,11 +15,19 @@ const CategoriesManagement = () => {
   });
 
   const [imagePreview, setImagePreview] = useState('');
+  const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
   // Fetch categories from the API
   const fetchCategories = async () => {
     try {
-      const response = await fetch(myConstant + '/api/category');
+      const response = await fetch(myConstant + '/api/category',
+        {
+          method:"GET",
+          headers:{
+            "Authorization":`Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
       const data = await response.json();
       setCategories(data); // Set the categories from the API response
     } catch (error) {
@@ -58,7 +66,14 @@ const CategoriesManagement = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await fetch(myConstant + `/api/category/${deleteCategoryId}`, { method: 'DELETE' });
+      await fetch(myConstant + `/api/category/${deleteCategoryId}`,
+        {
+          method:"DELETE",
+          headers:{
+            "Authorization":`Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
       setCategories(categories.filter((category) => category._id !== deleteCategoryId));
       setDeleteCategoryId(null); // Reset delete ID
       toast.success('Category deleted successfully!');
@@ -79,20 +94,30 @@ const CategoriesManagement = () => {
     try {
       if (editCategory) {
         // Update existing category
-        await fetch(myConstant + `/api/category/${editCategory._id}`, {
-          method: 'PUT',
-          body: formData,
-        });
+        await fetch(myConstant + `/api/category/${editCategory._id}`,
+          {
+            method:"PUT",
+            headers:{
+              "Authorization":`Bearer ${token}`,
+              "Content-Type": "application/json"
+            },
+            body: formData,
+          });
         setCategories(categories.map((category) => 
           category._id === editCategory._id ? { ...category, name: newCategory.name, image: newCategory.image ? URL.createObjectURL(newCategory.image) : category.image } : category
         ));
         toast.success('Category updated successfully!');
       } else {
         // Add new category
-        const response = await fetch(myConstant + '/api/category', {
-          method: 'POST',
-          body: formData,
-        });
+        const response = await fetch(myConstant + '/api/category',
+          {
+            method:"POST",
+            headers:{
+              "Authorization":`Bearer ${token}`,
+              "Content-Type": "application/json"
+            },
+            body: formData,
+          });
         const newCategoryData = await response.json();
         setCategories([...categories, newCategoryData]); // Add the new category to the state
         toast.success('Category added successfully!');

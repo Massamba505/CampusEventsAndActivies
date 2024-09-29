@@ -4,24 +4,32 @@ import { myConstant } from '../const/const';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
+  
+  const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
   // Fetch categories from the API
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(myConstant + '/api/category'); // Adjust the URL as necessary
+        const response = await fetch(myConstant + '/api/category',{
+          method:"GET",
+          headers:{
+            "Authorization":`Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }
         const data = await response.json();
-        setCategories(data); // Assuming data is an array of category objects
+        setCategories(data);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchCategories();
-  }, []);
+  }, [token]);
 
   return (
     <div className='w-full'>

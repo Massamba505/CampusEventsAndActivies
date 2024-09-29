@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import truncateString from '../utils/truncate';
 
-const UpcomingEventCard = ({ event, onGetTickets }) => {
+const UpcomingEventCard = ({ event }) => {
   const {
     title,
     date,
@@ -18,76 +18,68 @@ const UpcomingEventCard = ({ event, onGetTickets }) => {
     category,
     event_id
   } = event;
-
   return (
-    <Link to={`/events/${event_id}`} className='text-decoration-none'>
-      <div className="hover:scale-105 hover:cursor-pointer flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md overflow-hidden max-w-xl my-4">
+    <Link to={`/events/${event_id}`} className='text-decoration-none w-80'>
+      <div className="hover:scale-105 w-96 hover:cursor-pointer flex flex-col md:flex-row items-start bg-white rounded-lg shadow-md overflow-hidden my-2">
         {/* Image Section */}
-        <div className='flex items-center justify-center w-full md:w-48'>
+        <div className='flex items-center justify-center w-full md:w-32 h-32'> {/* Added fixed height to the container */}
           <img
             src={images[0]}
             alt={title}
-            className="w-full h-48 object-contain"
+            className="w-full h-full object-cover" // Changed to h-full for better centering
           />
         </div>
-
+  
         {/* Info Section */}
-        <div className="p-4 flex-1">
-          <h3 className="text-xl font-bold text-gray-800">
-            {truncateString(title, 60)}
+        <div className="p-2 flex-1"> {/* Reduced padding */}
+          <h3 className="text-lg font-semibold text-gray-800">
+            {truncateString(title, 40)} {/* Shorter title truncation */}
           </h3>
-
-          <div className="flex items-center mt-2 space-x-2">
+  
+          <div className="flex items-center mt-1 space-x-1">
             <CalendarDaysIcon className="h-4 w-4 text-gray-500" />
-            <small className="text-sm text-gray-500">
+            <small className="text-xs text-gray-500">
               {date} {startTime} - {endTime}
             </small>
           </div>
-
-          <div className="flex items-center mt-2 space-x-2">
+  
+          <div className="flex items-center mt-1 space-x-1">
             <OrganizerIcon className="h-4 w-4 text-gray-500" />
-            <small className="text-sm text-gray-500">Organizer: {organizer}</small>
+            <small className="text-xs text-gray-500">Organizer: {organizer}</small>
           </div>
-
-          <div className="flex items-center mt-2 space-x-2">
+  
+          <div className="flex items-center mt-1 space-x-1">
             <LocationIcon className="h-4 w-4 text-gray-500" />
-            <small className="text-sm text-gray-500">{location}</small>
+            <small className="text-xs text-gray-500">{location}</small>
           </div>
-
-          <div className="flex items-center mt-2 space-x-2">
+  
+          <div className="flex items-center mt-1 space-x-1">
             <CategoryIcon className="h-4 w-4 text-gray-500" />
-            <small className="text-sm text-gray-500">
+            <small className="text-xs text-gray-500">
               Categories: {category?.map((cat) => cat.name).join(', ') || 'N/A'}
             </small>
           </div>
-
-          <div className="flex items-center mt-2 space-x-2">
+  
+          <div className="flex items-center mt-1 space-x-1">
             <AttendeesIcon className="h-4 w-4 text-gray-500" />
-            <small className="text-sm text-gray-500">
+            <small className="text-xs text-gray-500">
               {currentAttendees}/{maxAttendees || 'Unlimited'} Attendees
             </small>
           </div>
-
+  
           {food_stalls && (
-            <div className="flex items-center mt-2 space-x-2">
+            <div className="flex items-center mt-1 space-x-1">
               <FoodIcon className="h-4 w-4 text-gray-500" />
-              <small className="text-sm text-gray-500">Food Stalls Available</small>
+              <small className="text-xs text-green-600">Food Stalls Available</small>
             </div>
           )}
-
-          <div className="flex items-center mt-2 space-x-2">
+  
+          <div className="flex items-center mt-1 space-x-1">
             <TicketIcon className="h-4 w-4 text-gray-500" />
-            <small className={`text-sm text-gray-500 font-bold ${isPaid? "text-green-600": "text-blue-800"}`}>
+            <small className={`text-xs text-gray-500 font-bold ${isPaid ? "text-green-600" : "text-blue-800"}`}>
               {isPaid ? `Ticket Price: $${ticketPrice}` : 'Free Event'}
             </small>
           </div>
-
-          <button
-            onClick={onGetTickets}
-            className="mt-4 inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 transition-colors"
-          >
-            Get Tickets
-          </button>
         </div>
       </div>
     </Link>

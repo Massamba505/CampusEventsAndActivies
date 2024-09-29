@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import EventCard from './EventCard'; // Make sure to adjust this import based on your file structure
+import EventCard from './EventCard';
 import NavbarComponent from '../components/Navbar';
-import toast from 'react-hot-toast';
 import { myConstant } from '../const/const';
 
 const SearchResults = () => {
   const location = useLocation();
-  const query = new URLSearchParams(location.search).get('query'); // Get the search query from the URL
+  const query = new URLSearchParams(location.search).get('query');
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -22,7 +21,7 @@ const SearchResults = () => {
           throw new Error(data.error);
         }
         const data = await response.json();
-        setEvents(data.data); // Adjust this according to the structure of your response
+        setEvents(data.data);
       } catch (error) {
         // toast.error(error.message);
       } finally {

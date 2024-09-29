@@ -6,10 +6,10 @@ export default defineConfig({
   plugins: [react()],
   // server:{
   //   port:5000,
-  //   proxy:{
-  //     "/api":{
-  //       target:"https://eventsapi3a.azurewebsites.net/"
-  //     }
-  //   }
+  //   // proxy:{
+  //   //   "/api":{
+  //   //     target:"https://eventsapi3a.azurewebsites.net/"
+  //   //   }
+  //   // }
   // }
 })
