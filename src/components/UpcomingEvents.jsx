@@ -16,8 +16,7 @@ const UpcomingEvents = () => {
         const data = await response.json();
 
         if (response.ok) {
-          setEvents(data.data.slice(0,4)); // Assuming your backend returns events in the `data` field
-          console.log(data);
+          setEvents(data.data.slice(0,4));
         } else {
           toast.error(`Error: ${data.error}`);
         }
