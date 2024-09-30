@@ -99,7 +99,6 @@ const CategoriesManagement = () => {
             method:"PUT",
             headers:{
               "Authorization":`Bearer ${token}`,
-              "Content-Type": "application/json"
             },
             body: formData,
           });
@@ -114,7 +113,6 @@ const CategoriesManagement = () => {
             method:"POST",
             headers:{
               "Authorization":`Bearer ${token}`,
-              "Content-Type": "application/json"
             },
             body: formData,
           });
