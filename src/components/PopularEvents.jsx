@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import UpcomingEventCard from './UpcomingEventCard';
-// import './styles/UpcomingEvents.css'; // Import CSS for styling
-import { Spinner, Alert } from 'react-bootstrap'; // Optional: for loading and error handling
+import { Spinner, Alert } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 import EventList from './EventList';
 import { myConstant } from '../const/const';
@@ -43,7 +41,7 @@ const PopularEvents = () => {
   return (
     <div className="upcoming-events-container  mb-3">
       <h3 className='text-decoration-underline underline-offset-4'>Popular Events Events</h3>
-      <div className="upcoming-events mt-10">
+      <div className="upcoming-events flex flex-wrap mt-10 bg-white">
         {events.length > 0 ? (
             <EventList events={events} />
         ) : (

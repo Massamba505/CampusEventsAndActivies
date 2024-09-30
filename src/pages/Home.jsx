@@ -1,8 +1,8 @@
 import NavbarComponent from '../components/Navbar';
+import SearchBar from '../components/SearchBar';
 import UpcomingEvents from '../components/UpcomingEvents';
 import CategoryList from '../components/CategoryList';
 import PopularEvents from '../components/PopularEvents';
-import SearchBar from '../components/SearchBar';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -10,7 +10,6 @@ const Home = () => {
   const navigate = useNavigate();
 
   function handleSearch(search){
-    console.log("heyye");
     navigate(`/search?query=${search}`);
 
   }

@@ -39,9 +39,9 @@ const UpcomingEvents = () => {
   }
 
   return (
-    <div className="upcoming-events-container  mb-3">
+    <div className="upcoming-events-containermb-3">
       <h3 className='text-decoration-underline underline-offset-4'>Upcoming Events</h3>
-      <div className="upcoming-events flex flex-wrap mt-10">
+      <div className="upcoming-events flex flex-wrap flex-col justify-center md:justify-start items-center md:flex-row gap-3 mt-10">
         {events.length > 0 ? (
           events.map((event, index) => (
             <UpcomingEventCard key={index} event={event} />

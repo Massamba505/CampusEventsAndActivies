@@ -9,7 +9,7 @@ function SearchBar({ handleSearch }) {
   };
 
   return (
-    <div className="flex justify-center mb-4">
+    <div className="flex justify-center mt-3 mb-4">
       <form onSubmit={onSubmit} className="flex w-10/12 md:w-1/2"> {/* Changed to w-3/4 for 75% width */}
         <input
           type="text"

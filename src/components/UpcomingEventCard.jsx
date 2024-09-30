@@ -19,14 +19,14 @@ const UpcomingEventCard = ({ event }) => {
     event_id
   } = event;
   return (
-    <Link to={`/events/${event_id}`} className='text-decoration-none w-80'>
-      <div className="hover:scale-105 w-96 hover:cursor-pointer flex flex-col md:flex-row items-start bg-white rounded-lg shadow-md overflow-hidden my-2">
+    <Link to={`/events/${event_id}`} className='text-decoration-none w-96'>
+      <div className="transition-transform transform hover:scale-105 hover:cursor-pointer flex flex-row justify-center items-center bg-white rounded-lg shadow-md overflow-hidden my-2">
         {/* Image Section */}
-        <div className='flex items-center justify-center w-full md:w-32 h-32'> {/* Added fixed height to the container */}
+        <div className='flex items-center justify-center w-32 h-28'> {/* Added fixed height to the container */}
           <img
             src={images[0]}
             alt={title}
-            className="w-full h-full object-cover" // Changed to h-full for better centering
+            className="w-full h-32 object-cover" // Changed to h-full for better centering
           />
         </div>
   
@@ -76,8 +76,8 @@ const UpcomingEventCard = ({ event }) => {
   
           <div className="flex items-center mt-1 space-x-1">
             <TicketIcon className="h-4 w-4 text-gray-500" />
-            <small className={`text-xs text-gray-500 font-bold ${isPaid ? "text-green-600" : "text-blue-800"}`}>
-              {isPaid ? `Ticket Price: $${ticketPrice}` : 'Free Event'}
+            <small className={`text-xs font-bold ${isPaid ? "text-green-600" : "text-blue-800"}`}>
+              {isPaid ? `Ticket Price: R${ticketPrice}` : 'Free Event'}
             </small>
           </div>
         </div>
