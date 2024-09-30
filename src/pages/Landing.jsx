@@ -3,56 +3,82 @@ import { CheckCircle } from "react-feather"
 import Modal from "../components/Modal"
 import Logo from "../assets/logo.jpeg"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EventCard from "../components/EventCard";
+import { myConstant } from "../const/const";
+import UpcomingEvents from "../components/UpcomingEvents";
+
+  // const events = [
+  //   {
+  //     title: "Annual Marketing Conference",
+  //     description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
+  //     organizer: "Massamba Maphalala",
+  //     date: "June 15-17, 2023",
+  //     location: "New York City, NY",
+  //     image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+  //   },
+  //   {
+  //     title: "Annual Marketing Conference",
+  //     description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
+  //     organizer: "Massamba Maphalala",
+  //     date: "June 15-17, 2023",
+  //     location: "New York City, NY",
+  //     image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+  //   },
+  //   {
+  //     title: "Annual Marketing Conference",
+  //     description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
+  //     organizer: "Massamba Maphalala",
+  //     date: "June 15-17, 2023",
+  //     location: "New York City, NY",
+  //     image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+  //   },
+  //   {
+  //     title: "Annual Marketing Conference",
+  //     description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
+  //     organizer: "Massamba Maphalala",
+  //     date: "June 15-17, 2023",
+  //     location: "New York City, NY",
+  //     image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+  //   },
+  //   {
+  //     title: "Annual Marketing Conference",
+  //     description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
+  //     organizer: "Massamba Maphalala",
+  //     date: "June 15-17, 2023",
+  //     location: "New York City, NY",
+  //     image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+  //   },
+  //   // Add more events as needed
+  // ];
 
 const LandingPage = () => {
   const [open, setOpen] = useState(false);
+
+  
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const events = [
-    {
-      title: "Annual Marketing Conference",
-      description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
-      organizer: "Massamba Maphalala",
-      date: "June 15-17, 2023",
-      location: "New York City, NY",
-      image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    },
-    {
-      title: "Annual Marketing Conference",
-      description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
-      organizer: "Massamba Maphalala",
-      date: "June 15-17, 2023",
-      location: "New York City, NY",
-      image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    },
-    {
-      title: "Annual Marketing Conference",
-      description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
-      organizer: "Massamba Maphalala",
-      date: "June 15-17, 2023",
-      location: "New York City, NY",
-      image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    },
-    {
-      title: "Annual Marketing Conference",
-      description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
-      organizer: "Massamba Maphalala",
-      date: "June 15-17, 2023",
-      location: "New York City, NY",
-      image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    },
-    {
-      title: "Annual Marketing Conference",
-      description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
-      organizer: "Massamba Maphalala",
-      date: "June 15-17, 2023",
-      location: "New York City, NY",
-      image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    },
-    // Add more events as needed
-  ];
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch(`${myConstant}/api/events`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch events');
+        }
+        const data = await response.json();
+        setEvents(data.data.slice(0,4)); // Assuming your API returns the data in a `data` field
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
 
   const handleGetTickets = (event) => {
     console.log(`Get tickets for: ${event.title}`);
@@ -237,7 +263,7 @@ const LandingPage = () => {
           </div>
 
           {/* Events Grid */}
-          <div className="flex justify-center items-center flex-wrap gap-4 m-2 p-3">
+          {/* <div className="flex justify-center items-center flex-wrap gap-4 m-2 p-3">
             {events.map((event, index) => (
               <EventCard
                 key={index} 
@@ -246,7 +272,13 @@ const LandingPage = () => {
               />
             ))}
             
-          </div>
+          </div> */}
+
+          
+      <div className="flex-grow w-full px-5 mt-4">
+        <UpcomingEvents />
+      </div>
+
         </div>
       </section>
 

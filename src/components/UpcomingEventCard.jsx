@@ -20,7 +20,7 @@ const UpcomingEventCard = ({ event }) => {
   } = event;
   return (
     <Link to={`/events/${event_id}`} className='text-decoration-none w-96'>
-      <div className="transition-transform transform hover:scale-105 hover:cursor-pointer flex flex-row justify-center items-center bg-white rounded-lg shadow-md overflow-hidden my-2">
+      <div className="transition-transform transform hover:scale-105 hover:cursor-pointer flex flex-row justify-center items-center bg-white rounded-lg shadow-md overflow-hidden">
         {/* Image Section */}
         <div className='flex items-center justify-center w-32 h-28'> {/* Added fixed height to the container */}
           <img
@@ -31,7 +31,7 @@ const UpcomingEventCard = ({ event }) => {
         </div>
   
         {/* Info Section */}
-        <div className="p-2 flex-1"> {/* Reduced padding */}
+        <div className="py-2 pl-2 flex-1"> {/* Reduced padding */}
           <h3 className="text-lg font-semibold text-gray-800">
             {truncateString(title, 40)} {/* Shorter title truncation */}
           </h3>
