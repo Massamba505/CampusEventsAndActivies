@@ -1,1 +1,1 @@
-export const myConstant = 'http://localhost:3000';
+export const myConstant = 'https://eventsapi3a.azurewebsites.net';
