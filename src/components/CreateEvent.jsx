@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Editor } from '@tinymce/tinymce-react';
-import 'react-quill/dist/quill.snow.css'; // Import styles for the editor
+// import { Editor } from '@tinymce/tinymce-react';
+// import 'react-quill/dist/quill.snow.css'; // Import styles for the editor
 import { myConstant } from '../const/const';
 import Navbar from './Navbar';
 
@@ -61,7 +61,7 @@ const CreateEvent = () => {
     };
 
     fetchCategories();
-  }, []);
+  }, [token]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -308,26 +308,14 @@ const CreateEvent = () => {
                 <hr></hr>
 
                 {/* Description */}
-                <div className="mb-4">
-                    <Editor
-                      onEditorChange={handleDescriptionChange}
-                      apiKey='ks0pq7bt13hxp9kzhr0zkke50i57vcw94eiej65hok5zc0p2'
-                      initialValue="<i>Write the event description here...</i>"
-                      init={{
-                        height: 500,
-                        menubar: false,
-                        plugins: [
-                          'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                          'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                          'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-                        ],
-                        toolbar: 'undo redo | blocks | ' +
-                          'bold italic forecolor | alignleft aligncenter ' +
-                          'alignright alignjustify | bullist numlist outdent indent | ' +
-                          'removeformat | help',
-                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                      }}
-                    />
+                <div className="w-full">
+                  <textarea
+                    value={formData.description}
+                    onChange={handleDescriptionChange}
+                    rows="5"
+                    className="w-full p-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                    placeholder="Enter event description..."
+                  />
                 </div>
 
                 <hr></hr>
