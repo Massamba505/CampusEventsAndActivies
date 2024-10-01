@@ -11,16 +11,15 @@ const Home = () => {
 
   function handleSearch(search){
     navigate(`/search?query=${search}`);
-
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="flex flex-col">
       <NavbarComponent />
-      <SearchBar handleSearch = {handleSearch} />
       <CategoryList />
-      <hr></hr>
-      <div className="flex-grow w-full px-5 mt-4">
+      <SearchBar handleSearch = {handleSearch} />
+      <hr/>
+      <div className="w-full mb-10">
         <UpcomingEvents />
         <hr/>
         <PopularEvents/>

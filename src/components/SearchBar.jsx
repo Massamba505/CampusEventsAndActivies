@@ -1,31 +1,42 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 function SearchBar({ handleSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setSearchTerm(searchTerm.trim());
+    if(searchTerm.length == 0){
+      toast.error("input a keyword");
+      return;
+    }
     handleSearch(searchTerm);
   };
 
   return (
-    <div className="flex justify-center mt-3 mb-4">
-      <form onSubmit={onSubmit} className="flex w-10/12 md:w-1/2"> {/* Changed to w-3/4 for 75% width */}
+    <div className="flex items-center justify-center my-3">
+      <form onSubmit={onSubmit} className="flex w-full justify-center">
+        {/* Input Field */}
         <input
-          type="text"
-          placeholder="Search..."
+          id="q"
+          name="q"
+          className="inline rounded-md sm:text-xl sm:w-2/5 border p-2 rounded-r-none bg-white leading-5 placeholder-gray-500 focus:placeholder-gray-400 focus:outline-none"
+          placeholder="Keyword"
+          type="search"
+          autoFocus
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value.trim())}
-          className="flex-1 h-12 md:h-14 px-4 rounded-l-md text-lg bg-white text-black placeholder-black border focus:outline-none border-gray-700 shadow-md"
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
+        {/* Search Button */}
         <button
           type="submit"
-          className="h-12 px-4 md:h-14 rounded-r-md bg-blue-500 text-white font-semibold hover:bg-blue-600 transition"
+          className="inline-flex p-2 sm:px-10 items-center rounded-l-none justify-center rounded-md border border-transparent bg-blue-600 font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Search
         </button>
       </form>
-    </div>
+      </div>
   );
 }
 

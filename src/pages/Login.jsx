@@ -80,7 +80,7 @@ const Login = () => {
                             />
                         </div>
                         <div className='flex justify-end'>
-                            <Link to={"/forgot-password"} className="text-s text-gray-500">Forget Password?</Link>
+                            <Link to={"/forgot-password"} className="text-s text-gray-500">Forgot Password?</Link>
                         </div>
                         <div className="mt-8">
                             <button 

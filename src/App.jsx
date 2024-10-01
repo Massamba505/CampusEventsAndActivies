@@ -14,6 +14,7 @@ import EnterCode from './pages/FogotPassword/EnterCode.jsx';
 import SetNewPassword from './pages/FogotPassword/SetNewPassword.jsx';
 import CategoriesManagement from './pages/CategoryManagement.jsx';
 import SearchResults from './components/SearchResults.jsx';
+import Profile from './pages/User/Profile.jsx';
 
 function App() {
   const { authUser } = useAuthContext();
@@ -34,6 +35,8 @@ function App() {
         <Route path="/create-event" element={authUser ? <CreateEvent /> : <Navigate to='/login' />} />
         <Route path="/events/:eventId" element={authUser ? <EventDetails /> : <Navigate to='/login' />} />
         <Route path="/search" element={authUser ? <SearchResults /> : <Navigate to='/login' />} />
+        
+        <Route path="/profile" element={authUser ? <Profile /> : <Navigate to='/login' />} />
 
 
         <Route path="/admin/category" element={authUser ? <CategoriesManagement /> : <Navigate to='/login' />} />

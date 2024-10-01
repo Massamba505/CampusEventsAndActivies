@@ -3,9 +3,9 @@ import { CheckCircle } from "react-feather"
 import Modal from "../components/Modal"
 import Logo from "../assets/logo.jpeg"
 
-import { useEffect, useState } from "react";
-import EventCard from "../components/EventCard";
-import { myConstant } from "../const/const";
+import { useState } from "react";
+// import EventCard from "../components/EventCard";
+// import { myConstant } from "../const/const";
 import UpcomingEvents from "../components/UpcomingEvents";
 
   // const events = [
@@ -55,35 +55,7 @@ import UpcomingEvents from "../components/UpcomingEvents";
 const LandingPage = () => {
   const [open, setOpen] = useState(false);
 
-  
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await fetch(`${myConstant}/api/events`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch events');
-        }
-        const data = await response.json();
-        setEvents(data.data.slice(0,4)); // Assuming your API returns the data in a `data` field
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-
-  const handleGetTickets = (event) => {
-    console.log(`Get tickets for: ${event.title}`);
-    setOpen(true);
-  };
 
   return (
     <>
@@ -250,34 +222,21 @@ const LandingPage = () => {
 
       {/* Section 4 */}
       <section className="w-full py-12 flex justify-center align-content-center md:py-24 lg:py-32 bg-gray-50">
-        <div className="mx-auto px-4 md:px-8">
+        <div className="w-full px-4 md:px-8 flex flex-col">
           {/* Header Section */}
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-indigo-600 px-3 py-1 text-sm text-white">Upcoming Events</div>
-              <h2 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl">Don't Miss Out</h2>
+              <h2 className="text-3xl font-bold tracking-tight text-gray-800 sm:text-5xl">{"Don't"} Miss Out</h2>
               <p className="max-w-[900px] text-gray-600 md:text-xl lg:text-base">
-                Check out our upcoming events and secure your tickets today.
+                Check out our upcoming events and secure your tickets today. <span className="text-blue-700">Swipe</span> left to see more!
               </p>
             </div>
           </div>
 
-          {/* Events Grid */}
-          {/* <div className="flex justify-center items-center flex-wrap gap-4 m-2 p-3">
-            {events.map((event, index) => (
-              <EventCard
-                key={index} 
-                event={event} 
-                onGetTickets={() => handleGetTickets(event)} 
-              />
-            ))}
-            
-          </div> */}
-
-          
-      <div className="flex-grow w-full px-5 mt-4">
-        <UpcomingEvents />
-      </div>
+          <div className="sm:p-5">
+            <UpcomingEvents />
+          </div>
 
         </div>
       </section>

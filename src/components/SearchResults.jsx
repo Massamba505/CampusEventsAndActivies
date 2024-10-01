@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import EventCard from './EventCard';
 import NavbarComponent from '../components/Navbar';
 import { myConstant } from '../const/const';
-import { Alert, Spinner } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import SearchBar from '../components/SearchBar';
 import CategoryList from '../components/CategoryList';
 import toast from 'react-hot-toast';
@@ -51,17 +51,20 @@ const SearchResults = () => {
 
     <div className="min-h-screen flex flex-col bg-white">
       <NavbarComponent />
-      <SearchBar handleSearch = {handleSearch} />
       <CategoryList />
+      <SearchBar handleSearch = {handleSearch} />
       <hr></hr>
-      <div className="w-full px-5">
-        {error?(<div className="mx-auto p-4">
+      <div className="w-full sm:px-10">
+        {error?(
+          <div className="mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">{`Search Results for "${query}"`}</h1>
             <p>No events found.</p>
-          </div>):(<div className="mx-auto p-4">
+          </div>
+        ):(
+        <div className="mx-auto p-4 flex items-center flex-col">
           <h1 className="text-2xl font-bold mb-4">{`Search Results for "${query}"`}</h1>
           {events.length > 0 ? (
-            <div className="flex flex-wrap gap-4">
+            <div className="flex items-center flex-col sm:flex-row flex-wrap gap-4">
               {events.map(event => (
                 <EventCard key={event.event_id} event={event} onGetTickets={() => console.log('Get tickets')} />
               ))}

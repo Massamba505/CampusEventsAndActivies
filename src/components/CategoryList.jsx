@@ -48,14 +48,14 @@ const CategoryList = () => {
   };
 
   return (
-    <div className='relative w-full flex px-4'>
-      <MdChevronLeft className='opacity-50 cursor-pointer hover:opacity-100' onClick={slideLeft} size={40} />
+    <div className='relative w-full flex items-center justify-start'>
+      <MdChevronLeft className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' onClick={slideLeft} size={40} />
       <div
         ref={sliderRef}
         id='category-slider'
-        className='w-full h-full overflow-x-auto scroll whitespace-nowrap scroll-smooth scrollbar-hide'
+        className='flex items-center flex-1 sm:justify-center overflow-x-auto scroll whitespace-nowrap scroll-smooth scrollbar-hide'
       >
-        <ul className="flex items-center gap-2">
+        <ul className="flex justify-start items-center p-0 gap-2">
           {/* Category Buttons */}
           {categories.map((category) => (
             <li key={category._id} className="flex-shrink-0 border rounded-lg border-gray-500 shadow-md mx-2">
@@ -74,7 +74,7 @@ const CategoryList = () => {
           ))}
         </ul>
       </div>
-      <MdChevronRight className='opacity-50 cursor-pointer hover:opacity-100' onClick={slideRight} size={40} />
+      <MdChevronRight className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' onClick={slideRight} size={40} />
     </div>
   );
   

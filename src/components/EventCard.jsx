@@ -17,35 +17,36 @@ const EventCard = ({ event, onGetTickets }) => {
     maxAttendees,
     currentAttendees,
     food_stalls,
+    discount=null,
     category = [],
   } = event;
 
   return (
-    <Link to={`/events/${event_id}`} className='text-decoration-none'>
-      <div className="rounded-lg max-h-max max-w-md border bg-white p-6 shadow-lg transition-transform transform hover:scale-105">
+    <Link to={`/events/${event_id}`} className='text-decoration-none bg-white'>
+      <div className="rounded-lg w-80 border  p-2 transition-transform transform hover:bg-gray-100">
         <div className="flex flex-col h-full items-start space-y-4">
-          {/* Image Section */}
-          <img
-            src={images[0]}
-            alt="Event"
-            className="mx-auto aspect-video rounded-xl object-cover w-full h-48"
-            width="300"
-            height="200"
-          />
+          {/* Image Section */}          
+          <div className="relative">
+            <img className="mx-auto aspect-video rounded-xl object-cover w-full h-40" src={images[0]} alt={title} />
+            <p className={`absolute top-0 ${!isPaid ? "bg-blue-600" : "bg-green-600"} text-white font-semibold py-1 px-3 rounded-br-lg rounded-tl-lg`}>
+            {!isPaid ? "FREE" : `$${ticketPrice}`}
+            </p>
+            {discount && (
+            <p className="absolute top-0 right-0 bg-yellow-300 text-gray-800 font-semibold py-1 px-3 rounded-tr-lg rounded-bl-lg">
+                {discount}% Discount
+            </p>
+            )}
+          </div>
 
           {/* Info Section */}
-          <div className="flex-1 flex flex-col space-y-2 max-h-96">
+          <div className="flex-1 flex flex-col w-full space-y-2">
             {/* Title */}
             <h3 className="text-xl font-bold text-gray-800">
-              {truncateString(title, 80)}
+              {truncateString(title, 30)}
             </h3>
-            {/* Description */}
-            <p className="text-gray-600">
-              {truncateString(description, 120)}
-            </p>
 
             {/* Organizer */}
-            <div className="flex mt-3 items-center space-x-2">
+            <div className="flex mt-1 items-center space-x-2">
               <OrganizerIcon className="h-4 w-4 text-gray-500" />
               <small className="text-sm text-gray-500">{eventAuthor}</small>
             </div>
@@ -92,17 +93,13 @@ const EventCard = ({ event, onGetTickets }) => {
 
             {/* Get Tickets Button */}
             <div className="mt-3 w-full">
-              <button
-                onClick={onGetTickets}
-                className="self-start inline-flex h-9 items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 transition-colors"
-              >
-                Get Tickets
-              </button>
+              <button onClick={onGetTickets} className={`self-start inline-flex justify-center mt-4 text-xl w-full text-white ${!isPaid ? "bg-blue-500 hover:bg-blue-600" : "bg-green-500 hover:bg-green-600"}  py-2 rounded-xl shadow-md  transition duration-200`}>{!isPaid ? "Get Ticket" : "Buy Ticket"}</button>
             </div>
           </div>
         </div>
       </div>
     </Link>
+
   );
 };
 

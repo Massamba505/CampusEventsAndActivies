@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FaMapMarkerAlt, FaUser, FaEnvelope } from 'react-icons/fa';
 import ImageCarousel from './ImageCarousel'; // Import the carousel
@@ -68,15 +68,56 @@ const EventDetails = () => {
 
         {/* Event Details Card */}
         <div className="bg-white rounded-lg shadow-lg p-6">
+          <h1 className="text-3xl sm:text-5xl font-bold text-gray-800 ">{title}</h1>
           {/* Event Title and Date */}
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h1 className="text-5xl font-bold text-gray-800">{title}</h1>
-              <p className="text-gray-600">{date}, {startTime} - {endTime}</p>
+              <div className="flex items-center mt-1 space-x-1">
+                <CalendarDaysIcon className="h-4 w-4 text-gray-500" />
+                <small className="text-xs  font-semibold text-gray-500">
+                  {date}
+                </small>
+              </div>
+              <div className="flex items-center mt-1 space-x-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 26 21"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="h-5 w-5 text-gray-500 m-0 p-0" // Added m-0 and p-0
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+
+
+                <small className="text-xs font-semibold text-gray-500">
+                  {startTime} - {endTime}
+                </small>
+              </div>
+      
+              <div className="flex items-center space-x-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.6} stroke="currentColor" className="h-5 w-5 text-gray-500 m-0 p-0">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+
+                <small className="text-xs font-semibold text-gray-500">organizer: {eventAuthor}</small>
+              </div>
+      
+              <div className="flex items-center mt-1 space-x-1">
+                <LocationIcon className="h-4 w-4 text-gray-500" />
+                <small className="text-xs font-semibold text-gray-500">{location}</small>
+              </div>
+
+
             </div>
             <div className="text-right">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg">{isPaid ? `Buy Ticket for R${ticketPrice}` : 'Get Ticket'}</button>
-              <span className="block font-semibold text-green-600 mt-2">{currentAttendees}/{maxAttendees || ''} Going</span>
+              <button className="bg-blue-500 text-xs sm:text-lg hover:bg-blue-600 text-white py-2 px-3 sm:px-4 rounded-lg">{isPaid ? `Buy Ticket for R${ticketPrice}` : 'Get Ticket'}</button>
+              <span className="block text-xs sm:text-lg font-semibold text-green-600 mt-2">{currentAttendees}/{maxAttendees || ''} Going</span>
             </div>
           </div>
 
@@ -113,42 +154,49 @@ const EventDetails = () => {
           {/* Event Description */}
           <div className="mb-6">
             <h5 className="text-xl font-bold text-gray-800 mb-2">About the Event</h5>
-            <p className="text-gray-600">{description}</p>
+            <div className="event-description">
+            {description.split('\n').map((line, index) => (
+              <React.Fragment key={index}>
+                {line}
+                <br />
+              </React.Fragment>
+              ))}
+            </div>
           </div>
 
-        <hr className="my-4" />
-        {/* Carousel for additional images */}
-        <div className="container mx-auto my-6">
-          <h5 className="text-xl font-bold text-gray-800 mb-2">Event Highlights</h5>
-          <p className="text-gray-600 text-m mb-5">
-            Explore some memorable moments and glimpses of {"what's"} to come at this event. Take a look at our event highlights through these featured images.
-          </p>
-          <ImageCarousel images={carouselImages} />
-        </div>
-
-        <hr className="my-4" />
-
-        {/* Event Location */}
-        <div className="mb-6">
-          <h5 className="text-lg font-bold text-gray-800 mb-2"><FaMapMarkerAlt className="inline-block mr-2" /> Event Location</h5>
-          <div className="w-full h-64">
-            <iframe
-              width="100%"
-              height="100%"
-              className="rounded-lg"
-              src={`https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`}
-              allowFullScreen
-              title="Event Location"
-            ></iframe>
+          <hr className="my-4" />
+          {/* Carousel for additional images */}
+          <div className="container mx-auto my-6">
+            <h5 className="text-xl font-bold text-gray-800 mb-2">Event Highlights</h5>
+            <p className="text-gray-600 text-m mb-5">
+              Explore some memorable moments and glimpses of {"what's"} to come at this event. Take a look at our event highlights through these featured images.
+            </p>
+            <ImageCarousel images={carouselImages} />
           </div>
-        </div>
 
-        {/* Ticket Section */}
-        <div className="mt-6">
-          <button className={`w-full py-3 rounded-lg text-white font-bold transition ${isPaid ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}>
-            {isPaid ? `Buy Ticket for R${ticketPrice}` : 'Get Ticket'}
-          </button>
-        </div>
+          <hr className="my-4" />
+
+          {/* Event Location */}
+          <div className="mb-6">
+            <h5 className="text-lg font-bold text-gray-800 mb-2"><FaMapMarkerAlt className="inline-block mr-1" /> Event Location</h5>
+            <div className="w-full h-64">
+              <iframe
+                width="100%"
+                height="100%"
+                className="rounded-lg"
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`}
+                allowFullScreen
+                title="Event Location"
+              ></iframe>
+            </div>
+          </div>
+
+          {/* Ticket Section */}
+          <div className="mt-6">
+            <button className={`w-full py-3 rounded-lg text-white font-bold transition ${isPaid ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}>
+              {isPaid ? `Buy Ticket for R${ticketPrice}` : 'Get Ticket'}
+            </button>
+          </div>
       </div>
     </div>
     </div>
@@ -156,3 +204,64 @@ const EventDetails = () => {
 };
 
 export default EventDetails;
+function CalendarDaysIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M8 2v4" />
+      <path d="M16 2v4" />
+      <rect width="18" height="18" x="3" y="4" rx="2" />
+      <path d="M3 10h18" />
+    </svg>
+  );
+}
+
+function LocationIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="10" r="3" />
+      <path d="M12 2a9 9 0 0 1 9 9c0 5-9 13-9 13s-9-8-9-13a9 9 0 0 1 9-9z" />
+    </svg>
+  );
+}
+
+function TicketIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
+      <path d="M6 10h12v4H6z" />
+    </svg>
+  );
+}
