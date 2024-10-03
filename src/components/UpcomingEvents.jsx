@@ -69,7 +69,7 @@ const UpcomingEvents = () => {
       </h4>
       <div className="relative w-full flex items-center justify-start">
         <MdChevronLeft
-          className="opacity-50 hidden sm:block  mb-5  cursor-pointer hover:opacity-100"
+          className="opacity-50 hidden sm:block  mb-10  cursor-pointer hover:opacity-100"
           onClick={slideLeft}
           size={40}
         />

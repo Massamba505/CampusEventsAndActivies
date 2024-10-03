@@ -16,6 +16,7 @@ import CategoriesManagement from './pages/CategoryManagement.jsx';
 import SearchResults from './components/SearchResults.jsx';
 import Profile from './pages/User/Profile.jsx';
 import CheckoutPage from './pages/CheckoutForm.jsx';
+import TicketSuccess from './components/User/Stripe/TicketSuccess.jsx';
 
 function App() {
   const { authUser } = useAuthContext();
@@ -40,6 +41,9 @@ function App() {
         <Route path="/profile" element={authUser ? <Profile /> : <Navigate to='/login' />} />
         <Route path="/check" element={authUser ? <CheckoutPage eventId="1000" ticketType="VIP" price={100} eventDate="10/12/2024" /> : <Navigate to='/login' />} />
 
+
+        <Route path="/tickets/success" element={authUser ? <TicketSuccess /> : <Navigate to='/login' />} />
+        <Route path="/tickets/cancel" element={authUser ? <TicketSuccess /> : <Navigate to='/login' />} />
 
         <Route path="/admin/category" element={authUser ? <CategoriesManagement /> : <Navigate to='/login' />} />
 

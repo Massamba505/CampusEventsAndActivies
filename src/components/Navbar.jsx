@@ -5,10 +5,40 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuthContext } from '../context/AuthContext';
 import { myConstant } from '../const/const';
+import { useEffect, useState } from 'react';
 
 export default function Navbar() {
   const{setAuthUser} = useAuthContext();
   const navigate = useNavigate();
+  const [pp,setPp] = useState("");
+
+  const token = JSON.parse(localStorage.getItem('events-app'))["token"];
+
+  // Fetch user data on component mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(myConstant + '/api/user', {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+        if (!response.ok) {
+          const userData = await response.json();
+          throw new Error(userData.error);
+        }
+
+        const userData = await response.json();
+        setPp(userData.photoUrl); // Set the existing photo URL
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [token]);
 
   const handleLogout = async() => {
     const response = await fetch(myConstant + "/api/auth/logout", {
@@ -27,6 +57,7 @@ export default function Navbar() {
     toast(data.error); // Show a message or toast
 
   };
+
   const handleCreate = async() => {
     navigate("/create-event");
   };
@@ -50,7 +81,7 @@ export default function Navbar() {
                   <span className="sr-only">Open user menu</span>
                   <img
                     alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    src= {pp}
                     className="h-10 w-10 md:h-12 md:w-12 rounded-full"
                   />
                 </MenuButton>

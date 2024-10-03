@@ -1,23 +1,39 @@
-import { useState, useEffect } from "react";
-import Sidebar from "./Sidebar";
+import { useState } from "react";
+import Navbar from "../../components/User/Navbar";
+import Navbar2 from "../../components/Navbar";
+// import Dashboard from "../../components/User/Dashboard";
+import MyProfile from "../../components/User/MyProfile";
+import MyEvents from "../../components/User/MyEvents";
+import MyTickets from "../../components/User/MyTickets";
+import Logout from "../../components/User/Logout";
+import CreateEvent from "../../components/User/CreateEvent";
 
-export default function ProfilePage() {
-  const [isMobile, setIsMobile] = useState(false);
+function Profile() {
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 640);
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  // Array of components corresponding to the nav links
+  const components = [
+    // <Dashboard key={0} />,
+    <MyProfile key={1} />,
+    <MyEvents key={2} />,
+    <CreateEvent key={3} />,
+    <MyTickets key={4} />,
+    <Logout setActiveIndex={setActiveIndex} key={5} />,
+  ];
 
   return (
-    <div className="flex">
-      <Sidebar isMobile={isMobile} />
-      <main className="flex-1 p-6 bg-gray-50">
-        <h1 className="text-2xl font-semibold">User Profile Dashboard</h1>
-        {/* You can place other profile components here */}
-      </main>
+    <div className="flex flex-col h-screen">
+      <Navbar2/>
+      <div className="flex m-2 flex-1">
+        {/* Side Navigation Bar */}
+        <Navbar activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+        {/* Main component based on selected navigation from nav bar */}
+        <main className="grow relative border rounded-lg p-4">
+          {components[activeIndex]} {/* Render the selected component */}
+        </main>
+      </div>
     </div>
   );
 }
+
+export default Profile;
