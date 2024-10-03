@@ -73,14 +73,16 @@ function Navbar({ activeIndex, setActiveIndex }) {
         isExpanded ? "px-10" : "px-2 duration-500"
       }`}
     >
+      {/* Toggle button placed inside the container at the top-right */}
       <div
         onClick={toggleExpand}
-        className="cursor-pointer absolute z-10 -right-3 -top-2 rounded-full w-6 h-6 bg-blue-500 sm:flex hidden justify-center items-center"
+        className="cursor-pointer rounded-full w-6 h-6 bg-blue-500 flex justify-center items-center absolute top-2 right-2"
       >
         <img src={RightArrowIcon} className="w-2" />
       </div>
-
-      <div className="sticky top-20  z-10 flex flex-col space-y-4 mt-2">
+  
+      {/* Navigation links */}
+      <div className="sticky top-0 z-10 flex flex-col space-y-4 mt-2">
         {navLinks.map((item, index) => (
           <div className="nav-links w-full" key={index}>
             <div
@@ -101,6 +103,7 @@ function Navbar({ activeIndex, setActiveIndex }) {
       </div>
     </motion.div>
   );
+  
 }
 
 export default Navbar;

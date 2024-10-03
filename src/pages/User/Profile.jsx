@@ -24,11 +24,11 @@ function Profile() {
   return (
     <div className="flex flex-col h-screen">
       <Navbar2/>
-      <div className="flex m-2 flex-1">
+      <div className="flex justify-center m-2 flex-1">
         {/* Side Navigation Bar */}
         <Navbar activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
         {/* Main component based on selected navigation from nav bar */}
-        <main className="grow relative border rounded-lg p-4">
+        <main className="w-10/12 border rounded-lg p-4">
           {components[activeIndex]} {/* Render the selected component */}
         </main>
       </div>

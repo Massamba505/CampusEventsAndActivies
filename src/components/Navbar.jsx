@@ -32,6 +32,7 @@ export default function Navbar() {
 
         const userData = await response.json();
         setPp(userData.photoUrl); // Set the existing photo URL
+        console.log("lllllldl");
       } catch (error) {
         console.error('Error fetching user data:', error);
       }

@@ -9,7 +9,7 @@ const MyEvents = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const token = JSON.parse(localStorage.getItem('events-app'))["token"];
+  const token = JSON.parse(localStorage.getItem('events-app'))?.token;
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -24,15 +24,13 @@ const MyEvents = () => {
 
       if (!response.ok) {
         const data = await response.json();
-        console.error('Fetch error data:', data); // Log error details
-        throw new Error(data.error);
+        throw new Error(data.error || 'Failed to fetch events.');
       }
 
       const data = await response.json();
-      console.log('Fetched events:', data); // Log the fetched data
-      setEvents(data.data);
+      setEvents(data || []);
     } catch (error) {
-      console.error('Error fetching events:', error); // Log the error
+      console.error('Error fetching events:', error); 
       toast.error(error.message);
       setError(error.message);
     } finally {
@@ -58,14 +56,13 @@ const MyEvents = () => {
       if (!response.ok) {
         const data = await response.json();
         console.error('Delete error data:', data); // Log error details
-        throw new Error(data.error);
+        throw new Error(data.error || 'Failed to delete event.');
       }
 
-      // Fetch the updated list of events after deletion
-      await fetchEvents(); // Refresh the list of events
+      await fetchEvents();
       toast.success('Event deleted successfully!');
     } catch (error) {
-      console.error('Error deleting event:', error); // Log the error
+      console.error('Error deleting event:', error);
       toast.error(error.message);
       setError(error.message);
     } finally {
@@ -85,13 +82,13 @@ const MyEvents = () => {
     <div className="flex flex-col items-center justify-center">
       {error ? (
         <div className="mx-auto p-4">
-          <p>You{" haven't"} created any events yet.</p>
+          <p>You {"haven't"} created any events yet.</p>
         </div>
       ) : (
         <div className="flex items-center justify-center flex-col">
           <h1 className="text-2xl text-blue-500 font-bold mb-4">My Events</h1>
           {events.length > 0 ? (
-            <div className="flex items-center flex-col sm:flex-row sm:justify-center flex-wrap gap-4">
+            <div className="flex items-center flex-col sm:flex-row sm:justify-start flex-wrap gap-4">
               {events.map(event => (
                 <EventCard
                   key={event.event_id}
