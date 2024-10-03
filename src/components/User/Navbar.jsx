@@ -82,12 +82,12 @@ function Navbar({ activeIndex, setActiveIndex }) {
       </div>
 
       {/* Navigation links */}
-      <div className="sticky top-0 z-10 flex flex-col space-y-4 mt-2">
+      <div className="flex flex-col space-y-4 mt-2">
         {navLinks.map((item, index) => (
           <div className="nav-links w-full" key={index}>
             <div
               onClick={() => setActiveIndex(index)}
-              className={`flex justify-start space-x-3 w-full py-2 px-1 rounded hover:cursor-pointer ${
+              className={`flex justify-center items-center sm:justify-start  space-x-3 w-full py-2 px-1 rounded hover:cursor-pointer ${
                 activeIndex === index
                   ? "bg-blue-500 text-white"
                   : "text-black hover:bg-gray-200"
