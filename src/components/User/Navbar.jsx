@@ -17,10 +17,6 @@ const variants = {
 };
 
 const navLinks = [
-  // {
-  //   link: "Dashboard",
-  //   icon: LayoutDashboard,
-  // },
   {
     link: "My Profile",
     icon: User,
@@ -44,14 +40,17 @@ const navLinks = [
 ];
 
 function Navbar({ activeIndex, setActiveIndex }) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(window.innerWidth >= 768);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-      if (window.innerWidth < 768) {
+      const width = window.innerWidth;
+      setWindowWidth(width);
+      if (width < 768) {
         setIsExpanded(false);
+      } else {
+        setIsExpanded(true);
       }
     };
 
@@ -60,7 +59,8 @@ function Navbar({ activeIndex, setActiveIndex }) {
   }, []);
 
   const toggleExpand = () => {
-    if (windowWidth >= 640) {
+    // Only allow toggling if the screen width is larger than 768px
+    if (windowWidth >= 768) {
       setIsExpanded((prev) => !prev);
     }
   };
@@ -76,11 +76,11 @@ function Navbar({ activeIndex, setActiveIndex }) {
       {/* Toggle button placed inside the container at the top-right */}
       <div
         onClick={toggleExpand}
-        className="cursor-pointer rounded-full w-6 h-6 bg-blue-500 flex justify-center items-center absolute -top-2 -right-3"
+        className="cursor-pointer rounded-full w-6 h-6 z-10 bg-blue-500 justify-center items-center absolute hidden sm:flex -top-2 -right-2 "
       >
         <img src={RightArrowIcon} className="w-2" />
       </div>
-  
+
       {/* Navigation links */}
       <div className="sticky top-0 z-10 flex flex-col space-y-4 mt-2">
         {navLinks.map((item, index) => (
@@ -103,7 +103,6 @@ function Navbar({ activeIndex, setActiveIndex }) {
       </div>
     </motion.div>
   );
-  
 }
 
 export default Navbar;
