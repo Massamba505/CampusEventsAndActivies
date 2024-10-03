@@ -76,7 +76,7 @@ function Navbar({ activeIndex, setActiveIndex }) {
       {/* Toggle button placed inside the container at the top-right */}
       <div
         onClick={toggleExpand}
-        className="cursor-pointer rounded-full w-6 h-6 bg-blue-500 flex justify-center items-center absolute top-2 right-2"
+        className="cursor-pointer rounded-full w-6 h-6 bg-blue-500 flex justify-center items-center absolute -top-2 -right-3"
       >
         <img src={RightArrowIcon} className="w-2" />
       </div>
