@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FaMapMarkerAlt, FaUser, FaEnvelope } from 'react-icons/fa';
 import ImageCarousel from './ImageCarousel'; // Import the carousel
 import { myConstant } from '../const/const';
@@ -10,6 +10,7 @@ const EventDetails = () => {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -32,6 +33,10 @@ const EventDetails = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!event) return <p>No event found</p>;
+
+  function handleTickets(){
+    navigate("/check")
+  }
 
   const {
     title,
@@ -116,7 +121,7 @@ const EventDetails = () => {
 
             </div>
             <div className="text-right">
-              <button className="bg-blue-500 text-xs sm:text-lg hover:bg-blue-600 text-white py-2 px-3 sm:px-4 rounded-lg">{isPaid ? `Buy Ticket for R${ticketPrice}` : 'Get Ticket'}</button>
+              <button onClick={handleTickets} className="bg-blue-500 text-xs sm:text-lg hover:bg-blue-600 text-white py-2 px-3 sm:px-4 rounded-lg">{isPaid ? `Buy Ticket for R${ticketPrice}` : 'Get Ticket'}</button>
               <span className="block text-xs sm:text-lg font-semibold text-green-600 mt-2">{currentAttendees}/{maxAttendees || ''} Going</span>
             </div>
           </div>
