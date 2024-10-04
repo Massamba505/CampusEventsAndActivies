@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { useAuthContext } from '../context/AuthContext';
 import { myConstant } from '../const/const';
 import { useEffect, useState } from 'react';
+import { CalendarDays } from 'lucide-react';
 
 export default function Navbar() {
   const{setAuthUser} = useAuthContext();
@@ -31,8 +32,7 @@ export default function Navbar() {
         }
 
         const userData = await response.json();
-        setPp(userData.photoUrl); // Set the existing photo URL
-        console.log("lllllldl");
+        setPp(userData.photoUrl);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -76,16 +76,18 @@ export default function Navbar() {
 
             {/* Profile dropdown */}
             <Menu as="div" className="relative">
-              <div>
+              <div className='flex flex-row-reverse items-center gap-2'>
                 <MenuButton className="relative shadow-md flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-white">
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
                   <img
                     alt=""
-                    src= {pp}
-                    className="h-10 w-10 md:h-12 md:w-12 rounded-full"
+                    src={pp}
+                    className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover"
+                    style={{ objectFit: 'cover', objectPosition: 'center' }}
                   />
                 </MenuButton>
+                <CalendarDays onClick={()=>navigate("/calender")} className='hover:cursor-pointer'></CalendarDays>
               </div>
               <MenuItems
                 transition

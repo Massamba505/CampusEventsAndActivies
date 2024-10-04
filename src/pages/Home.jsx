@@ -4,6 +4,8 @@ import UpcomingEvents from '../components/UpcomingEvents';
 import CategoryList from '../components/CategoryList';
 import PopularEvents from '../components/PopularEvents';
 import { useNavigate } from 'react-router-dom';
+import RecommendedEvents from '../components/RecommendedEvents';
+import InprogressEvents from '../components/InprogressEvents';
 
 const Home = () => {
 
@@ -23,6 +25,10 @@ const Home = () => {
         <UpcomingEvents />
         <hr/>
         <PopularEvents/>
+        <hr/>
+        <RecommendedEvents/>
+        <hr/>
+        <InprogressEvents/>
         <hr/>
       </div>
     </div>

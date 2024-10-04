@@ -17,6 +17,7 @@ import SearchResults from './components/SearchResults.jsx';
 import Profile from './pages/User/Profile.jsx';
 import CheckoutPage from './pages/CheckoutForm.jsx';
 import TicketSuccess from './components/User/Stripe/TicketSuccess.jsx';
+import CalendarApp from './components/Calender/CalenderApp.jsx';
 
 function App() {
   const { authUser } = useAuthContext();
@@ -33,6 +34,7 @@ function App() {
 
         {/* Protected routes */}
         <Route path="/" element={authUser ? <Home /> : <Landing/>} />
+        <Route path="/calender" element={authUser ? <CalendarApp /> : <Landing/>} />
         <Route path="/events" element={authUser ? <Home /> : <Navigate to='/login' />} />
         <Route path="/create-event" element={authUser ? <CreateEvent /> : <Navigate to='/login' />} />
         <Route path="/events/:eventId" element={authUser ? <EventDetails /> : <Navigate to='/login' />} />

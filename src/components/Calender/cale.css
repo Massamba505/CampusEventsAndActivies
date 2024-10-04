@@ -1,0 +1,20 @@
+.rbc-header {
+  background: rgb(37, 72, 105);
+  color: white;
+  padding: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rbc-event {
+  padding: 0 0 0 5px !important;
+  font-size: 12px;
+  border-radius: 0;
+}
+
+.calendar-event {
+  font-size: 16px;
+}
+

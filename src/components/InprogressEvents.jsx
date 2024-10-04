@@ -5,7 +5,7 @@ import EventList from './EventList';
 import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
-const PopularEvents = () => {
+const InprogressEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +14,7 @@ const PopularEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch(myConstant + '/api/events/popular');
+        const response = await fetch(myConstant + '/api/events/inprogress-events');
         const data = await response.json();
 
         if (response.ok) {
@@ -55,7 +55,7 @@ const PopularEvents = () => {
 
   return (
     <div className="flex flex-col mb-3 px-2">
-      <h4 className='text-decoration-underline underline-offset-4 mb-4 ml-11'>Popular Events</h4>
+      <h4 className='text-decoration-underline underline-offset-4 mb-4 ml-11'>In progress Events</h4>
       <div className='relative w-full flex items-center justify-start'>
         <MdChevronLeft 
           className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' 
@@ -70,7 +70,7 @@ const PopularEvents = () => {
           {events.length > 0 ? (
               <EventList events={events} />
           ) : (
-            <p>No popular events available</p>
+            <p>There no available in progress events.</p>
           )}
         </div>
         <MdChevronRight 
@@ -83,4 +83,4 @@ const PopularEvents = () => {
   );
 };
 
-export default PopularEvents;
+export default InprogressEvents;

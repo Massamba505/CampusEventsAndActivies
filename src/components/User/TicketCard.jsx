@@ -1,3 +1,4 @@
+import { CalendarDateRangeIcon } from "@heroicons/react/24/outline";
 
 const TicketCard = ({ ticket }) => {
   return (

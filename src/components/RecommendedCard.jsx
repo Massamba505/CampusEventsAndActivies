@@ -3,7 +3,7 @@ import { CalendarDaysIcon, UserIcon, TicketIcon } from '@heroicons/react/24/outl
 import truncateString from '../utils/truncate';
 import { MapIcon } from 'lucide-react';
 
-const UpcomingEventCard = ({ event }) => {
+const RecommendedCard = ({ event }) => {
   const {
     title,
     date,
@@ -23,9 +23,9 @@ const UpcomingEventCard = ({ event }) => {
         {/* Image Section */}
         <div className='flex items-center justify-center w-28 sm:w-36 h-24 sm:h-32'>
           <img
-            src={images[0] || 'placeholder-image-url'} // Use a placeholder if no image is available
+            src={images[0] || 'placeholder-image-url'}
             alt={title}
-            className="w-full h-full object-contain" // Ensure the image fits nicely
+            className="w-full h-full object-contain"
           />
         </div>
 
@@ -82,4 +82,4 @@ const UpcomingEventCard = ({ event }) => {
   );
 };
 
-export default UpcomingEventCard;
+export default RecommendedCard;

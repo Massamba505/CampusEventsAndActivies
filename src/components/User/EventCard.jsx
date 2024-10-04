@@ -23,6 +23,8 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
     category = [],
   } = event;
 
+  console.log(event)
+
   const [modalVisible, setModalVisible] = useState(false); // Control modal visibility
   const [modalVisibleD, setModalVisibleD] = useState(false); // Control modal visibility
   const [eventId, setEventId] = useState(false); // Control modal visibility
