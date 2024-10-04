@@ -1,1 +1,1 @@
-export const myConstant = 'https://sfpgk6hv-3000.inc1.devtunnels.ms';
+export const myConstant = 'https://eventsapi3a.azurewebsites.net';
