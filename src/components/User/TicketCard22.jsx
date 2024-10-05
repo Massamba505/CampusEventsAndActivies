@@ -15,7 +15,7 @@ const SmallTicketCard = ({ ticket, onCancel, onRefund }) => {
         </div>
       </div>
       <div className="p-2">
-        <h2 className="text-lg text-blue-600 font-semibold mb-2">{ticket.event_id.title}</h2>
+        <h2 className="text-lg text-blue-600 font-semibold mb-2">{ticket.event_id?.title}</h2>
         
         <div className="flex items-center space-x-1 mb-1">
           <CalendarIcon className="h-5 w-5 text-gray-600" />

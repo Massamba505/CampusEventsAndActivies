@@ -2,6 +2,7 @@ import { useState } from 'react';
 import truncateString from '../../utils/truncate';
 import EditEventModal from './EditModal';
 import DeleteEvent from './DeleteEvent';
+import { XIcon } from 'lucide-react';
 
 const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
   const {
@@ -18,6 +19,7 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
     maxAttendees,
     currentAttendees,
     food_stalls,
+    isCancelled = false,
     discount = null,
     category = [],
   } = event;
@@ -44,109 +46,125 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
   };
 
   return (
-    <div className='text-decoration-none bg-white'>
-      <div className="rounded-lg w-80 border p-2 transition-transform transform hover:bg-gray-100">
-        <div className="flex flex-col h-full items-start space-y-4">
-          {/* Image Section */}
-          <div className='relative flex justify-center w-full'>
-            <div className="relative">
-              <img className="mx-auto aspect-video rounded-xl object-cover w-full h-40" src={images[0]} alt={title} />
-              <p className={`absolute top-0 ${!isPaid ? "bg-blue-600" : "bg-green-600"} text-white font-semibold py-1 px-3 rounded-br-lg rounded-tl-lg`}>
-                {!isPaid ? "FREE" : `$${ticketPrice}`}
+    <div className='relative text-decoration-none bg-white'>
+    <div className="relative rounded-lg w-80 border p-2 transition-transform transform hover:bg-gray-100">
+      {/* <XIcon className='absolute z-10 right-1/2 text-red-500 w-full h-full'/> */}
+      <div className="flex flex-col h-full items-start space-y-4">
+        {/* Image Section */}
+        <div className='relative flex justify-center w-full'>
+          <div className="relative">
+            <img className="mx-auto aspect-video rounded-xl object-cover w-full h-40" src={images[0]} alt={title} />
+            <p className={`absolute top-0 ${!isPaid ? "bg-blue-600" : "bg-green-600"} text-white font-semibold py-1 px-3 rounded-br-lg rounded-tl-lg`}>
+              {!isPaid ? "FREE" : `$${ticketPrice}`}
+            </p>
+            {discount > 0 && (
+              <p className="absolute top-0 right-0 bg-yellow-300 text-gray-800 font-semibold py-1 px-3 rounded-tr-lg rounded-bl-lg">
+                {discount}%
               </p>
-              {discount > 0 && (
-                <p className="absolute top-0 right-0 bg-yellow-300 text-gray-800 font-semibold py-1 px-3 rounded-tr-lg rounded-bl-lg">
-                  {discount}%
-                </p>
-              )}
-            </div>
-          </div>
-          
-
-          {/* Info Section */}
-          <div className="flex-1 flex flex-col w-full space-y-2">
-            {/* Title */}
-            <h3 className="text-xl font-bold text-gray-800">
-              {truncateString(title, 30)}
-            </h3>
-
-            {/* Organizer */}
-            <div className="flex mt-1 items-center space-x-2">
-              <OrganizerIcon className="h-4 w-4 text-gray-500" />
-              <small className="text-sm text-gray-500">{eventAuthor}</small>
-            </div>
-
-            {/* Date and Time */}
-            <div className="flex mt-2 items-center space-x-2">
-              <CalendarDaysIcon className="h-4 w-4 text-gray-500" />
-              <small className="text-sm text-gray-500">{date} {startTime} - {endTime}</small>
-            </div>
-
-            {/* Location */}
-            <div className="flex mt-2 items-center space-x-2">
-              <LocateIcon className="h-4 w-4 text-gray-500" />
-              <small className="text-sm text-gray-500">{location}</small>
-            </div>
-
-            {/* Categories */}
-            <div className="flex mt-2 items-center space-x-2">
-              <CategoryIcon className="h-4 w-4 text-gray-500" />
-              <small className="text-sm text-gray-500">Categories: {category?.map((cat) => cat.name).join(', ') || 'N/A'}</small>
-            </div>
-
-            {/* Attendees */}
-            <div className="flex mt-2 items-center space-x-2">
-              <AttendeesIcon className="h-4 w-4 text-gray-500" />
-              <small className="text-sm text-gray-500">{currentAttendees}/{maxAttendees || 'Unlimited'} Attendees</small>
-            </div>
-
-            {/* Food Stalls */}
-            {food_stalls && (
-              <div className="flex mt-2 items-center space-x-2">
-                <FoodIcon className="h-4 w-4 text-gray-500" />
-                <small className="text-sm text-gray-500">Food Stalls Available</small>
-              </div>
             )}
-
-            {/* Ticket Info */}
-            <div className="flex mt-2 items-center space-x-2">
-              <TicketIcon className="h-4 w-4 text-gray-500" />
-              <small className={`text-sm font-bold ${isPaid ? 'text-green-600' : 'text-blue-800'}`}>
-                {isPaid ? `Ticket Price: $${ticketPrice}` : 'Free Event'}
-              </small>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="mt-3 w-full flex space-x-2">
-              <button onClick={()=>{handleEditClick(event_id)}} className="self-start inline-flex justify-center text-xl w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-xl shadow-md transition duration-200">
-                Edit
-              </button>
-              <button onClick={()=>{setModalVisibleD(true)}} className="self-start inline-flex justify-center text-xl w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl shadow-md transition duration-200">
-                Delete
-              </button>
-            </div>
           </div>
         </div>
+  
+        {/* Info Section */}
+        <div className="flex-1 flex flex-col w-full space-y-2">
+          {/* Title */}
+          <h3 className="text-xl font-bold text-gray-800">
+            {truncateString(title, 30)}
+          </h3>
+  
+          {/* Organizer */}
+          <div className="flex mt-1 items-center space-x-2">
+            <OrganizerIcon className="h-4 w-4 text-gray-500" />
+            <small className="text-sm text-gray-500">{eventAuthor}</small>
+          </div>
+  
+          {/* Date and Time */}
+          <div className="flex mt-2 items-center space-x-2">
+            <CalendarDaysIcon className="h-4 w-4 text-gray-500" />
+            <small className="text-sm text-gray-500">{date} {startTime} - {endTime}</small>
+          </div>
+  
+          {/* Location */}
+          <div className="flex mt-2 items-center space-x-2">
+            <LocateIcon className="h-4 w-4 text-gray-500" />
+            <small className="text-sm text-gray-500">{location}</small>
+          </div>
+  
+          {/* Categories */}
+          <div className="flex mt-2 items-center space-x-2">
+            <CategoryIcon className="h-4 w-4 text-gray-500" />
+            <small className="text-sm text-gray-500">Categories: {category?.map((cat) => cat.name).join(', ') || 'N/A'}</small>
+          </div>
+  
+          {/* Attendees */}
+          <div className="flex mt-2 items-center space-x-2">
+            <AttendeesIcon className="h-4 w-4 text-gray-500" />
+            <small className="text-sm text-gray-500">{currentAttendees}/{maxAttendees || 'Unlimited'} Attendees</small>
+          </div>
+  
+          {/* Food Stalls */}
+          {food_stalls && (
+            <div className="flex mt-2 items-center space-x-2">
+              <FoodIcon className="h-4 w-4 text-gray-500" />
+              <small className="text-sm text-gray-500">Food Stalls Available</small>
+            </div>
+          )}
+  
+          {/* Ticket Info */}
+          <div className="flex mt-2 items-center space-x-2">
+            {isCancelled ? (
+              <>
+                <XIcon className="h-4 w-4 text-red-500" />
+                <small className="text-sm text-red-500 font-bold">Event Canceled</small>
+              </>
+            ) : (
+              <>
+                <TicketIcon className="h-4 w-4 text-green-600" />
+                <small className={`text-sm font-bold text-green-600`}>
+                  Ticket Price: ${ticketPrice}
+                </small>
+              </>
+            )}
+          </div>
+  
+          {/* Action Buttons */}
+          {
+            !isCancelled?(
+              <div className="mt-3 w-full flex space-x-2">
+                <button onClick={()=>{handleEditClick(event_id)}} className="self-start inline-flex justify-center text-xl w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-xl shadow-md transition duration-200">
+                  Edit
+                </button>
+                <button onClick={()=>{setModalVisibleD(true)}} className="self-start inline-flex justify-center text-xl w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl shadow-md transition duration-200">
+                  Cancel Event
+                </button>
+              </div>
+            ):(
+              <></>
+            )
+          }
+        </div>
       </div>
-
-      {/* Edit Event Modal */}
-      {modalVisibleD && (
-        <DeleteEvent
-          modalVisible={modalVisibleD}
-          setModalVisible={setModalVisibleD}
-          onDeleteEvent={handleDelete}
-        />
-      )}
-      {/* Edit Event Modal */}
-      {modalVisible && (
-        <EditEventModal
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          eventId={eventId} // Pass the current event data to the modal
-          onUpdate={handleUpdate}
-        />
-      )}
     </div>
+  
+    {/* Edit Event Modal */}
+    {modalVisibleD && (
+      <DeleteEvent
+        modalVisible={modalVisibleD}
+        setModalVisible={setModalVisibleD}
+        onDeleteEvent={handleDelete}
+      />
+    )}
+    {/* Edit Event Modal */}
+    {modalVisible && (
+      <EditEventModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        eventId={eventId} // Pass the current event data to the modal
+        onUpdate={handleUpdate}
+      />
+    )}
+  </div>
+  
   );
 };
 

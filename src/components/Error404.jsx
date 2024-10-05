@@ -10,7 +10,7 @@ function Error404() {
         <p className="mt-6 text-lg leading-7 text-gray-600">Sorry, we couldn’t find the page you’re looking for.</p>
         <div className="mt-10 flex items-center justify-center gap-x-2">
           <Link
-            to={"/"}
+            to={"/home"}
             className="rounded-md text-decoration-none bg-indigo-600 px-4 py-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Go back home

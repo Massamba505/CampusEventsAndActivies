@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import Calendar from "./Calender";
-import { useNavigate } from 'react-router-dom';
 import "./cale.css";
 import { myConstant } from "../../const/const";
 import DayView from "./DayView";
@@ -9,12 +8,11 @@ import DayView from "./DayView";
 export default function Customize() {
   const [events, setEvents] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch(myConstant + "/api/events/");
+        const response = await fetch(myConstant + "/api/events/calender");
         const data = await response.json();
 
         // Format the events as needed

@@ -18,6 +18,7 @@ import Profile from './pages/User/Profile.jsx';
 import TicketSuccess from './components/User/Stripe/TicketSuccess.jsx';
 import TicketCancel from './components/User/Stripe/TicketCancel.jsx';
 import CalendarApp from './components/Calender/CalenderApp.jsx';
+import Notification from './components/User/Notification.jsx';
 
 function App() {
   const { authUser } = useAuthContext();
@@ -43,6 +44,7 @@ function App() {
         <Route path="/profile" element={authUser ? <Profile /> : <Navigate to='/login' />} />
         <Route path="/tickets/success" element={authUser ? <TicketSuccess /> : <Navigate to='/login' />} />
         <Route path="/tickets/cancel" element={authUser ? <TicketCancel /> : <Navigate to='/login' />} />
+        <Route path="/notifications" element={authUser ? <Notification /> : <Navigate to='/login' />} />
         <Route path="/admin/category" element={authUser ? <CategoriesManagement /> : <Navigate to='/login' />} />
 
         {/* Redirect to 404 if no match */}
