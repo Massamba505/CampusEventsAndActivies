@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import RecommendedCard from './RecommendedCard';
 import { Spinner, Alert } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import ShortEventCard from './ShortEventCard';
 
 const RecommendedEvents = () => {
   const [events, setEvents] = useState([]); // Ensure this is initialized as an empty array
@@ -92,10 +92,10 @@ const RecommendedEvents = () => {
           {hasPreferences ? (
             events.length > 0 ? (
               events.map((event, index) => (
-                <RecommendedCard key={event.event_id || index} event={event} />
+                <ShortEventCard key={event.event_id || index} event={event} />
               ))
             ) : (
-              <p>No recommended events available.</p>
+              <p>Go to your profile and enter your preferences.</p>
             )
           ) : (
             <p>Go to your profile and enter your preferences.</p>

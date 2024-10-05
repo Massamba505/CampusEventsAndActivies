@@ -3,7 +3,7 @@ import { CalendarDaysIcon, UserIcon, TicketIcon } from '@heroicons/react/24/outl
 import truncateString from '../utils/truncate';
 import { MapIcon } from 'lucide-react';
 
-const RecommendedCard = ({ event }) => {
+const ShortEventCard = ({ event }) => {
   const {
     title,
     date,
@@ -82,4 +82,4 @@ const RecommendedCard = ({ event }) => {
   );
 };
 
-export default RecommendedCard;
+export default ShortEventCard;

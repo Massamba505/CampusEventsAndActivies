@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import EventCard from './EventCard';
 import NavbarComponent from '../components/Navbar';
 import { myConstant } from '../const/const';
 import { Spinner } from 'react-bootstrap';
 import SearchBar from '../components/SearchBar';
 import CategoryList from '../components/CategoryList';
 import toast from 'react-hot-toast';
+import TallEventCard from './TallEventCard';
 
 const SearchResults = () => {
   const location = useLocation();
@@ -66,7 +66,7 @@ const SearchResults = () => {
           {events.length > 0 ? (
             <div className="flex items-center flex-col sm:flex-row flex-wrap gap-4">
               {events.map(event => (
-                <EventCard key={event.event_id} event={event} onGetTickets={() => console.log('Get tickets')} />
+                <TallEventCard key={event.event_id} event={event} onGetTickets={() => console.log('Get tickets')} />
               ))}
             </div>
           ) :(

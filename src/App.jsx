@@ -15,9 +15,10 @@ import SetNewPassword from './pages/FogotPassword/SetNewPassword.jsx';
 import CategoriesManagement from './pages/CategoryManagement.jsx';
 import SearchResults from './components/SearchResults.jsx';
 import Profile from './pages/User/Profile.jsx';
-import CheckoutPage from './pages/CheckoutForm.jsx';
 import TicketSuccess from './components/User/Stripe/TicketSuccess.jsx';
+import TicketCancel from './components/User/Stripe/TicketCancel.jsx';
 import CalendarApp from './components/Calender/CalenderApp.jsx';
+import Notification from './components/User/Notification.jsx';
 
 function App() {
   const { authUser } = useAuthContext();
@@ -26,30 +27,27 @@ function App() {
     <div className='App'>
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={!authUser ? <Login /> : <Navigate to='/' />} />
-        <Route path="/signup" element={!authUser ? <SignUp /> : <Navigate to='/' />} />
-        <Route path="/forgot-password" element={!authUser ? <ForgotPassword /> : <Navigate to='/' />} /> {/* Forgot Password route */}
-        <Route path="/enter-code/:email" element={!authUser ? <EnterCode /> : <Navigate to='/' />} /> {/* Enter Code route */}
-        <Route path="/set-new-password/:userId" element={!authUser ? <SetNewPassword /> : <Navigate to='/' />} /> {/* Set New Password route */}
+        <Route path="/" element={<Landing />} /> {/* should be able to access*/}
+        <Route path="/login" element={!authUser ? <Login /> : <Home />} />
+        <Route path="/signup" element={!authUser ? <SignUp /> : <Home />} />
+        <Route path="/forgot-password" element={!authUser ? <ForgotPassword /> : <Home />} />
+        <Route path="/enter-code/:email" element={!authUser ? <EnterCode /> : <Home />} />
+        <Route path="/set-new-password/:userId" element={!authUser ? <SetNewPassword /> : <Home />} />
 
         {/* Protected routes */}
-        <Route path="/" element={authUser ? <Home /> : <Landing/>} />
-        <Route path="/calender" element={authUser ? <CalendarApp /> : <Landing/>} />
+        <Route path="/home" element={authUser ? <Home /> : <Landing />} />
+        <Route path="/calender" element={authUser ? <CalendarApp /> : <Landing />} />
         <Route path="/events" element={authUser ? <Home /> : <Navigate to='/login' />} />
         <Route path="/create-event" element={authUser ? <CreateEvent /> : <Navigate to='/login' />} />
         <Route path="/events/:eventId" element={authUser ? <EventDetails /> : <Navigate to='/login' />} />
         <Route path="/search" element={authUser ? <SearchResults /> : <Navigate to='/login' />} />
-        
         <Route path="/profile" element={authUser ? <Profile /> : <Navigate to='/login' />} />
-        <Route path="/check" element={authUser ? <CheckoutPage eventId="1000" ticketType="VIP" price={100} eventDate="10/12/2024" /> : <Navigate to='/login' />} />
-
-
         <Route path="/tickets/success" element={authUser ? <TicketSuccess /> : <Navigate to='/login' />} />
-        <Route path="/tickets/cancel" element={authUser ? <TicketSuccess /> : <Navigate to='/login' />} />
-
+        <Route path="/tickets/cancel" element={authUser ? <TicketCancel /> : <Navigate to='/login' />} />
+        <Route path="/notifications" element={authUser ? <Notification /> : <Navigate to='/login' />} />
         <Route path="/admin/category" element={authUser ? <CategoriesManagement /> : <Navigate to='/login' />} />
 
-        {/* Redirect to login if no match */}
+        {/* Redirect to 404 if no match */}
         <Route path="*" element={<Error404 />} />
       </Routes>
       <Toaster />
@@ -58,58 +56,3 @@ function App() {
 }
 
 export default App;
-
-// import React, { useState, useEffect } from "react";
-// import "./App.css";
-// import { myConstant } from "./const/const";
-
-// const ProductDisplay = () => (
-//   <section>
-//     <div className="product">
-//       <img
-//         src="https://i.imgur.com/EHyR2nP.png"
-//         alt="The cover of Stubborn Attachments"
-//       />
-//       <div className="description">
-//       <h3>Stubborn Attachments</h3>
-//       <h5>$20.00</h5>
-//       </div>
-//     </div>
-//     <form action={myConstant + `/api/tickets/create-checkout-session`} method="POST">
-//       <button type="submit">
-//         Checkout
-//       </button>
-//     </form>
-//   </section>
-// );
-
-// const Message = ({ message }) => (
-//   <section>
-//     <p>{message}</p>
-//   </section>
-// );
-
-// export default function App() {
-//   const [message, setMessage] = useState("");
-
-//   useEffect(() => {
-//     // Check to see if this is a redirect back from Checkout
-//     const query = new URLSearchParams(window.location.search);
-
-//     if (query.get("success")) {
-//       setMessage("Order placed! You will receive an email confirmation.");
-//     }
-
-//     if (query.get("canceled")) {
-//       setMessage(
-//         "Order canceled -- continue to shop around and checkout when you're ready."
-//       );
-//     }
-//   }, []);
-
-//   return message ? (
-//     <Message message={message} />
-//   ) : (
-//     <ProductDisplay />
-//   );
-// }

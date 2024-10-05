@@ -12,7 +12,9 @@ const Home = () => {
   const navigate = useNavigate();
 
   function handleSearch(search){
-    navigate(`/search?query=${search}`);
+    if(search.trim()){
+      navigate(`/search?query=${search}`);
+    }
   }
 
   return (

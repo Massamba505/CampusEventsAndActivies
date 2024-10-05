@@ -24,6 +24,7 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
     ticket_price: 0,
     max_attendees: '',
     category: [],
+    discount: 0,
     food_stalls: false,
   });
 
@@ -75,6 +76,7 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
           max_attendees: data.maxAttendees || '',
           category: data.category || [],
           food_stalls: data.food_stalls || false,
+          discount:data.discount
         });
       } catch (error) {
         toast.error('Error fetching event details');
@@ -149,7 +151,8 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
         ticketPrice: formData.is_paid ? formData.ticket_price : 0,
         maxAttendees: formData.max_attendees || 0,
         category: formData.category,
-        food_stalls: formData.food_stalls
+        food_stalls: formData.food_stalls,
+        discount:formData.discount
       };
 
       const response = await fetch(`${myConstant}/api/events/update/${eventId}`, {
@@ -274,17 +277,32 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
 
               {/* Ticket Price (shown only if "is_paid" is true) */}
               {formData.is_paid && (
-                <div>
-                  <label htmlFor="ticket_price" className="block text-sm font-medium text-gray-900">Ticket Price</label>
-                  <input
-                    id="ticket_price"
-                    name="ticket_price"
-                    type="number"
-                    value={formData.ticket_price || 0}  // Ensure value is always defined
-                    onChange={handleInputChange}
-                    className="w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600"
-                    required
-                  />
+                <div className='flex flex-wrap gap-2'>
+                  <div>
+                    <label htmlFor="ticket_price" className="block text-sm font-medium text-gray-900">Ticket Price</label>
+                    <input
+                      id="ticket_price"
+                      name="ticket_price"
+                      type="number"
+                      value={formData.ticket_price || 0}  // Ensure value is always defined
+                      onChange={handleInputChange}
+                      className="w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="discount" className="block text-sm font-medium text-gray-900">Discount %</label>
+                    <input
+                      id="discount"
+                      name="discount"
+                      type="number"
+                      max={100}
+                      value={formData.discount || 0}  // Ensure value is always defined
+                      onChange={handleInputChange}
+                      className="w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600"
+                      required
+                    />
+                  </div>
                 </div>
               )}
 
@@ -295,7 +313,8 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
                   id="max_attendees"
                   name="max_attendees"
                   type="number"
-                  value={formData.max_attendees || ''}  // Ensure value is always defined
+                  min={0}
+                  value={formData.max_attendees || 0}  // Ensure value is always defined
                   onChange={handleInputChange}
                   className="w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600"
                 />
@@ -338,6 +357,7 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
                 <div className="mt-2">
                   <textarea
                     id="description"
+                    name="description"
                     value={formData.description}
                     onChange={handleInputChange}
                     rows="4"

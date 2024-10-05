@@ -6,12 +6,13 @@ import toast from 'react-hot-toast';
 import { useAuthContext } from '../context/AuthContext';
 import { myConstant } from '../const/const';
 import { useEffect, useState } from 'react';
-import { CalendarDays } from 'lucide-react';
+import { AlarmClockIcon, BellDotIcon, CalendarDays, CircleCheckBigIcon, DotIcon } from 'lucide-react';
 
 export default function Navbar() {
   const{setAuthUser} = useAuthContext();
   const navigate = useNavigate();
   const [pp,setPp] = useState("");
+  const [read,setRead] = useState("");
 
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
@@ -26,6 +27,7 @@ export default function Navbar() {
             "Content-Type": "application/json"
           }
         });
+
         if (!response.ok) {
           const userData = await response.json();
           throw new Error(userData.error);
@@ -37,8 +39,29 @@ export default function Navbar() {
         console.error('Error fetching user data:', error);
       }
     };
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch(myConstant + '/api/user/notifications/latest', {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (!response.ok) {
+          const userData = await response.json();
+          throw new Error(userData.error);
+        }
+        const userData = await response.json();
+        setRead(userData.notifications);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
 
     fetchUserData();
+    fetchNotifications();
   }, [token]);
 
   const handleLogout = async() => {
@@ -49,14 +72,14 @@ export default function Navbar() {
       }
     });
     if(response.ok){
-      toast("Logged out successfully!"); // Show a message or toast
+      toast.success("Logged out successfully!"); // Show a message or toast
       localStorage.removeItem("events-app");
       setAuthUser(null);
       return;
     }
-    const data = await response.json();
-    toast(data.error); // Show a message or toast
 
+    const data = await response.json();
+    toast(data.error);
   };
 
   const handleCreate = async() => {
@@ -68,7 +91,7 @@ export default function Navbar() {
       <div className="mx-auto px-2 border border-white rounded w-full shadow-md">
         <div className="relative flex items-center justify-between">
           <div className="flex">
-            <Link to={"/"} className="flex items-center">
+            <Link to={"/home"} className="flex items-center">
               <img className="w-24 h-16" src={logo} alt="Logo" />
             </Link>
           </div>
@@ -88,6 +111,14 @@ export default function Navbar() {
                   />
                 </MenuButton>
                 <CalendarDays onClick={()=>navigate("/calender")} className='hover:cursor-pointer'></CalendarDays>
+                
+                <div onClick={()=>navigate("/notifications")} className='relative rounded-full hover:text-white hover:bg-blue-500 hover:cursor-pointer'>
+                  {read.length > 0 && (
+                    <CircleCheckBigIcon strokeWidth={10} className='absolute rounded-lg right-2 top-1 text-green-500 font-bold h-2 w-2'/>
+                  )}
+                  <BellIcon onClick={()=>navigate("/notifications")} className='h-8 w-8 p-1'></BellIcon>
+                </div>
+                
               </div>
               <MenuItems
                 transition
@@ -103,7 +134,7 @@ export default function Navbar() {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link to="/profile" className="flex items-center gap-1 text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                  <Link to="/notifications" className="flex items-center gap-1 text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
                     
                     <BellIcon aria-hidden="true" className="h-6 w-6" />
                     View Notifications

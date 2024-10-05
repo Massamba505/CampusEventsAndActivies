@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import truncateString from '../utils/truncate';
 
-const EventCard = ({ event, onGetTickets }) => {
+const TallEventCard = ({ event = {}, onGetTickets }) => {
   const {
     event_id,
     title,
@@ -17,26 +17,30 @@ const EventCard = ({ event, onGetTickets }) => {
     maxAttendees,
     currentAttendees,
     food_stalls,
-    discount=null,
+    discount = 0,
     category = [],
   } = event;
+  console.log(event)
 
   return (
     <Link to={`/events/${event_id}`} className='text-decoration-none bg-white'>
       <div className="rounded-lg w-80 border  p-2 transition-transform transform hover:bg-gray-100">
         <div className="flex flex-col h-full items-start space-y-4">
-          {/* Image Section */}          
-          <div className="relative">
-            <img className="mx-auto aspect-video rounded-xl object-cover w-full h-40" src={images[0]} alt={title} />
-            <p className={`absolute top-0 ${!isPaid ? "bg-blue-600" : "bg-green-600"} text-white font-semibold py-1 px-3 rounded-br-lg rounded-tl-lg`}>
-            {!isPaid ? "FREE" : `$${ticketPrice}`}
-            </p>
-            {discount && (
-            <p className="absolute top-0 right-0 bg-yellow-300 text-gray-800 font-semibold py-1 px-3 rounded-tr-lg rounded-bl-lg">
-                {discount}% Discount
-            </p>
-            )}
+          {/* Image Section */}        
+          <div className='relative flex justify-center w-full'>
+            <div className="relative">
+              <img className="mx-auto aspect-video rounded-xl object-cover w-full h-40" src={images[0]} alt={title} />
+              <p className={`absolute top-0 ${!isPaid ? "bg-blue-600" : "bg-green-600"} text-white font-semibold py-1 px-3 rounded-br-lg rounded-tl-lg`}>
+                {!isPaid ? "FREE" : `$${ticketPrice}`}
+              </p>
+              {discount > 0 && (
+                <p className="absolute top-0 right-0 bg-yellow-300 text-gray-800 font-semibold py-1 px-3 rounded-tr-lg rounded-bl-lg">
+                    {discount}%
+                </p>
+              )}
+            </div>
           </div>
+          
 
           {/* Info Section */}
           <div className="flex-1 flex flex-col w-full space-y-2">
@@ -250,4 +254,4 @@ function TicketIcon(props) {
   );
 }
 
-export default EventCard;
+export default TallEventCard;
