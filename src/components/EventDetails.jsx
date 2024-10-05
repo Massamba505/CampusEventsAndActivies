@@ -49,13 +49,15 @@ const EventDetails = () => {
     category,  // Categories array
     maxAttendees,
     currentAttendees,
+    discount = 0,
+    profile_picture,
     email
   } = event;
   // Initialize Stripe
   const stripePromise = loadStripe("pk_test_51Q5JRhGx52yvRFk8wYiDUQ0qC2bWSul1gvALpu09WQBTsiJxW3l4NaRq5puPjoJbCpCELOBTa23B3QMp2LKxVAyC00eoeGmm9O");
   const headerImage = images && images.length > 0 ? images[0] : 'https://via.placeholder.com/350x150';
   const carouselImages = images && images.length > 1 ? images.slice(1) : [];
-  const organizerImage = eventAuthor?.profilePicture || 'https://via.placeholder.com/100';
+  const organizerImage = profile_picture || 'https://via.placeholder.com/100';
 
   // Function to handle ticket purchase or RSVP
   const handleTickets = async () => {
@@ -141,11 +143,17 @@ const EventDetails = () => {
               </div>
             </div>
             <div className="text-right">
-              <button onClick={handleTickets} className="bg-blue-500 text-xs sm:text-lg hover:bg-blue-600 text-white py-2 px-3 sm:px-4 rounded-lg">
+              <button onClick={handleTickets} className={`${isPaid ? "bg-green-500 hover:bg-green-600" : 'bg-blue-500 hover:bg-blue-600'}   text-xs  sm:text-lg  text-white py-2 px-3 sm:px-4 rounded-lg`}>
                 {isPaid ? `Buy Ticket for R${ticketPrice}` : 'Get Ticket'}
               </button>
-              <span className="block text-xs sm:text-lg font-semibold text-green-600 mt-2">{currentAttendees}/{maxAttendees || ''} Going</span>
-            </div>
+              {discount > 0 && (
+                <>
+                  <span className="block text-xs sm:text-lg font-semibold text-gray-600 mt-2">{discount}% dicount</span>
+                  <span className="block text-xs sm:text-lg text-decoration-line-through decoration-black font-bold text-blue-400 mt-2">R{parseFloat((ticketPrice - ((discount*0.01)* ticketPrice)).toFixed(2))}</span>
+                </>
+              )}
+              <span className="block text-xs sm:text-lg font-semibold text-green-600 mt-2">{currentAttendees}/{maxAttendees || ''} Attendance</span>
+              </div>
           </div>
 
           {/* Organizer Info */}

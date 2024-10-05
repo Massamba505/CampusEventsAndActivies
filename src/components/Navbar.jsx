@@ -26,6 +26,7 @@ export default function Navbar() {
             "Content-Type": "application/json"
           }
         });
+
         if (!response.ok) {
           const userData = await response.json();
           throw new Error(userData.error);
@@ -49,14 +50,14 @@ export default function Navbar() {
       }
     });
     if(response.ok){
-      toast("Logged out successfully!"); // Show a message or toast
+      toast.success("Logged out successfully!"); // Show a message or toast
       localStorage.removeItem("events-app");
       setAuthUser(null);
       return;
     }
-    const data = await response.json();
-    toast(data.error); // Show a message or toast
 
+    const data = await response.json();
+    toast(data.error);
   };
 
   const handleCreate = async() => {

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Spinner, Alert } from 'react-bootstrap';
 import toast from 'react-hot-toast';
-import EventList from './EventList';
 import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import TallEventCard from './TallEventCard';
 
 const InprogressEvents = () => {
   const [events, setEvents] = useState([]);
@@ -68,9 +68,13 @@ const InprogressEvents = () => {
           className='flex items-center gap-2 flex-1 overflow-x-auto scroll whitespace-nowrap scroll-smooth scrollbar-hide'
         >
           {events.length > 0 ? (
-              <EventList events={events} />
+              <>
+                {events.map((event) => (
+                  <TallEventCard key={event.event_id} event={event} />
+                ))}
+              </>
           ) : (
-            <p>There no available in progress events.</p>
+            <p>There are no available in progress events.</p>
           )}
         </div>
         <MdChevronRight 

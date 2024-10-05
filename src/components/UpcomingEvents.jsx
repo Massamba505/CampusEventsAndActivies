@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import UpcomingEventCard from './UpcomingEventCard';
 import { Spinner, Alert } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import TallEventCard from './TallEventCard';
+import ShortEventCard from './ShortEventCard';
 
 const UpcomingEvents = () => {
   const [events, setEvents] = useState([]);
@@ -80,7 +81,7 @@ const UpcomingEvents = () => {
         >
           {events.length > 0 ? (
             events.map((event, index) => (
-              <UpcomingEventCard key={event.event_id || index} event={event} />
+              <ShortEventCard key={event.event_id || index} event={event} />
             ))
           ) : (
             <p>No upcoming events available</p>

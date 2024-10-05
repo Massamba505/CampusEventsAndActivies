@@ -70,15 +70,16 @@ const Signup = () => {
                 throw new Error(data.error || 'Signup failed');
             }
 
-            toast.success('Signup successful! Please login.');
+            toast.success(data.message);
             navigate('/login');
         } catch (error) {
             toast.error(error.message);
         }
     };
+
     const handleGoogleLogin = async () => {
         await signInWithGoogle(setAuthUser);
-      };
+    };
 
     return (
         <div className="h-screen w-screen align-content-center">
