@@ -69,7 +69,7 @@ export default function Navbar() {
       <div className="mx-auto px-2 border border-white rounded w-full shadow-md">
         <div className="relative flex items-center justify-between">
           <div className="flex">
-            <Link to={"/"} className="flex items-center">
+            <Link to={"/home"} className="flex items-center">
               <img className="w-24 h-16" src={logo} alt="Logo" />
             </Link>
           </div>

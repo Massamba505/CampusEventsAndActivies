@@ -26,14 +26,14 @@ function App() {
     <div className='App'>
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={!authUser ? <Login /> : <Navigate to='/' />} />
-        <Route path="/signup" element={!authUser ? <SignUp /> : <Navigate to='/' />} />
-        <Route path="/forgot-password" element={!authUser ? <ForgotPassword /> : <Navigate to='/' />} />
-        <Route path="/enter-code/:email" element={!authUser ? <EnterCode /> : <Navigate to='/' />} />
-        <Route path="/set-new-password/:userId" element={!authUser ? <SetNewPassword /> : <Navigate to='/' />} />
+        <Route path="/" element={<Landing />} /> {/* should be able to access*/}
+        <Route path="/login" element={!authUser ? <Login /> : <Home />} />
+        <Route path="/signup" element={!authUser ? <SignUp /> : <Home />} />
+        <Route path="/forgot-password" element={!authUser ? <ForgotPassword /> : <Home />} />
+        <Route path="/enter-code/:email" element={!authUser ? <EnterCode /> : <Home />} />
+        <Route path="/set-new-password/:userId" element={!authUser ? <SetNewPassword /> : <Home />} />
 
         {/* Protected routes */}
-        <Route path="/" element={authUser ? <Home /> : <Landing />} /> {/* should be able to access*/}
         <Route path="/home" element={authUser ? <Home /> : <Landing />} />
         <Route path="/calender" element={authUser ? <CalendarApp /> : <Landing />} />
         <Route path="/events" element={authUser ? <Home /> : <Navigate to='/login' />} />

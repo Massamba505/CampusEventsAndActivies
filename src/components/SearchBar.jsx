@@ -7,7 +7,7 @@ function SearchBar({ handleSearch }) {
   const onSubmit = (e) => {
     e.preventDefault();
     setSearchTerm(searchTerm.trim());
-    if(searchTerm.length == 0){
+    if(!searchTerm.trim()){
       toast.error("input a keyword");
       return;
     }
