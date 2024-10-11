@@ -12,6 +12,9 @@ const dummyLocations = [
   'Houston',
   'Phoenix',
   'Philadelphia',
+  'MSL005',
+  "FNB36",
+  "MSL001",
 ];
 
 const CreateEvent = () => {
@@ -35,7 +38,7 @@ const CreateEvent = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
+  const [status,setStatus] = useState('Creating');
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
   useEffect(() => {
@@ -101,11 +104,214 @@ const CreateEvent = () => {
     return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
   };
 
-  const handleSubmit = async (e) => {
+  
+
+  // returns:
+  //       -> Invalid Date
+  //      4 -> Some error
+  //      3 -> Overlap, time slot booked
+  //      2 -> Start time > End time
+  //      1 -> Venue unavailable
+  //      0 -> Available
+  //     -1 -> Fetch venues error
+  //     -2 -> Fetch Bookings error
+  //     -3 -> Fetch our Events error
+  const checkAvailability = async () => {
+    try{
+      const formDataObj = new FormData();
+      const date = formatDate(formData.date);
+      formDataObj.append('title', formData.title);
+      formDataObj.append('description', formData.description);
+      formDataObj.append('location', formData.location);
+      formDataObj.append('date', date);
+      formDataObj.append('startTime', formData.start_time);
+      formDataObj.append('endTime', formData.end_time);
+      formDataObj.append('isPaid', formData.is_paid);
+      formDataObj.append('ticketPrice', formData.is_paid ? formData.ticket_price : 0);
+      formDataObj.append('maxAttendees', formData.max_attendees || 0);
+      formDataObj.append('category', JSON.stringify(formData.category));
+      formDataObj.append('food_stalls', formData.food_stalls);
+
+      for (let i = 0; i < formData.images.length; i++) {
+        if (formData.images[i]) {
+          formDataObj.append('images', formData.images[i]);
+        }
+      }
+
+      //get the venues  from group2a
+      let venueMap={};
+      const response1 = await fetch(
+        `https://group2afunctionapp.azurewebsites.net/api/getVENUE?code=lVPnP4OFOCMQEJe3ZcIOQfywgWO9Ag5WtiixpUIwv340AzFuYZT3dQ%3D%3D`
+      );
+      if (!response1.ok) {
+        const resData = await response1.json();
+        toast.error(resData.error || 'Error fetching Group 2 api venues' );
+        return -1;
+      }
+      const data1 = await response1.json();
+      for (let i=0;i<data1.length;i++){
+        if (formData.location==data1[i]["VENUE_NAME"]){
+          if (data1[i]["VENUE_STATUS"]=="Unavailable"){
+            return 1;
+          }
+        }
+        venueMap[data1[i]["VENUE_ID"]]=data1[i]["VENUE_NAME"];
+      }
+
+      //get the Bookings from group2a
+      const response2 = await fetch(
+        `https://group2afunctionapp.azurewebsites.net/api/getBOOKING?code=JDsgJhmxzmtNJeOdiPSKbEAPlrI61hA5RDMlGKh4OzxyAzFuGvO2yQ%3D%3D`
+      );
+      if (!response2.ok) {
+        console.log("Bookings 1 error");
+        const resData = await response2.json();
+        toast.error(resData.error || 'Error fetching Group 2 api schedule' );
+        return -2;
+      }
+      const data2 = await response2.json();
+      for (let i = 0; i < data2.length; i++){
+        if (formData.location == venueMap[data2[i]["VENUE_ID"]]) {
+          if (formData.date == data2[i]["DATE"].split('T')[0]) {
+            const convertToTime = (timeStr) => {
+              const [hours, minutes, seconds = '00'] = timeStr.split(':');
+              const date = new Date();
+              date.setHours(parseInt(hours, 10), parseInt(minutes, 10), parseInt(seconds, 10), 0);
+              return date;
+            };
+      
+            let formStart = convertToTime(formData.start_time);
+            let formEnd = convertToTime(formData.end_time);
+            let eventStart = convertToTime(data2[i]["START_TIME"]);
+            let eventEnd = convertToTime(data2[i]["END_TIME"]);
+            
+            if (formStart > formEnd) {
+              console.log("Start time cannot be later than end time");
+              return 2;
+            }
+
+            if (formStart < eventEnd && formEnd > eventStart) {
+              console.log('Clash of events');
+              return 3;
+            } 
+            
+          }
+        }
+      }
+      
+      //get the events from our backend
+      const response3 = await fetch(`${myConstant}/api/events`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (!response3.ok) {
+        console.log("events 2 error");
+        const resData = await response3.json();
+        toast.error(resData.error || 'Error getting our events' );
+        return -3;
+      }
+      const datax = await response3.json();
+      const data3=datax.data;
+      //console.log("What");
+      //console.log(data3);
+      for (let i = 0; i < data3.length; i++){
+        if (data3[i].isCancelled){
+          continue;
+        }
+        //console.log(`${formData.location}:${data3[i]["location"]}`);
+        if (formData.location == data3[i]["location"]){
+          //console.log("happened1");
+          let temp_date = data3[i]["date"].replace(/\//g, '-').split('-');
+          temp_date = temp_date.reverse().join('-');
+          //console.log(temp_date);
+          //console.log(`${formData.date}:${temp_date}`);
+          if (formData.date == temp_date){
+            //console.log("happened2");
+            const convertToTime = (timeStr) => {
+              const [hours, minutes, seconds = '00'] = timeStr.split(':');
+              const date = new Date();
+              date.setHours(parseInt(hours, 10), parseInt(minutes, 10), parseInt(seconds, 10), 0);
+              return date;
+            };
+      
+            let formStart = convertToTime(formData.start_time);
+            let formEnd = convertToTime(formData.end_time);
+            let eventStart = convertToTime(data3[i]["startTime"]);
+            let eventEnd = convertToTime(data3[i]["endTime"]);
+            
+            if (formStart > formEnd) {
+              console.log("Start time cannot be after end time");
+              return 2;
+            }
+
+            if (formStart < eventEnd && formEnd > eventStart) {
+              console.log('Clash of events');
+              return 3;
+            } 
+            
+          }
+        }
+      }
+      return 0;
+
+    } catch (err) {
+      setError('Error creating event. Please try again.');
+      console.log(err.message);
+      return 4;
+    } 
+  };
+
+  const creator= async(e)=>{
     e.preventDefault();
     setLoading(true);
     setError('');
     setSuccess('');
+    setStatus("Checking Availability...");
+    let out=await checkAvailability();
+    if (out==3){
+      toast.error('Venue Booked, Choose a different time');
+      setLoading(false);
+    }
+    else if (out==2){
+      toast.error('Start time can\'t be later than end time!');
+      setLoading(false);
+    }
+    else if (out==1){
+      toast.error('Venue Unavailable!');
+      setLoading(false);
+    }
+    else if (out==0){
+      console.log("Start creating");
+      toast.success('Venue Available, Creating event');
+      setStatus("Creating...");
+      handleSubmit();
+    }
+    else if (out==4){
+      toast.error('Some error occured!');
+      setLoading(false);
+    }
+    else{
+      toast.error('Error checking Availability');
+      if (out==-1){
+        console.log("Fetch venues");
+      }
+      else if (out==-2){
+        console.log("Fetch bookings");
+      }
+      else if (out==-3){
+        console.log("Fetch our events");
+      }
+      setLoading(false);
+    }
+    //setLoading(false);
+  }
+  const handleSubmit = async () => {
+    // e.preventDefault();
+    // setLoading(true);
+    // setError('');
+    // setSuccess('');
 
     try {
       const formDataObj = new FormData();
@@ -184,7 +390,7 @@ const CreateEvent = () => {
       <div className="flex mt-4 items-center justify-center min-h-screen ">
         <div className="flex flex-col items-center justify-center w-full md:max-w-4xl max-w-lg bg bg-white p-8 rounded-lg shadow-lg space-y-4">
           <h2 className="text-2xl font-semibold mb-4 text-blue-600">Create Event</h2>
-          <form onSubmit={handleSubmit} className="w-full space-y-4">
+          <form onSubmit={creator} className="w-full space-y-4">
             {/* Title */}
             <input
               type="text"
@@ -390,7 +596,7 @@ const CreateEvent = () => {
               disabled={loading}
               className={`w-full mt-3 bg-blue-500 text-white p-2 rounded-lg focus:outline-none focus:ring-2 ${loading ? 'opacity-50' : ''}`}
             >
-              {loading ? 'Creating...' : 'Create Event'}
+              {loading ? status : 'Create Event'}
             </button>
 
             {/* Success & Error Messages */}
