@@ -6,15 +6,17 @@ import { myConstant } from '../const/const';
 import Navbar from './Navbar';
 
 const dummyLocations = [
-  'New York',
-  'Los Angeles',
-  'Chicago',
-  'Houston',
-  'Phoenix',
-  'Philadelphia',
   'MSL005',
   "FNB36",
   "MSL001",
+  "Great Hall",
+  "Wits Theatre",
+  "Downstairs Theatre",
+  "Amphitheatre",
+  "Nunnery",
+  "Sturrock Park",
+  "Library Lawns",
+  "Law Lawns",
 ];
 
 const CreateEvent = () => {
@@ -38,7 +40,7 @@ const CreateEvent = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [status,setStatus] = useState('Creating');
+  const [status,setStatus] = useState('Creating...');
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
   useEffect(() => {
@@ -104,8 +106,27 @@ const CreateEvent = () => {
     return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
   };
 
-  
-
+  const [searchTerm,setSearchTerm]=useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  const handleOther = (e) => {
+    setSearchTerm(e.target.value);
+    setShowDropdown(true);
+  };
+  const handleSelect = (loc) => {
+    setSearchTerm(loc);
+    setFormData({ ...formData, location: loc });
+    setShowDropdown(false);
+  };
+  const handleBlur = (e) => {
+    setShowDropdown(false);
+    
+  };
+  const filteredLocations = dummyLocations.filter((loc) =>
+    loc.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   // returns:
   //       -> Invalid Date
   //      4 -> Some error
@@ -396,28 +417,44 @@ const CreateEvent = () => {
               type="text"
               name="title"
               value={formData.title}
-              onChange={handleInputChange}
+              onChange={handleOther}
               className="input input-bordered input-info w-full focus:outline-none"
               placeholder="Event Title"
               required
             />
+            <div className="relative w-full">
+              {/* Text field for input */}
+              <input
+                type="text"
+                placeholder="Search Location"
+                value={searchTerm}
+                onChange={handleOther}
+                className="input input-info w-full mb-2"
+                onFocus={() => setShowDropdown(true)} // Show dropdown when input is focused
+                onBlur={handleBlur}
+              />
 
+              {/* Dropdown options */}
+              {showDropdown && (
+                <ul className="absolute z-10 w-full bg-white border border-gray-300 max-h-40 overflow-y-auto">
+                  {filteredLocations.length > 0 ? (
+                    filteredLocations.map((loc) => (
+                      <li
+                        key={loc}
+                        className="p-2 hover:bg-blue-100 cursor-pointer"
+                        onMouseDown={() => handleSelect(loc)} // Handle selection
+                      >
+                        {loc}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="p-2 text-gray-500">No results found</li>
+                  )}
+                </ul>
+              )}
+            </div>
 
-            {/* Location Search */}
-            <select
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-              className="select select-info w-full "
-              required
-            >
-              <option value="">Select Location</option>
-              {dummyLocations.map((loc) => (
-                <option key={loc} value={loc}>
-                  {loc}
-                </option>
-              ))}
-            </select>
+            
 
             {/* Date */}
             <div className="relative w-full mb-4">
