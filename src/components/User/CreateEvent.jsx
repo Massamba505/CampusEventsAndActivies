@@ -61,6 +61,35 @@ const CreateEvent = () => {
         toast.error('Error fetching categories');
       }
     };
+    const fetchVenues = async () => {
+      try {
+        const response = await fetch(myConstant + '/api/venues/',
+          {
+            method:"GET",
+            headers:{
+              "Authorization":`Bearer ${token}`,
+              "Content-Type": "application/json"
+            }
+          });
+        if (!response.ok) {
+          throw new Error('Failed to fetch Venues');
+        }
+        while (dummyLocations.length > 0) {
+          dummyLocations.pop();
+        }
+        const data = await response.json();
+        //console.log(data);
+        for (let i=0;i<data.length;i++){
+          if (data[i].status){
+            dummyLocations.push(data[i].name);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching Venues:', error);
+        toast.error('Error fetching Venues');
+      }
+    };
+    fetchVenues();
 
     fetchCategories();
   }, [token]);
@@ -404,7 +433,7 @@ const CreateEvent = () => {
   return (
     <div className="container flex flex-col items-center justify-center">
       <h2 className="text-4xl font-semibold mb-4 text-blue-500 text-center">Create Event</h2>
-      <form onSubmit={handleSubmit} className="w-full space-y-4">
+      <form onSubmit={creator} className="w-full space-y-4">
         {/* Title */}
         <div className="sm:col-span-3">
           <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
