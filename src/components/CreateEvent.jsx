@@ -64,7 +64,35 @@ const CreateEvent = () => {
         toast.error('Error fetching categories');
       }
     };
-
+    const fetchVenues = async () => {
+      try {
+        const response = await fetch(myConstant + '/api/venues/',
+          {
+            method:"GET",
+            headers:{
+              "Authorization":`Bearer ${token}`,
+              "Content-Type": "application/json"
+            }
+          });
+        if (!response.ok) {
+          throw new Error('Failed to fetch Venues');
+        }
+        while (dummyLocations.length > 0) {
+          dummyLocations.pop();
+        }
+        const data = await response.json();
+        //console.log(data);
+        for (let i=0;i<data.length;i++){
+          if (data[i].status){
+            dummyLocations.push(data[i].name);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching Venues:', error);
+        toast.error('Error fetching Venues');
+      }
+    };
+    fetchVenues();
     fetchCategories();
   }, [token]);
 
