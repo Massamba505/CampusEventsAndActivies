@@ -15,6 +15,7 @@ const EventDetails = () => {
   const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
   const [coords,setCoords]=useState("");
+  const [busRoutes,setBusRoutes]=useState([]);
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -23,11 +24,17 @@ const EventDetails = () => {
         const data = await response.json();
         setEvent(data.data);
         //console.log(event.location);
-        //console.log(data.data.location);
+        //console.log(data.data);
         if (data.data.location){
           let out=await fetchVenue(data.data.location);
-          console.log(out);
+          //console.log(out);
           setCoords(out);
+        }
+        if (data.data["date"]){
+          let temp_date = data.data["date"].replace(/\//g, '-').split('-');
+          temp_date = temp_date.reverse().join('-');
+          //console.log(temp_date);
+          fetchBusses(temp_date,data.data.startTime,data.data.endTime);
         }
       } catch (error) {
         setError(error.message);
@@ -47,11 +54,11 @@ const EventDetails = () => {
           });
         if (!response.ok) {
           //throw new Error('Failed to fetch Venues');
-          console.log("Venue not found");
+          console.log("Not a Wits Venue");
           return where;
         }
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         if (data.location){
           return `${data.location[0]},${data.location[1]}`;
         }
@@ -59,6 +66,30 @@ const EventDetails = () => {
       } catch (error) {
         console.error('Error fetching Venues:', error);
         //toast.error('Error fetching Venues');
+      }
+    };
+    const fetchBusses = async (targetDate,start,end) => {
+      try {
+        const response = await fetch(`https://gateway.tandemworkflow.com/api/v1/bus-schedule/?date=${targetDate}&startTime=${start}&endTime=${end}`);
+        if (!response.ok) throw new Error('Failed to fetch Bus Schedule');
+        const data = await response.json();
+        //console.log(data);
+        if (data){
+          let temp=[];
+          for (let i=0;i<data.length;i++){
+            if (data[i].routeName.toString()==="Wits Juction to Education Campuse"){
+              temp.push("Wits Juction to Education Campus");
+              continue;
+            }
+            temp.push(data[i].routeName.toString());
+          }
+          //console.log(temp);
+          setBusRoutes(temp);
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
     
@@ -244,6 +275,27 @@ const EventDetails = () => {
           </div>
 
           <hr className="my-4" />
+          
+          {/* Buses */}
+          <div className="mb-6">
+            <h5 className="text-lg font-bold text-gray-800 mb-2">Available Buses</h5>
+            <div className="flex flex-wrap space-x-2">
+              {busRoutes && busRoutes.length > 0 ? (
+                busRoutes.map((cat) => (
+                  <div key={cat} style={{display:'flex', flexDirection:'column'}}>
+                  <span className="bg-gray-200 text-gray-800 py-1 px-3 rounded-full text-sm" style={{width:'fit-content'}}>
+                    {cat}
+                  </span>
+                  <span style={{height:'2px'}}></span>
+                  </div>
+                ))
+              ) : (
+                <span className="text-gray-600">No Buses available</span>
+              )}
+            </div>
+          </div>
+
+          <hr className="my-4" />
 
           {/* Event Location */}
           <div className="mb-6">
@@ -259,7 +311,7 @@ const EventDetails = () => {
               ></iframe>
             </div>
           </div>
-
+          
           {/* Ticket Section */}
           <div className="mt-6">
             <button onClick={handleTickets} className={`w-full py-3 rounded-lg text-white font-bold transition ${isPaid ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'}`}>
