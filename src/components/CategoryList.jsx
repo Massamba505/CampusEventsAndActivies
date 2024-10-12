@@ -1,83 +1,66 @@
-import { Link } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
-import { myConstant } from '../const/const';
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
-import "../components/categoryList.css"
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import CategoryList from '../components/CategoryList';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-const CategoryList = () => {
-  const [categories, setCategories] = useState([]);
-  
-  const token = JSON.parse(localStorage.getItem('events-app'))["token"];
+// Mock fetch response for categories
+global.fetch = vi.fn(() =>
+  Promise.resolve({
+    ok: true,
+    json: () =>
+      Promise.resolve([
+        { _id: '1', name: 'Music', image: '/images/music.png' },
+        { _id: '2', name: 'Sports', image: '/images/sports.png' },
+        { _id: '3', name: 'Tech', image: '/images/tech.png' },
+      ]),
+  })
+);
 
-  // Fetch categories from the API
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(myConstant + '/api/category',{
-          method:"GET",
-          headers:{
-            "Authorization":`Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        });
-        if (!response.ok) {
-          throw new Error('Failed to fetch categories');
-        }
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+describe('CategoryList Component', () => {
+  it('renders categories from the API', async () => {
+    // Render the component inside Router for Link functionality
+    render(
+      <Router>
+        <CategoryList />
+      </Router>
+    );
 
-    fetchCategories();
-  }, [token]);
-  
-  const sliderRef = useRef(null);
+    // Wait for categories to be fetched and rendered
+    const musicCategory = await screen.findByText('Music');
+    const sportsCategory = await screen.findByText('Sports');
+    const techCategory = await screen.findByText('Tech');
 
-  const slideLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -220, behavior: 'smooth' }); // Adjust the scroll amount as needed
-    }
-  };
+    // Check if the categories are in the document
+    expect(musicCategory).toBeInTheDocument();
+    expect(sportsCategory).toBeInTheDocument();
+    expect(techCategory).toBeInTheDocument();
 
-  const slideRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: 220, behavior: 'smooth' }); // Adjust the scroll amount as needed
-    }
-  };
+    // Check if images are rendered correctly
+    const musicImage = screen.getByAltText('Music');
+    expect(musicImage).toHaveAttribute('src', '/images/music.png');
+  });
 
-  return (
-    <div className='relative w-full flex items-center justify-start'>
-      <MdChevronLeft className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' onClick={slideLeft} size={40} />
-      <div
-        ref={sliderRef}
-        id='category-slider'
-        className='flex items-center flex-1 sm:justify-center overflow-x-auto scroll whitespace-nowrap scroll-smooth scrollbar-hide'
-      >
-        <ul className="flex justify-start items-center p-0 gap-2">
-          {/* Category Buttons */}
-          {categories.map((category) => (
-            <li key={category._id} className="flex-shrink-0 border rounded-lg border-gray-500 shadow-md mx-2">
-              <Link
-                to={`/search?query=${category.name}`}
-                className="flex items-center space-x-2 text-black text-decoration-none font-bold py-1 px-4 rounded-lg hover:scale-105 hover:bg-gray-100 transition-all duration-200"
-              >
-                <img 
-                  src={category.image} 
-                  alt={category.name} 
-                  className="w-8 h-8 md:w-12 md:h-12 rounded mr-2"
-                />
-                <span>{category.name}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <MdChevronRight className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' onClick={slideRight} size={40} />
-    </div>
-  );
-  
-};
+  it('slides the categories when left and right buttons are clicked', () => {
+    render(
+      <Router>
+        <CategoryList />
+      </Router>
+    );
 
-export default CategoryList;
+    const slider = screen.getByRole('list'); // The <ul> containing categories
+
+    const slideRightButton = screen.getByRole('button', { name: /MdChevronRight/i });
+    const slideLeftButton = screen.getByRole('button', { name: /MdChevronLeft/i });
+
+    // Mock scrollBy functionality for the slider
+    slider.scrollBy = vi.fn();
+
+    // Simulate right button click
+    fireEvent.click(slideRightButton);
+    expect(slider.scrollBy).toHaveBeenCalledWith({ left: 220, behavior: 'smooth' });
+
+    // Simulate left button click
+    fireEvent.click(slideLeftButton);
+    expect(slider.scrollBy).toHaveBeenCalledWith({ left: -220, behavior: 'smooth' });
+  });
+});
