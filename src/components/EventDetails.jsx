@@ -13,7 +13,8 @@ const EventDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const token = JSON.parse(localStorage.getItem('events-app'))["token"];
+  const [coords,setCoords]=useState("");
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -21,13 +22,46 @@ const EventDetails = () => {
         if (!response.ok) throw new Error('Failed to fetch event');
         const data = await response.json();
         setEvent(data.data);
+        //console.log(event.location);
+        //console.log(data.data.location);
+        if (data.data.location){
+          let out=await fetchVenue(data.data.location);
+          console.log(out);
+          setCoords(out);
+        }
       } catch (error) {
         setError(error.message);
       } finally {
         setLoading(false);
       }
     };
-
+    const fetchVenue = async (where) => {
+      try {
+        const response = await fetch(myConstant + `/api/venues/${where}`,
+          {
+            method:"GET",
+            headers:{
+              "Authorization":`Bearer ${token}`,
+              "Content-Type": "application/json"
+            }
+          });
+        if (!response.ok) {
+          //throw new Error('Failed to fetch Venues');
+          console.log("Venue not found");
+          return where;
+        }
+        const data = await response.json();
+        console.log(data);
+        if (data.location){
+          return `${data.location[0]},${data.location[1]}`;
+        }
+        
+      } catch (error) {
+        console.error('Error fetching Venues:', error);
+        //toast.error('Error fetching Venues');
+      }
+    };
+    
     fetchEvent();
   }, [eventId]);
 
@@ -51,8 +85,9 @@ const EventDetails = () => {
     currentAttendees,
     discount = 0,
     profile_picture,
-    email
+    email,
   } = event;
+  
   // Initialize Stripe
   const stripePromise = loadStripe("pk_test_51Q5JRhGx52yvRFk8wYiDUQ0qC2bWSul1gvALpu09WQBTsiJxW3l4NaRq5puPjoJbCpCELOBTa23B3QMp2LKxVAyC00eoeGmm9O");
   const headerImage = images && images.length > 0 ? images[0] : 'https://via.placeholder.com/350x150';
@@ -218,7 +253,7 @@ const EventDetails = () => {
                 width="100%"
                 height="100%"
                 className="rounded-lg"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`}
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(coords)}&output=embed`}
                 allowFullScreen
                 title="Event Location"
               ></iframe>

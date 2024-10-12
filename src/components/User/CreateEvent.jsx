@@ -143,7 +143,7 @@ const CreateEvent = () => {
   };
   const handleSelect = (loc) => {
     setSearchTerm(loc);
-    setFormData({ ...formData, location: loc });
+    //setFormData({ ...formData, location: loc });
     setShowDropdown(false);
   };
   const handleBlur = (e) => {
@@ -169,7 +169,7 @@ const CreateEvent = () => {
       const date = formatDate(formData.date);
       formDataObj.append('title', formData.title);
       formDataObj.append('description', formData.description);
-      formDataObj.append('location', formData.location);
+      formDataObj.append('location', searchTerm);
       formDataObj.append('date', date);
       formDataObj.append('startTime', formData.start_time);
       formDataObj.append('endTime', formData.end_time);
@@ -197,7 +197,7 @@ const CreateEvent = () => {
       }
       const data1 = await response1.json();
       for (let i=0;i<data1.length;i++){
-        if (formData.location==data1[i]["VENUE_NAME"]){
+        if (searchTerm==data1[i]["VENUE_NAME"]){
           if (data1[i]["VENUE_STATUS"]=="Unavailable"){
             return 1;
           }
@@ -217,7 +217,7 @@ const CreateEvent = () => {
       }
       const data2 = await response2.json();
       for (let i = 0; i < data2.length; i++){
-        if (formData.location == venueMap[data2[i]["VENUE_ID"]]) {
+        if (searchTerm == venueMap[data2[i]["VENUE_ID"]]) {
           if (formData.date == data2[i]["DATE"].split('T')[0]) {
             const convertToTime = (timeStr) => {
               const [hours, minutes, seconds = '00'] = timeStr.split(':');
@@ -267,8 +267,8 @@ const CreateEvent = () => {
         if (data3[i].isCancelled){
           continue;
         }
-        //console.log(`${formData.location}:${data3[i]["location"]}`);
-        if (formData.location == data3[i]["location"]){
+        //console.log(`${searchTerm}:${data3[i]["location"]}`);
+        if (searchTerm == data3[i]["location"]){
           //console.log("happened1");
           let temp_date = data3[i]["date"].replace(/\//g, '-').split('-');
           temp_date = temp_date.reverse().join('-');
@@ -365,7 +365,7 @@ const CreateEvent = () => {
       const date = formatDate(formData.date);
       formDataObj.append('title', formData.title);
       formDataObj.append('description', formData.description);
-      formDataObj.append('location', formData.location);
+      formDataObj.append('location', searchTerm);
       formDataObj.append('date', date);
       formDataObj.append('startTime', formData.start_time);
       formDataObj.append('endTime', formData.end_time);
