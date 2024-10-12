@@ -1,7 +1,12 @@
 import { TicketIcon, CurrencyDollarIcon,  CalendarIcon } from "@heroicons/react/24/outline";
 import { LocateIcon, TicketPercentIcon, TimerIcon } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const SmallTicketCard = ({ ticket, onCancel, onRefund }) => {
+  const handleClick=(e)=>{
+    e.preventDefault();
+    console.log(ticket.event_id.event_id);
+  };
   return (
     <div className="w-80 p-4 border border-gray-300 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:shadow-xl bg-white">
       <div className="relative mb-2">
@@ -15,8 +20,11 @@ const SmallTicketCard = ({ ticket, onCancel, onRefund }) => {
         </div>
       </div>
       <div className="p-2">
-        <h2 className="text-lg text-blue-600 font-semibold mb-2">{ticket.event_id?.title}</h2>
-        
+        <div style={{display:'flex'}}>
+        <Link to={`/events/${ticket.event_id.event_id}`} style={{width:'fit-content'}}>
+        <h2 className="text-lg text-blue-600 font-semibold mb-2" >{ticket.event_id?.title}</h2>
+        </Link>
+        </div>
         <div className="flex items-center space-x-1 mb-1">
           <CalendarIcon className="h-5 w-5 text-gray-600" />
           <small className="text-xs text-gray-600"><strong>Event Date:</strong> {ticket.event_id.date}</small>
