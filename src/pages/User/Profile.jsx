@@ -28,7 +28,7 @@ function Profile() {
         {/* Side Navigation Bar */}
         <Navbar activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
         {/* Main component based on selected navigation from nav bar */}
-        <main className="w-10/12 border rounded-lg p-4">
+        <main className="w-10/12 border rounded-lg">
           {components[activeIndex]} {/* Render the selected component */}
         </main>
       </div>

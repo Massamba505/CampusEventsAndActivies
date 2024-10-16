@@ -83,8 +83,9 @@ const MyTickets = () => {
 
   return (
     <div className="my-tickets">
-      <h2 className="text-3xl font-semibold mb-4 text-center">My Tickets</h2>
-      <div className="flex flex-wrap justify-center sm:justify-start sm:flex-row gap-4">
+      <h1 className="text-3xl text-center text-blue-500 font-bold mb-4">My Tickets</h1>
+
+      <div className="container flex items-center flex-col sm:flex-row sm:justify-start flex-wrap gap-4">
         {tickets.length > 0 ? (
           tickets.map(ticket => (
             <TicketCard

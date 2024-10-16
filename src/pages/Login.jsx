@@ -49,7 +49,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen w-screen align-content-center">
+    <div className="h-screen w-screen p-2 align-content-center">
       <div className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-lg lg:max-w-7xl">
         <div
           className="hidden lg:block lg:w-10/12 bg-cover"
@@ -106,7 +106,7 @@ const Login = () => {
                 Login
               </button>
             </div>
-            <div className="flex justify-center m-4 gap-1">
+            <div className="flex text-sm sm:text-lg justify-center m-4 gap-1">
               Not registered?{" "}
               <Link to={"/signup"} className="text-blue-500">
                 {" "}

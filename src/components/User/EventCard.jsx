@@ -2,7 +2,7 @@ import { useState } from 'react';
 import truncateString from '../../utils/truncate';
 import EditEventModal from './EditModal';
 import DeleteEvent from './DeleteEvent';
-import { XIcon } from 'lucide-react';
+import { UserIcon, XIcon } from 'lucide-react';
 
 const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
   const {
@@ -47,8 +47,8 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
 
   return (
     <div className='relative text-decoration-none bg-white'>
-    <div className="relative rounded-lg w-80 border p-2 transition-transform transform hover:bg-gray-100">
-      {/* <XIcon className='absolute z-10 right-1/2 text-red-500 w-full h-full'/> */}
+    <div className="relative rounded-lg sm:w-80 border p-2 transition-transform transform hover:bg-gray-100">
+      {/* <XIcon size={250} className='absolute z-10 left-3 text-red-500'/> */}
       <div className="flex flex-col h-full items-start space-y-4">
         {/* Image Section */}
         <div className='relative flex justify-center w-full'>
@@ -74,7 +74,7 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
   
           {/* Organizer */}
           <div className="flex mt-1 items-center space-x-2">
-            <OrganizerIcon className="h-4 w-4 text-gray-500" />
+          <UserIcon className="h-4 w-4 text-gray-500" />
             <small className="text-sm text-gray-500">{eventAuthor}</small>
           </div>
   
@@ -131,10 +131,10 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
           {
             !isCancelled?(
               <div className="mt-3 w-full flex space-x-2">
-                <button onClick={()=>{handleEditClick(event_id)}} className="self-start inline-flex justify-center text-xl w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-xl shadow-md transition duration-200">
+                <button onClick={()=>{handleEditClick(event_id)}} className="self-start inline-flex justify-center text-base sm:text-xl w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-xl shadow-md transition duration-200">
                   Edit
                 </button>
-                <button onClick={()=>{setModalVisibleD(true)}} className="self-start inline-flex justify-center text-xl w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl shadow-md transition duration-200">
+                <button onClick={()=>{setModalVisibleD(true)}} className="self-start inline-flex justify-center sm:text-xl w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl shadow-md transition duration-200">
                   Cancel Event
                 </button>
               </div>

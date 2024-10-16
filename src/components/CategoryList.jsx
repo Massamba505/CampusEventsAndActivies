@@ -55,17 +55,17 @@ const CategoryList = () => {
         id='category-slider'
         className='flex items-center flex-1 sm:justify-center overflow-x-auto scroll whitespace-nowrap scroll-smooth scrollbar-hide'
       >
-        <ul className="flex justify-start items-center p-0 gap-2">
+        <ul className="flex p-0 mb-0 px-3 justify-start items-center gap-2">
           {/* Category Buttons */}
           {categories.map((category) => (
-            <li key={category._id} className="flex-shrink-0 border rounded-lg border-gray-500 shadow-md mx-2">
+            <li key={category._id} className="flex-shrink-0 text-sm sm:text-base border rounded-lg border-gray-500 shadow-md">
               <Link
                 to={`/search?query=${category.name}`}
-                className="flex items-center space-x-2 text-black text-decoration-none font-bold py-1 px-4 rounded-lg hover:scale-105 hover:bg-gray-100 transition-all duration-200"
+                className="flex items-center sm:space-x-3 text-black text-decoration-none font-bold py-1 px-4 rounded-lg hover:scale-105 hover:bg-gray-100 transition-all duration-200"
               >
                 <img 
                   src={category.image} 
-                  alt={category.name} 
+                  alt={category.name}
                   className="w-8 h-8 md:w-12 md:h-12 rounded mr-2"
                 />
                 <span>{category.name}</span>

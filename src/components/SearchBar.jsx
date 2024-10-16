@@ -16,12 +16,12 @@ function SearchBar({ handleSearch }) {
 
   return (
     <div className="flex items-center justify-center my-3">
-      <form onSubmit={onSubmit} className="flex w-full justify-center">
+      <form onSubmit={onSubmit} className="flex text-sm sm:text-lg w-full justify-center">
         {/* Input Field */}
         <input
           id="q"
           name="q"
-          className="inline rounded-md sm:text-xl sm:w-2/5 border p-2 rounded-r-none bg-white leading-5 placeholder-gray-500 focus:placeholder-gray-400 focus:outline-none"
+          className="inline rounded-md sm:text-xl sm:w-2/5 border p-2 rounded-r-none bg-white leading-5"
           placeholder="Keyword"
           type="search"
           autoFocus

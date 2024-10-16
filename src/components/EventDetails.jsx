@@ -6,6 +6,7 @@ import { myConstant } from '../const/const';
 import Navbar from './Navbar';
 import { loadStripe } from '@stripe/stripe-js';
 import toast from 'react-hot-toast';
+import { UserIcon } from 'lucide-react';
 
 const EventDetails = () => {
   const { eventId } = useParams(); // Get the eventId from the route parameters
@@ -175,7 +176,7 @@ const EventDetails = () => {
       <div className="container mx-auto">
         {/* Header Image */}
         <div className="relative mb-4">
-          <img src={headerImage} alt={title} className="w-full rounded-lg shadow-md h-96 object-cover" />
+          <img src={headerImage} alt={title} className="w-full rounded-lg shadow-md h-40 sm:h-72 object-cover" />
           <h1 className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 px-4 py-2 rounded-lg text-2xl font-bold">
             {title}
           </h1>
@@ -197,12 +198,12 @@ const EventDetails = () => {
                 </svg>
                 <small className="text-xs font-semibold text-gray-500">{startTime} - {endTime}</small>
               </div>
-              <div className="flex items-center space-x-1">
+              {/* <div className="flex items-center space-x-1">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.6} stroke="currentColor" className="h-5 w-5 text-gray-500 m-0 p-0">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                 </svg>
-                <small className="text-xs font-semibold text-gray-500">Organizer: {eventAuthor}</small>
-              </div>
+                <small className="text-xs font-semibold text-gray-500">{eventAuthor}</small>
+              </div> */}
               <div className="flex items-center mt-1 space-x-1">
                 <LocationIcon className="h-4 w-4 text-gray-500" />
                 <small className="text-xs font-semibold text-gray-500">{location}</small>
@@ -225,9 +226,12 @@ const EventDetails = () => {
           {/* Organizer Info */}
           <div className="flex items-center mb-6">
             <img src={organizerImage} alt="Organizer" className="w-16 h-16 rounded-full object-cover mr-4" />
-            <div>
-              <h5 className="text-lg font-semibold">Organizer: {eventAuthor || 'Anonymous'}</h5>
-              <p className="text-gray-600"><FaEnvelope className="inline-block mr-1" /> {email || 'No email available'}</p>
+            <div className='flex flex-col'>
+              <div className='flex gap-1'>
+                <UserIcon className="h-8 w-5 text-gray-500" />
+                <h5 className="text-lg font-semibold">{eventAuthor || 'Anonymous'}</h5>
+              </div>
+              <p className="text-gray-600 pl-1"><FaEnvelope className="inline-block mr-1" /> {email || 'No email available'}</p>
             </div>
           </div>
 
@@ -268,7 +272,7 @@ const EventDetails = () => {
           {/* Carousel for additional images */}
           <div className="container mx-auto my-6">
             <h5 className="text-xl font-bold text-gray-800 mb-2">Event Highlights</h5>
-            <p className="text-gray-600 text-m mb-5">
+            <p className="text-gray-600 text-sm sm:text-base sm:mb-5">
               Explore some memorable moments and glimpses of {"what's"} to come at this event. Take a look at our event highlights through these featured images.
             </p>
             <ImageCarousel images={carouselImages} />

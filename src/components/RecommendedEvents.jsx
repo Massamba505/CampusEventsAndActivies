@@ -75,7 +75,7 @@ const RecommendedEvents = () => {
 
   return (
     <div className="flex flex-col mb-3 mt-4 px-2">
-      <h4 className="text-decoration-underline underline-offset-4 mb-2 sm:ml-11">
+      <h4 className="text-decoration-underline underline-offset-4 ml-5 sm:ml-4">
         Recommended Events
       </h4>
       <div className="relative w-full flex items-center justify-start">
@@ -95,10 +95,10 @@ const RecommendedEvents = () => {
                 <ShortEventCard key={event.event_id || index} event={event} />
               ))
             ) : (
-              <p>Go to your profile and enter your preferences.</p>
+              <p className='px-2'>Go to your profile and enter your preferences.</p>
             )
           ) : (
-            <p>Go to your profile and enter your preferences.</p>
+            <pp className='px-2'>Go to your profile and enter your preferences.</pp>
           )}
         </div>
         <MdChevronRight

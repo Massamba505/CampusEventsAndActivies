@@ -186,7 +186,7 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
     <Dialog open={modalVisible} onClose={() => setModalVisible(false)} className="relative z-10">
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
       <div className="fixed inset-0 flex items-center justify-center">
-        <Dialog.Panel className="relative bg-white rounded-lg shadow-lg w-9/12 max-w-lg max-h-screen overflow-y-auto mt-4">
+        <Dialog.Panel className="relative bg-white rounded-lg shadow-lg w-full sm:w-9/12 max-w-lg max-h-screen overflow-y-auto mt-20 sm:mt-4">
           <div className="p-6">
             <h2 className="text-4xl font-semibold mb-4 text-blue-500 text-center">Edit Event</h2>
             <div className="space-y-4">

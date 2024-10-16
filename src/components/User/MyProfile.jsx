@@ -36,7 +36,6 @@ export default function MyProfile() {
         setInitialData(userData);
         setFormData(userData);
         setPhotoPreview(userData.photoUrl); // Set the existing photo URL
-        console.log(userData);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -193,7 +192,6 @@ export default function MyProfile() {
         },
         body: JSON.stringify({ preferred_category: preferences}),
       });
-      console.log(preferences,":fff");
       if (!response.ok) {
         throw new Error('Error updating preferences');
       }
@@ -205,12 +203,10 @@ export default function MyProfile() {
 
   return (
     <>
-      <form className="container relative" onSubmit={handleSubmit}>
+      <form className="sm:container p-2 sm:p-4 relative" onSubmit={handleSubmit}>
         <ChangePassword modalVisible = {modalVisible} setModalVisible={setModalVisible}/>
-        <div className="space-y-12">
-          <h2 className="text-4xl font-semibold leading-7 text-blue-500 text-center">
-            My Profile
-          </h2>
+        <div className="space-y-6 sm:space-y-12">
+          <h1 className="text-3xl text-center text-blue-500 font-bold mb-4">My Profile</h1>
           
 
           {/* Personal Information */}
@@ -299,7 +295,7 @@ export default function MyProfile() {
                     type="button"
                     className="block w-40 rounded-md border-0 py-1.5 bg-gray-200 text-gray-900 shadow-sm
                       ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
-                      focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      focus:ring-indigo-600"
                     onClick={() => setModalVisible(true)} // Open modal
                   >
                     Change password
@@ -345,7 +341,7 @@ export default function MyProfile() {
                 >
                   Photo
                 </label>
-                <div className="mt-2 flex justify-center border border-dashed border-gray-900/25 rounded-full h-48 w-48 overflow-hidden">
+                <div className="mt-2 flex justify-center border border-dashed border-gray-900/25 rounded-full w-32 h-32 sm:w-48 sm:h-48 overflow-hidden">
                   <label
                     htmlFor="file-upload-photo"
                     className="relative flex flex-col justify-center items-center w-full h-full bg-cover bg-center rounded-md cursor-pointer hover:text-white font-semibold hover:bg-indigo-600 text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
@@ -381,14 +377,14 @@ export default function MyProfile() {
           {/* Category Selection */}
           <div className="border-b pb-12">
             <p className="font-semibold text-gray-900">Preferences:</p>
-            <div className="flex flex-wrap gap-2 space-x-2">
+            <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
-                <label onClick={() => handlePreferenceChange(category._id)} key={category._id} className={`flex items-center text-black text-decoration-none font-bold py-1 px-4 border ${preferences.includes(category._id)?" bg-blue-500 ":"hover:bg-gray-200"} rounded-lg hover:scale-105  transition-all duration-200 cursor-pointer`}>
+                <label onClick={() => handlePreferenceChange(category._id)} key={category._id} className={`flex items-center text-black text-decoration-none font-bold py-1 px-2 space-x-1 sm:space-x-4 border ${preferences.includes(category._id)?" bg-blue-500 ":"hover:bg-gray-200"} rounded-lg hover:scale-105  transition-all duration-200 cursor-pointer`}>
                   <img 
                     src={category.image} 
                     alt={category.name} 
-                    className="w-4 h-4 md:w-8 md:h-8 rounded"
-                  />
+                    className="w-4 h-4 md:w-
+8 md:h-8 rounded"                  />
                   <span className="text-gray-900">{category.name}</span>
                 </label>
               ))}

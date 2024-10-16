@@ -3,7 +3,6 @@ import { Spinner, Alert } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
-import TallEventCard from './TallEventCard';
 import ShortEventCard from './ShortEventCard';
 
 const UpcomingEvents = () => {
@@ -64,15 +63,15 @@ const UpcomingEvents = () => {
   };
 
   return (
-    <div className="flex flex-col mb-3 mt-4 px-2">
-      <h4 className="text-decoration-underline underline-offset-4 mb-2 sm:ml-11">
+    <div className="flex flex-col mb-3 mt-2 px-2">
+      <h4 className="text-decoration-underline underline-offset-4 mb-2 ml-2 sm:ml-4">
         Upcoming Events
       </h4>
       <div className="relative w-full flex items-center justify-start">
         <MdChevronLeft
           className="opacity-50 hidden sm:block mb-10 cursor-pointer hover:opacity-100"
           onClick={slideLeft}
-          size={50} // Increased size
+          size={50}
         />
         <div
           ref={sliderRef}

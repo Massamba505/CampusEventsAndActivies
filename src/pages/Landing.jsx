@@ -2,55 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle } from "react-feather"
 import Modal from "../components/Modal"
 import Logo from "../assets/logo.jpeg"
-
 import { useState } from "react";
-// import EventCard from "../components/EventCard";
-// import { myConstant } from "../const/const";
 import UpcomingEvents from "../components/UpcomingEvents";
 
-  // const events = [
-  //   {
-  //     title: "Annual Marketing Conference",
-  //     description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
-  //     organizer: "Massamba Maphalala",
-  //     date: "June 15-17, 2023",
-  //     location: "New York City, NY",
-  //     image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-  //   },
-  //   {
-  //     title: "Annual Marketing Conference",
-  //     description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
-  //     organizer: "Massamba Maphalala",
-  //     date: "June 15-17, 2023",
-  //     location: "New York City, NY",
-  //     image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-  //   },
-  //   {
-  //     title: "Annual Marketing Conference",
-  //     description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
-  //     organizer: "Massamba Maphalala",
-  //     date: "June 15-17, 2023",
-  //     location: "New York City, NY",
-  //     image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-  //   },
-  //   {
-  //     title: "Annual Marketing Conference",
-  //     description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
-  //     organizer: "Massamba Maphalala",
-  //     date: "June 15-17, 2023",
-  //     location: "New York City, NY",
-  //     image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-  //   },
-  //   {
-  //     title: "Annual Marketing Conference",
-  //     description: "Join us for our annual marketing conference, where industry leaders will share their insights and strategies.",
-  //     organizer: "Massamba Maphalala",
-  //     date: "June 15-17, 2023",
-  //     location: "New York City, NY",
-  //     image: "https://images.unsplash.com/photo-1498049860654-af1a5c566876?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-  //   },
-  //   // Add more events as needed
-  // ];
 
 const LandingPage = () => {
   const [open, setOpen] = useState(false);
@@ -61,18 +15,18 @@ const LandingPage = () => {
     <>
       {/* Section 1 */}
       <section className="w-full text-gray-700 bg-white border">
-        <div className="flex items-center justify-between px-6">
+        <div className="flex items-center justify-between px-2 sm:px-6">
           <div className="relative flex flex-col">
             <a href="#_" className="flex items-center">
             <img className="w-28 h-24" src={Logo}/>
             </a>
           </div>
 
-          <div className="inline-flex items-center ml-5 space-x-6 lg:justify-end">
-            <Link to={"/login"} className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-black whitespace-no-wrap bg-white border border-transparent rounded-md shadow-sm hover:bg-gray-300 text-decoration-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+          <div className="inline-flex items-center ml-5 space-x-2 sm:space-x-6 justify-end">
+            <Link to={"/login"} className=" px-2 py-2 inline-flex items-center justify-center lg:px-4 text-base font-medium leading-6 text-black whitespace-no-wrap bg-white border border-transparent rounded-md shadow-sm hover:bg-gray-300 text-decoration-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
               <button>Login</button>
             </Link>
-            <Link to={"/signup"} className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-500 text-decoration-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+            <Link to={"/signup"} className="inline-flex px-2 py-2 text-sm items-center justify-center sm:px-4 sm:py-2 sm:text-base font-medium leading-6 text-white whitespace-no-wrap bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-500 text-decoration-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
               <button>Get Started</button>
             </Link>
           </div>

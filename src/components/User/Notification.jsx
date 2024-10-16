@@ -110,21 +110,21 @@ const Notification = () => {
 
             <div className="flex flex-col mt-11 items-center justify-center gap-4">
                 {notifications.map((notification) => (
-                <div key={notification.event_id.event_id} className="bg-white p-4 w-full sm:w-6/12 rounded-lg shadow">
+                <div key={notification.event_id.event_id} className="bg-white p-4 w-full sm:w-8/12 rounded-lg shadow">
                     <h2 className="font-semibold text-blue-600">{notification.event_id.title}</h2>
                     <p className="text-gray-700 text-sm md:text-base">{notification.message}</p>
-                    <div className="flex justify-between">
-                    <Link to={`/events/${notification.event_id.event_id}`}>
-                        <button className="mt-2 text-sm sm:text-base bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
-                        View Event
-                        </button>
-                    </Link>
-                    <button 
-                        onClick={() => deleteNotification(notification._id)} 
-                        className="mt-2 text-sm sm:text-base bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200"
-                    >
-                        Delete
-                    </button>
+                    <div className="flex justify-center gap-2 sm:gap-4">
+                      <Link to={`/events/${notification.event_id.event_id}`}>
+                          <button className="mt-2 text-sm sm:text-base bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+                          View Event
+                          </button>
+                      </Link>
+                      <button 
+                          onClick={() => deleteNotification(notification._id)} 
+                          className="mt-2 text-sm sm:text-base bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200"
+                      >
+                          Delete
+                      </button>
                     </div>
                 </div>
                 ))}

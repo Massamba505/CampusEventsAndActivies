@@ -8,7 +8,7 @@ const SmallTicketCard = ({ ticket, onCancel, onRefund }) => {
     console.log(ticket.event_id.event_id);
   };
   return (
-    <div className="w-80 p-4 border border-gray-300 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:shadow-xl bg-white">
+    <div className="sm:w-80 p-4 border border-gray-300 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:shadow-xl bg-white">
       <div className="relative mb-2">
         <img
           src={ticket.qr_code}
