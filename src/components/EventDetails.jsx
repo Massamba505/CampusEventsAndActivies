@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import { loadStripe } from '@stripe/stripe-js';
 import toast from 'react-hot-toast';
 import { UserIcon } from 'lucide-react';
+import { Spinner } from 'react-bootstrap';
 
 const EventDetails = () => {
   const { eventId } = useParams(); // Get the eventId from the route parameters
@@ -97,9 +98,35 @@ const EventDetails = () => {
     fetchEvent();
   }, [eventId]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!event) return <p>No event found</p>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="alert alert-danger" role="alert">
+          Error: {error}
+        </div>
+      </div>
+    );
+  }
+
+  if (!event) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="alert alert-warning" role="alert">
+          Event Details not found
+        </div>
+      </div>
+    );
+  }
 
   const {
     title,
