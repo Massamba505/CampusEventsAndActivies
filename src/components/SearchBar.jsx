@@ -24,7 +24,6 @@ function SearchBar({ handleSearch }) {
           className="inline rounded-md sm:text-xl sm:w-2/5 border p-2 rounded-r-none bg-white leading-5"
           placeholder="Keyword"
           type="search"
-          autoFocus
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
