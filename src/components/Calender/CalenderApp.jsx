@@ -6,7 +6,7 @@ function CalenderApp() {
   return (
     <>
       <Navbar/>
-      <div className="p-4" style={{ height: "75vh" }}>
+      <div className="sm:p-4 p-1" style={{ height: "75vh" }}>
         <Customize />
       </div>
     </>
