@@ -14,11 +14,14 @@ const Events = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch(myConstant + "/api/events/popular");
+        const response = await fetch(myConstant + "/api/events/");
         const data = await response.json();
 
         if (response.ok) {
-          setEvents(data.data);
+          const filteredEvents = data.data.filter(
+            (event) => event.status === 0
+          );
+          setEvents(filteredEvents);
           console.log(data.data);
         } else {
           toast.error(`Error: ${data.error}`);

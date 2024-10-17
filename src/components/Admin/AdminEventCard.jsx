@@ -1,6 +1,6 @@
 import { useState } from "react";
 import truncateString from "../../utils/truncate";
-import EditEventModal from "../User/EditModal";
+import EditEventStatus from "./EditEventStatus";
 import DeleteEvent from "../User/DeleteEvent";
 import { XIcon } from "lucide-react";
 
@@ -22,33 +22,46 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
     isCancelled = false,
     discount = null,
     category = [],
+    status,
   } = event;
 
   const [modalVisible, setModalVisible] = useState(false); // Control modal visibility
-  const [modalVisibleD, setModalVisibleD] = useState(false); // Control modal visibility
-  const [eventId, setEventId] = useState(false); // Control modal visibility
+  const [modalVisibleD, setModalVisibleD] = useState(false); // Control delete modal visibility
+  const [eventId, setEventId] = useState(null); // Control event ID
 
-  // Function to handle edit button click
-  const handleEditClick = (id) => {
-    setEventId(id);
-    setModalVisible(true); // Open modal
+  // Function to handle rejecting the event
+  const handleRejectClick = async (id) => {
+    try {
+      await EditEventStatus(id, -1); // Set status to -1 (rejected)
+      //onEditEvent(); // Refresh the event status
+      alert("Event rejected successfully!");
+    } catch (error) {
+      console.error("Error rejecting event:", error);
+      alert("Error rejecting event");
+    }
   };
 
-  // Function to handle event update in modal
-  const handleUpdate = () => {
-    onEditEvent(); // Refresh event after an update
+  // Function to handle approving the event
+  const handleApproveClick = async (id) => {
+    try {
+      await EditEventStatus(id, 1); // Set status to 1 (approved)
+      //onEditEvent(); // Refresh the event status
+      alert("Event approved successfully!");
+    } catch (error) {
+      console.error("Error approving event:", error);
+      alert("Error approving event");
+    }
   };
 
   // Function to handle event deletion
   const handleDelete = () => {
-    setModalVisibleD(false);
     onDeleteEvent(event_id); // Trigger event delete
+    setModalVisibleD(false);
   };
 
   return (
     <div className="relative text-decoration-none bg-white">
       <div className="relative rounded-lg w-80 border p-2 transition-transform transform hover:bg-gray-100">
-        {/* <XIcon className='absolute z-10 right-1/2 text-red-500 w-full h-full'/> */}
         <div className="flex flex-col h-full items-start space-y-4">
           {/* Image Section */}
           <div className="relative flex justify-center w-full">
@@ -150,17 +163,13 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
             {!isCancelled ? (
               <div className="mt-3 w-full flex space-x-2">
                 <button
-                  onClick={() => {
-                    handleEditClick(event_id);
-                  }}
+                  onClick={() => handleRejectClick(event_id)}
                   className="self-start inline-flex justify-center text-xl w-full bg-red-500 hover:bg-yellow-600 text-white py-2 rounded-xl shadow-md transition duration-200"
                 >
                   Reject
                 </button>
                 <button
-                  onClick={() => {
-                    setModalVisibleD(true);
-                  }}
+                  onClick={() => handleApproveClick(event_id)}
                   className="self-start inline-flex justify-center text-xl w-full bg-green-500 hover:bg-red-600 text-white py-2 rounded-xl shadow-md transition duration-200"
                 >
                   Approve
@@ -173,21 +182,12 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
         </div>
       </div>
 
-      {/* Edit Event Modal */}
+      {/* Delete Event Modal */}
       {modalVisibleD && (
         <DeleteEvent
           modalVisible={modalVisibleD}
           setModalVisible={setModalVisibleD}
           onDeleteEvent={handleDelete}
-        />
-      )}
-      {/* Edit Event Modal */}
-      {modalVisible && (
-        <EditEventModal
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          eventId={eventId} // Pass the current event data to the modal
-          onUpdate={handleUpdate}
         />
       )}
     </div>
@@ -251,11 +251,8 @@ function LocateIcon(props) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <line x1="2" x2="5" y1="12" y2="12" />
-      <line x1="19" x2="22" y1="12" y2="12" />
-      <line x1="12" x2="12" y1="2" y2="5" />
-      <line x1="12" x2="12" y1="19" y2="22" />
-      <circle cx="12" cy="12" r="7" />
+      <circle cx="12" cy="10" r="3" />
+      <path d="M12 2C6.5 2 2 6.5 2 12v8c0 1.5 1.5 2 2 2h16c1.5 0 2-.5 2-2v-8c0-5.5-4.5-10-10-10z" />
     </svg>
   );
 }
@@ -274,8 +271,9 @@ function CategoryIcon(props) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-      <path d="M16 3h4v4M8 3h8v4M2 3h4v4" />
+      <rect width="6" height="6" x="3" y="3" rx="2" />
+      <rect width="6" height="6" x="15" y="3" rx="2" />
+      <rect width="6" height="6" x="9" y="15" rx="2" />
     </svg>
   );
 }
@@ -294,8 +292,7 @@ function AttendeesIcon(props) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <circle cx="12" cy="7" r="4" />
-      <path d="M5.5 20.5a8.38 8.38 0 0 1 13 0" />
+      <path d="M12 20v-6M6 20v-6M18 20v-6M2 10h20" />
     </svg>
   );
 }
@@ -314,8 +311,8 @@ function FoodIcon(props) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M3 12h18M3 6h18M5 6v16M19 6v16" />
-      <path d="M3 6h18v4M8 6v12" />
+      <path d="M12 7v10" />
+      <path d="M5 12h14" />
     </svg>
   );
 }
@@ -334,8 +331,8 @@ function TicketIcon(props) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <rect x="3" y="8" width="18" height="8" rx="2" ry="2" />
-      <path d="M8 12h2M14 12h2M4 12h.01M20 12h.01" />
+      <path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a3 3 0 0 0 0 6v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a3 3 0 0 0 0-6z" />
+      <path d="M8 10l4 4M12 10l4 4" />
     </svg>
   );
 }
