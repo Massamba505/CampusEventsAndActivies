@@ -62,7 +62,7 @@ The **Events and Activities App** is designed to coordinate and manage all campu
 
 - **Frontend**: Flutter for building a cross-platform mobile application with a responsive and modern UI.
 - **Backend**: Azure services for hosting, managing APIs, and handling databases with scalability and security.
-- **Database**: MongoDB to manage and store all event, user, and ticketing data.
+- **Database**: Azure Cosmos DB with a MongoDB API to manage and store all event, user, and ticketing data.
 - **Hosting**: Azure App Services for reliable and scalable deployment.
 - **Security**: Azure Active Directory for secure authentication and authorization mechanisms.
 
@@ -75,7 +75,7 @@ The **Events and Activities App** is designed to coordinate and manage all campu
 
 2. **Install Dependencies**:
     ```bash
-    cd your-react-app
+    cd CampusEventsAndActivies
     npm install
     ```
 
