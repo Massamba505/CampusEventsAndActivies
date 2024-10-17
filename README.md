@@ -70,7 +70,7 @@ The **Events and Activities App** is designed to coordinate and manage all campu
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/yourusername/your-react-app.git
+    git clone https://github.com/Massamba505/CampusEventsAndActivies.git
     ```
 
 2. **Install Dependencies**:
@@ -100,7 +100,3 @@ The **Events and Activities App** is designed to coordinate and manage all campu
 - Kananelo Rampele: [Kanizo11](https://github.com/Kanizo11)
 - Mukhunyeledzi Muthuphei: [Toby-Query](https://github.com/Toby-Query)
 - Mukhathutsheli Ndou: [mucthecoder](https://github.com/mucthecoder)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
