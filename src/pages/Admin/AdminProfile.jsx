@@ -7,6 +7,9 @@ import Events from "../../components/Admin/Events";
 import MyTickets from "../../components/User/MyTickets";
 import Logout from "../../components/User/Logout";
 import CreateEvent from "../../components/User/CreateEvent";
+import UserAccount from "../../components/Admin/TrustedAccounts.jsx";
+import MyEvents from "../../components/User/MyEvents.jsx";
+import CategoriesManagement from "../CategoryManagement.jsx";
 
 function Profile() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -15,12 +18,13 @@ function Profile() {
   const components = [
     // <Dashboard key={0} />,
     <MyProfile key={1} />,
-    <Events key={2} />,
-    //CreatedEvents
-    //TrustedAccounts
-    <CreateEvent key={3} />,
-    <MyTickets key={4} />,
-    <Logout setActiveIndex={setActiveIndex} key={5} />,
+    <MyEvents key={2} />,
+    <CreateEvent key={4} />,
+    <MyTickets key={5} />,
+    <UserAccount key={3} />,
+    <Events key={7} />,
+    <CategoriesManagement key={8} />,
+    <Logout setActiveIndex={setActiveIndex} key={6} />,
   ];
 
   return (
@@ -30,7 +34,7 @@ function Profile() {
         {/* Side Navigation Bar */}
         <Navbar activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
         {/* Main component based on selected navigation from nav bar */}
-        <main className="w-10/12 border rounded-lg p-4">
+        <main className="w-10/12 border rounded-lg p-2 sm:p-4">
           {components[activeIndex]} {/* Render the selected component */}
         </main>
       </div>

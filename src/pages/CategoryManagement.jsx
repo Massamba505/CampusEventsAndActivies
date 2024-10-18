@@ -133,21 +133,21 @@ const CategoriesManagement = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-4xl font-semibold mb-4">Categories Management</h1>
+    <div className="p-1">
+      <h1 className="text-3xl text-center text-blue-500 font-bold mb-4">Category Management</h1>
       <button
         onClick={() => setModalOpen(true)}
         className="bg-blue-500 text-white p-2 rounded-lg mb-4"
       >
         Add Category
       </button>
-      <h1>Available Categories</h1>
+      <h1 className='text-2xl sm:text-4xl'>Available Categories</h1>
       <hr />
       <div className="flex mt-3 flex-wrap gap-3">
         {categories.map((category) => (
-          <div key={category._id} className="border cursor-pointer hover:scale-105 transition rounded-lg p-2 shadow-lg flex flex-col items-center w-40 h-46">
-            <img src={category.image} alt={category.name} className="w-full h-24 object-cover rounded-lg mb-2" />
-            <h2 className="font-semibold mt-2 text-sm">{category.name}</h2>
+          <div key={category._id} className="border cursor-pointer hover:scale-105 transition rounded-lg p-2 shadow-lg flex flex-col items-center w-32 sm:w-40 ">
+            <img src={category.image} alt={category.name} className="w-full h-16 sm:h-24 object-cover rounded-lg mb-2" />
+            <h2 className="font-semibold mt-2 text-xs sm:text-sm">{category.name}</h2>
             <div className="flex space-x-2 mt-1">
               <button
                 onClick={() => handleEditClick(category)}

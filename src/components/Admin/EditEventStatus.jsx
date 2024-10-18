@@ -1,41 +1,25 @@
 // EditEventStatus.js
 import { myConstant } from "../../const/const";
 
-export const fetchEventById = async (eventId) => {
-  try {
-    const response = await fetch(`${myConstant}/api/events/${eventId}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch event data");
-    }
-    const data = await response.json();
-    return data.data; // Assuming the event data is in `data.data`
-  } catch (error) {
-    console.error("Error fetching event:", error);
-    throw error;
-  }
-};
-
 export const EditEventStatus = async (eventId, newStatus) => {
   try {
-    // First, fetch the event by ID
-    const eventData = await fetchEventById(eventId);
+    // Validate the new status
+    const validStatuses = ['pending', 'rejected', 'approved'];
+    if (!validStatuses.includes(newStatus)) {
+      throw new Error("Invalid status provided.");
+    }
 
-    // Create a copy of the event data and update the status
-    const updatedEvent = {
-      ...eventData,
-      status: newStatus, // Only update the status
-    };
+    // Create the body with the new status
+    const body = { status: newStatus };
 
     // Send the updated event data back to the server using PUT
-    const response = await fetch(`${myConstant}/api/events/update/${eventId}`, {
+    const response = await fetch(`${myConstant}/api/events/${eventId}/status`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("events-app"))["token"]
-        }`,
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("events-app"))["token"]}`,
       },
-      body: JSON.stringify(updatedEvent),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
