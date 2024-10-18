@@ -100,6 +100,25 @@ const MapComponent = ({ details, location }) => {
         }
         return null;
       })}
+
+      {pois.map(me => {
+        const poi = me.type == "Restaurant"? me:null;
+        if (poi) {
+          const { latitude, longitude } = poi.coordinates;
+          return (
+            <Marker
+              key={poi.id}
+              position={[latitude, longitude]}
+              icon={customIcon(poi.type)}
+            >
+              <Popup>
+                {`Restaurant: ${poi.name}`} <br />
+              </Popup>
+            </Marker>
+          );
+        }
+        return null;
+      })}
       
     </MapContainer>
   );
