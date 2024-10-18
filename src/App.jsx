@@ -12,7 +12,6 @@ import Error404 from "./components/Error404.jsx";
 import ForgotPassword from "./pages/FogotPassword/ForgotPassword.jsx";
 import EnterCode from "./pages/FogotPassword/EnterCode.jsx";
 import SetNewPassword from "./pages/FogotPassword/SetNewPassword.jsx";
-import CategoriesManagement from "./pages/CategoryManagement.jsx";
 import SearchResults from "./components/SearchResults.jsx";
 import Profile from "./pages/User/Profile.jsx";
 import TicketSuccess from "./components/User/Stripe/TicketSuccess.jsx";
@@ -67,7 +66,7 @@ function App() {
         />
         <Route
           path="/profile"
-          element={authUser ? <Profile /> : <Navigate to="/login" />}
+          element={authUser ? (authUser["role"] == "user"?<Profile />:<AdminProfile/>) : <Navigate to="/login" />}
         />
         <Route
           path="/tickets/success"
@@ -80,12 +79,6 @@ function App() {
         <Route
           path="/notifications"
           element={authUser ? <Notification /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/admin/category"
-          element={
-            authUser ? <CategoriesManagement /> : <Navigate to="/login" />
-          }
         />
         <Route
           path="/admin/profile"
