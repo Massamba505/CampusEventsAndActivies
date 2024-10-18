@@ -9,13 +9,17 @@ import toast from 'react-hot-toast';
 import { UserIcon } from 'lucide-react';
 import { Spinner } from 'react-bootstrap';
 import ReportIncident from './ReportIncident';
-import { data } from 'autoprefixer';
+import MapComponent from './MapComponent';
 
 const EventDetails = () => {
-  const { eventId } = useParams(); // Get the eventId from the route parameters
+  const { eventId } = useParams();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [details, setDetails] = useState({
+    name:"",
+    capacity:0
+  });
   const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
   const [coords,setCoords]=useState("");
@@ -62,8 +66,8 @@ const EventDetails = () => {
           return where;
         }
         const data = await response.json();
-        //console.log(data);
         if (data.location){
+          setDetails({name:data.name,capacity:data.capacity});
           return `${data.location[0]},${data.location[1]}`;
         }
         
@@ -344,7 +348,7 @@ const EventDetails = () => {
           <hr className="my-4" />
 
           {/* Event Location */}
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <h5 className="text-lg font-bold text-gray-800 mb-2"><FaMapMarkerAlt className="inline-block mr-1" /> Event Location</h5>
             <div className="w-full h-64">
               <iframe
@@ -356,7 +360,8 @@ const EventDetails = () => {
                 title="Event Location"
               ></iframe>
             </div>
-          </div>
+          </div> */}
+          <MapComponent details={details} location={coords}/>
           
           {/* Ticket Section */}
           <div className="mt-6">
