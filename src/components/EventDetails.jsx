@@ -8,6 +8,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import toast from 'react-hot-toast';
 import { UserIcon } from 'lucide-react';
 import { Spinner } from 'react-bootstrap';
+import ReportIncident from './ReportIncident';
+import { data } from 'autoprefixer';
 
 const EventDetails = () => {
   const { eventId } = useParams(); // Get the eventId from the route parameters
@@ -96,7 +98,8 @@ const EventDetails = () => {
     };
     
     fetchEvent();
-  }, [eventId]);
+  }, [eventId, token]);
+  const externalToken = "eUVIYir4daJCIheDkj4p7Xwt8i5idhTRw6sSZlUTbIJtJHwgOc4xDqjubTkAPmPdoeK4cHoGXYsO15RvtR0ajiOscwuQzMoMmhCxjOlElvq0KiLVYyFzTtdKXo1EtPq1qjRdpMotdzw5VlKGO3m";
 
   if (loading) {
     return (
@@ -207,6 +210,18 @@ const EventDetails = () => {
           <h1 className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 px-4 py-2 rounded-lg text-2xl font-bold">
             {title}
           </h1>
+          <div className='absolute top-2 right-2 text-white'>
+            <ReportIncident
+                incidentDetails={{
+                  title: title,
+                  date: date,
+                  time: `${startTime} - ${endTime}`, 
+                  location: location,
+                  group: "events"
+                }}
+                token={externalToken}
+              />
+          </div>
         </div>
 
         {/* Event Details Card */}
