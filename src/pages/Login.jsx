@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { signInWithGoogle } from "../utils/auth";
 import { useAuthContext } from "../context/AuthContext.jsx";
 import { myConstant } from "../const/const.js";
@@ -8,7 +8,6 @@ import { myConstant } from "../const/const.js";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const { setAuthUser } = useAuthContext();
 
@@ -33,12 +32,12 @@ const Login = () => {
       localStorage.setItem("events-app", JSON.stringify(data)); // has the userId in database
       setAuthUser(data);
 
-      console.log(`this is ${JSON.stringify(data)}`);
-      if (data.role === "admin") {
-        navigate("/admin/profile");
-      } else {
-        navigate("/home");
-      }
+      // console.log(`this is ${JSON.stringify(data)}`);
+      // if (data.role === "admin") {
+      //   navigate("/admin/profile");
+      // } else {
+      //   navigate("/home");
+      // }
     } catch (error) {
       toast.error(error.message);
     }
