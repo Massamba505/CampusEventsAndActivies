@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import {
   CalendarDaysIcon,
   CalendarPlusIcon,
-  LayoutDashboard,
-  LogOutIcon,
   TicketsIcon,
+  LogOutIcon,
   User,
+  BookAIcon,
+  UserRoundCogIcon,
+  CalendarCogIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -22,16 +24,28 @@ const navLinks = [
     icon: User,
   },
   {
-    link: "Events",
+    link: "My Events",
     icon: CalendarDaysIcon,
   },
   {
-    link: "Trusted Accounts",
+    link: "Create Event",
     icon: CalendarPlusIcon,
   },
   {
-    link: "Admins",
+    link: "My Tickets",
     icon: TicketsIcon,
+  },
+  {
+    link: "User Managment",
+    icon: UserRoundCogIcon,
+  },
+  {
+    link: "Event Managment",
+    icon: CalendarCogIcon,
+  },
+  {
+    link: "Category Managment",
+    icon: BookAIcon,
   },
   {
     link: "Logout",
@@ -94,9 +108,9 @@ function Navbar({ activeIndex, setActiveIndex }) {
               } ${!isExpanded ? "pl-3" : ""}`}
             >
               <item.icon className="sm:w-6 w-4" />
-              <span className={!isExpanded ? "hidden" : "block"}>
+              <small className={!isExpanded ? "hidden" : "block"}>
                 {item.link}
-              </span>
+              </small>
             </div>
           </div>
         ))}

@@ -7,9 +7,10 @@ import { useAuthContext } from '../context/AuthContext';
 import { myConstant } from '../const/const';
 import { useEffect, useState } from 'react';
 import { AlarmClockIcon, BellDotIcon, CalendarDays, CircleCheckBigIcon, DotIcon } from 'lucide-react';
+import { auth } from '../firebase.config';
 
 export default function Navbar() {
-  const{setAuthUser} = useAuthContext();
+  const{authUser,setAuthUser} = useAuthContext();
   const navigate = useNavigate();
   const [pp,setPp] = useState("");
   const [read,setRead] = useState("");
@@ -60,9 +61,15 @@ export default function Navbar() {
       }
     };
 
-    fetchUserData();
+    if(!authUser.photoUrl){
+      fetchUserData();
+    }
+    else{
+      setPp(authUser.photoUrl);
+    }
+    
     fetchNotifications();
-  }, [token]);
+  }, [authUser.photoUrl, token]);
 
   const handleLogout = async() => {
     const response = await fetch(myConstant + "/api/auth/logout", {
