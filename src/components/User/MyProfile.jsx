@@ -383,8 +383,7 @@ export default function MyProfile() {
                   <img 
                     src={category.image} 
                     alt={category.name} 
-                    className="w-4 h-4 md:w-
-8 md:h-8 rounded"                  />
+                    className="w-4 h-4 sm:w-8 sm:h-8 rounded"                  />
                   <span className="text-gray-900">{category.name}</span>
                 </label>
               ))}

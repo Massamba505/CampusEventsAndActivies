@@ -1,28 +1,29 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Spinner, Alert } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { myConstant } from "../../const/const";
-import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import TallEventCard from "./AdminEventCard";
+import EditEventStatus from "./EditEventStatus";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const sliderRef = useRef(null);
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch(myConstant + "/api/events/");
+        const response = await fetch(myConstant + "/api/events/admin/pending", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("events-app"))["token"]}`,
+          },
+        });
         const data = await response.json();
 
         if (response.ok) {
-          const filteredEvents = data.data.filter(
-            (event) => event.status === 0
-          );
-          setEvents(filteredEvents);
-          console.log(data.data);
+          setEvents(data.data);
         } else {
           toast.error(`Error: ${data.error}`);
         }
@@ -36,6 +37,31 @@ const Events = () => {
 
     fetchEvents();
   }, []);
+
+  const handleRejectClick = async (id) => {
+    try {
+      await EditEventStatus(id, "rejected");
+      // setEvents((prevEvents) => prevEvents.filter(event => event.event_id !== id));
+      toast.success("Event rejected successfully!");
+    } catch (error) {
+      console.error("Error rejecting event:", error);
+      toast.error("Error rejecting event");
+    }
+  };
+
+  const handleApproveClick = async (id) => {
+    try {
+
+      const data = await EditEventStatus(id, "approved"); // Change to "accepted"
+      console.log(data);
+      setEvents((prevEvents) => prevEvents.filter(event => event.event_id !== id)); // Remove approved event
+      toast.success("Event approved successfully!");
+    } catch (error) {
+      console.error("Error approving event:", error);
+      toast.error("Error approving event");
+    }
+  };
+
   if (loading) {
     return (
       <Spinner animation="border" role="status">
@@ -48,47 +74,27 @@ const Events = () => {
     return <Alert variant="danger">{error}</Alert>;
   }
 
-  const slideLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -1000, behavior: "smooth" }); // Adjust the scroll amount as needed
-    }
-  };
-
-  const slideRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: 1000, behavior: "smooth" }); // Adjust the scroll amount as needed
-    }
-  };
-
   return (
-    <div className="flex flex-col mb-3 px-2">
-      {/* <h4 className="text-decoration-underline underline-offset-4 mb-4 ml-11">
-        Popular Events
-      </h4> */}
-      <div className="relative w-full flex items-center justify-start">
-        <MdChevronLeft
-          className="opacity-50 hidden sm:block cursor-pointer hover:opacity-100"
-          onClick={slideLeft}
-          size={40}
-        />
+    <div className="flex w-full flex-col mb-3 px-2">
+      <h1 className="text-3xl text-center text-blue-500 font-bold mb-4">Event Management</h1>
+      <div className="relative w-full flex flex-wrap items-center justify-center">
         <div
-          ref={sliderRef}
           id="events-slider"
-          className="flex items-center gap-2 flex-1 overflow-x-auto scroll whitespace-nowrap scroll-smooth scrollbar-hide"
+          className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-2"
         >
           {events.length > 0 ? (
             events.map((event, index) => (
-              <TallEventCard key={event.event_id || index} event={event} />
+              <TallEventCard 
+                key={event.event_id || index} 
+                event={event} 
+                onApprove={handleApproveClick} 
+                onReject={handleRejectClick} 
+              />
             ))
           ) : (
             <p>No popular events available</p>
           )}
         </div>
-        <MdChevronRight
-          className="opacity-50 hidden sm:block cursor-pointer hover:opacity-100"
-          onClick={slideRight}
-          size={40}
-        />
       </div>
     </div>
   );
