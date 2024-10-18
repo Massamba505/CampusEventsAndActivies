@@ -19,7 +19,6 @@ const PopularEvents = () => {
 
         if (response.ok) {
           setEvents(data.data);
-        console.log(data.data)
         } else {
           toast.error(`Error: ${data.error}`);
         }
@@ -56,7 +55,7 @@ const PopularEvents = () => {
 
   return (
     <div className="flex flex-col mb-3 px-2">
-      <h4 className='text-decoration-underline underline-offset-4 mb-4 ml-11'>Popular Events</h4>
+      <h4 className='text-decoration-underline underline-offset-4 ml-2 sm:ml-4'>Popular Events</h4>
       <div className='relative w-full flex items-center justify-start'>
         <MdChevronLeft 
           className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' 
@@ -66,7 +65,7 @@ const PopularEvents = () => {
         <div
           ref={sliderRef}
           id='events-slider'
-          className='flex items-center gap-2 flex-1 overflow-x-auto scroll whitespace-nowrap scroll-smooth scrollbar-hide'
+          className='flex items-center px-2 pt-2 gap-2 flex-1 overflow-x-auto scroll whitespace-nowrap scroll-smooth scrollbar-hide'
         >
           {events.length > 0 ? (
               events.map((event, index) => (

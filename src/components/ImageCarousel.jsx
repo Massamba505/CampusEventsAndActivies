@@ -20,9 +20,9 @@ const ImageCarousel = ({ images = [] }) => {
   };
 
   return (
-    <div className="relative w-full h-80 mb-4">
+    <div className="relative w-full h-60 sm:h-80 mb-4">
       {/* Image Carousel */}
-      <div className="relative overflow-hidden rounded-lg">
+      <div className="relative overflow-hidden top-5 sm:top-0 rounded-lg">
         <div
           className="flex transition-transform duration-700"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -32,7 +32,7 @@ const ImageCarousel = ({ images = [] }) => {
               key={index}
               src={img}
               alt={`Slide ${index + 1}`}
-              className="w-full h-80 object-cover flex-shrink-0"
+              className="w-full sm:h-80 h-52 object-cover flex-shrink-0"
               loading="lazy"
             />
           ))}
@@ -56,7 +56,7 @@ const ImageCarousel = ({ images = [] }) => {
       </button>
 
       {/* Pagination Dots */}
-      <div className="flex justify-center space-x-2 py-4 mt-2">
+      <div className="flex justify-center relative top-1 sm:-top-6 space-x-2 py-4 mt-2">
         {images.map((_, index) => (
           <button
             key={index}

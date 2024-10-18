@@ -54,8 +54,10 @@ const InprogressEvents = () => {
   };
 
   return (
+    events.length > 0 && (
     <div className="flex flex-col mb-3 px-2">
-      <h4 className='text-decoration-underline underline-offset-4 mb-4 ml-11'>In progress Events</h4>
+      <hr/>
+      <h4 className='text-decoration-underline underline-offset-4 ml-5 sm:ml-4'>In progress Events</h4>
       <div className='relative w-full flex items-center justify-start'>
         <MdChevronLeft 
           className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' 
@@ -74,7 +76,7 @@ const InprogressEvents = () => {
                 ))}
               </>
           ) : (
-            <p>There are no available in progress events.</p>
+            <p className='px-1'>There are no available in progress events.</p>
           )}
         </div>
         <MdChevronRight 
@@ -83,7 +85,9 @@ const InprogressEvents = () => {
           size={40} 
         />
       </div>
+      <hr/>
     </div>
+    )
   );
 };
 

@@ -85,10 +85,10 @@ const MyEvents = () => {
           <p>You {"haven't"} created any events yet.</p>
         </div>
       ) : (
-        <div className="flex items-center justify-center flex-col">
-          <h1 className="text-2xl text-blue-500 font-bold mb-4">My Events</h1>
+        <div className="flex items-center justify-center pt-4 flex-col">
+          <h1 className="text-3xl text-center text-blue-500 font-bold mb-4">My Events</h1>
           {events.length > 0 ? (
-            <div className="flex items-center flex-col sm:flex-row sm:justify-start flex-wrap gap-4">
+            <div className="container flex items-center flex-col sm:flex-row sm:justify-start flex-wrap gap-4">
               {events.map(event => (
                 <EventCard
                   key={event.event_id}

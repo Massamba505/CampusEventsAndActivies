@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import truncateString from '../utils/truncate';
+import { UserIcon } from 'lucide-react';
 
 const TallEventCard = ({ event = {}, onGetTickets }) => {
   const {
     event_id,
     title,
-    description,
     eventAuthor,
     date,
     startTime,
@@ -20,7 +20,6 @@ const TallEventCard = ({ event = {}, onGetTickets }) => {
     discount = 0,
     category = [],
   } = event;
-  console.log(event)
 
   return (
     <Link to={`/events/${event_id}`} className='text-decoration-none bg-white'>
@@ -51,7 +50,7 @@ const TallEventCard = ({ event = {}, onGetTickets }) => {
 
             {/* Organizer */}
             <div className="flex mt-1 items-center space-x-2">
-              <OrganizerIcon className="h-4 w-4 text-gray-500" />
+              <UserIcon className="h-4 w-4 text-gray-500" />
               <small className="text-sm text-gray-500">{eventAuthor}</small>
             </div>
 

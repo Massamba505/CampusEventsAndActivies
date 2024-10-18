@@ -18,6 +18,7 @@ const SearchResults = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
+      setLoading(true); // Set loading to true before the fetch
       try {
         const response = await fetch(myConstant + `/api/events/search?query=${query}`);
         if (!response.ok) {
@@ -30,52 +31,50 @@ const SearchResults = () => {
         toast.error(error.message);
         setError(error.message);
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading to false after fetch is complete
       }
     };
-    if(!query){
+
+    if (!query) {
       navigate("/");
+    } else {
+      fetchEvents();
     }
-    fetchEvents();
   }, [navigate, query]);
 
-  if (loading) {
-    return <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>;
-  }
-
-  function handleSearch(search){
-    navigate(`/search?query=${search}`);
-  }
-
   return (
-
     <div className="min-h-screen flex flex-col bg-white">
       <NavbarComponent />
       <CategoryList />
-      <SearchBar handleSearch = {handleSearch} />
-      <hr></hr>
+      <SearchBar handleSearch={(search) => navigate(`/search?query=${search}`)} />
+      <hr />
       <div className="w-full sm:px-10">
-        {error?(
-          <div className="mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">{`Search Results for "${query}"`}</h1>
-            <p>No events found.</p>
-          </div>
-        ):(
-        <div className="mx-auto p-4 flex items-center flex-col">
+        <div className="mx-auto p-4">
           <h1 className="text-2xl font-bold mb-4">{`Search Results for "${query}"`}</h1>
-          {events.length > 0 ? (
-            <div className="flex items-center flex-col sm:flex-row flex-wrap gap-4">
-              {events.map(event => (
-                <TallEventCard key={event.event_id} event={event} onGetTickets={() => console.log('Get tickets')} />
-              ))}
+          {loading ? (
+            <div className="flex items-center justify-center">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
             </div>
-          ) :(
-            <p>No events found.</p>
+          ) : error ? (
+            <p className="text-red-500">{error}</p>
+          ) : (
+            <div className="flex items-center flex-col">
+              {events.length > 0 ? (
+                <div className="flex items-center flex-col sm:flex-row flex-wrap gap-4">
+                  {events.map(event => (
+                    <TallEventCard key={event.event_id} event={event} onGetTickets={() => console.log('Get tickets')} />
+                  ))}
+                </div>
+              ) : (
+                <p>No events found.</p>
+              )}
+            </div>
           )}
-        </div>)}
+        </div>
       </div>
     </div>
-    
   );
 };
 
