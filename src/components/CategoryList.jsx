@@ -49,7 +49,7 @@ const CategoryList = () => {
 
   return (
     <div className='relative w-full flex items-center justify-start'>
-      <MdChevronLeft className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' onClick={slideLeft} size={40} />
+      <MdChevronLeft className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' onClick={slideLeft} size={40} data-testid="slideright" />
       <div
         ref={sliderRef}
         id='category-slider'
@@ -74,7 +74,7 @@ const CategoryList = () => {
           ))}
         </ul>
       </div>
-      <MdChevronRight className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' onClick={slideRight} size={40} />
+      <MdChevronRight className='opacity-50 hidden sm:block cursor-pointer hover:opacity-100' onClick={slideRight} size={40} data-testid="slideright"/>
     </div>
   );
   

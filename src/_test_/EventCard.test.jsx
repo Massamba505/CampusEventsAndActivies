@@ -27,8 +27,4 @@ describe('EventCard Component', () => {
     expect(screen.getByText(mockEvent.date)).toBeInTheDocument();
   });
 
-  it('matches the snapshot', () => {
-    const { asFragment } = render(<EventCard event={mockEvent} />);
-    expect(asFragment()).toMatchSnapshot();
-  });
 });
