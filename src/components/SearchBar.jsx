@@ -11,7 +11,7 @@ function SearchBar({ handleSearch }) {
       toast.error("input a keyword");
       return;
     }
-    handleSearch(searchTerm);
+    handleSearch(searchTerm.trim());
   };
 
   return (

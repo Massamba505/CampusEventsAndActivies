@@ -46,7 +46,7 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
   };
 
   return (
-    <div className='relative text-decoration-none bg-white'>
+    <div className='relative text-decoration-none bg-white' data-testid="event-card">
     <div className="relative rounded-lg sm:w-80 border p-2 transition-transform transform hover:bg-gray-100">
       {/* <XIcon size={250} className='absolute z-10 left-3 text-red-500'/> */}
       <div className="flex flex-col h-full items-start space-y-4">
