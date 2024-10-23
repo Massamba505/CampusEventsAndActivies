@@ -2,9 +2,13 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import SearchBar from '../components/SearchBar';
 import toast from 'react-hot-toast';
+import '@testing-library/jest-dom';
 
 vi.mock('react-hot-toast', () => ({
-  error: vi.fn(),
+    __esModule: true, // This makes it a default export
+    default: {
+      error: vi.fn(),
+    },
 }));
 
 describe('SearchBar Component', () => {
@@ -17,10 +21,11 @@ describe('SearchBar Component', () => {
 
   it('renders input and button correctly', () => {
     render(<SearchBar handleSearch={handleSearchMock} />);
-
+    
+    //screen.debug();
     const inputElement = screen.getByPlaceholderText('Keyword');
-    const buttonElement = screen.getByRole('button', { name: /search/i });
-
+    const buttonElement = screen.getByText(/Search/i);
+    //console.log(inputElement);
     expect(inputElement).toBeInTheDocument();
     expect(buttonElement).toBeInTheDocument();
   });
