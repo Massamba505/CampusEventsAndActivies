@@ -13,6 +13,7 @@ function DeleteEvent({modalVisible, setModalVisible, onDeleteEvent}) {
         transition
         onClick={onDeleteEvent}
         className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+        data-testid="del-button"
       />
   
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -52,6 +53,7 @@ function DeleteEvent({modalVisible, setModalVisible, onDeleteEvent}) {
                 data-autofocus
                 onClick={CancelLogout}
                 className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-gray-300 hover:bg-gray-50 "
+                data-testid="cancButton"
               >
                 Cancel
               </button>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
+import {toast} from 'react-hot-toast';
 import { myConstant } from '../../const/const';
 import { useAuthContext } from '../../context/AuthContext';
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
@@ -25,7 +25,7 @@ function Logout({setActiveIndex}) {
       return;
     }
     const data = await response.json();
-    toast(data.error); // Show a message or toast
+    toast.error(data.error); // Show a message or toast
 
   };
   const CancelLogout = ()=>{
@@ -38,6 +38,7 @@ function Logout({setActiveIndex}) {
         transition
         onClick={handleLogout} // Call handleLogout on backdrop click
         className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+        data-testid="logoutButton"
       />
   
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -69,6 +70,7 @@ function Logout({setActiveIndex}) {
                 type="button"
                 onClick={handleLogout}
                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 "
+                data-testid="odd"
               >
                 Logout
               </button>
