@@ -71,6 +71,7 @@ function ChangePassword({ modalVisible, setModalVisible }) {
                     onChange={(e) => setOldPassword(e.target.value.trim())}
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    data-testid="old-pass"
                   />
                 </div>
                 <div>
@@ -81,6 +82,7 @@ function ChangePassword({ modalVisible, setModalVisible }) {
                     onChange={(e) => setNewPassword(e.target.value.trim())}
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    data-testid="new-pass1"
                   />
                 </div>
                 <div>
@@ -91,9 +93,10 @@ function ChangePassword({ modalVisible, setModalVisible }) {
                     onChange={(e) => setConfirmPassword(e.target.value.trim())}
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    data-testid="new-pass2"
                   />
                 </div>
-                <Button onClick={handlePasswordChange} className="btn btn-primary w-full">
+                <Button onClick={handlePasswordChange} className="btn btn-primary w-full" data-testid="newPassButton">
                   Change Password
                 </Button>
               </form>
