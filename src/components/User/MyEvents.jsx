@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import EventCard from './EventCard';
 import { myConstant } from '../../const/const';
 import { Spinner } from 'react-bootstrap';
-import toast from 'react-hot-toast';
+import {toast} from 'react-hot-toast';
 
 const MyEvents = () => {
   const [events, setEvents] = useState([]);
