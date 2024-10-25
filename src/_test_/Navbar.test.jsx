@@ -5,7 +5,7 @@ import { MemoryRouter, useNavigate } from 'react-router-dom'; // Importing useNa
 import { useAuthContext } from '../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import '@testing-library/jest-dom';
-
+//NavBar testing
 class ResizeObserver {
     observe() {}
     unobserve() {}
