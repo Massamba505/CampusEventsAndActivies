@@ -65,10 +65,11 @@ const Login = () => {
 
           <form onSubmit={handleSubmit}>
             <div className="mt-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+              <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
                 Email Address
               </label>
               <input
+              id="email"
                 placeholder="email"
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="email"
@@ -79,11 +80,12 @@ const Login = () => {
             </div>
             <div className="mt-4 mb-3">
               <div className="flex justify-between">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+                <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
                   Password
                 </label>
               </div>
               <input
+              id="password"
                 placeholder="password"
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="password"
