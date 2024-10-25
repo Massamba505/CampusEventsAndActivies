@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EventCard Component > matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="border p-4 rounded shadow"
+    data-testid="event-card"
+  >
+    <h3
+      class="text-lg font-bold"
+    >
+      Sample Event
+    </h3>
+    <p>
+      This is a sample event description.
+    </p>
+    <p>
+      2024-10-23
+    </p>
+  </div>
+</DocumentFragment>
+`;
