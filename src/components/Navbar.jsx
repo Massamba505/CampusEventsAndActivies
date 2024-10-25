@@ -105,9 +105,9 @@ export default function Navbar() {
           <div className="flex gap-2 items-center">
 
             {/* Profile dropdown */}
-            <Menu as="div" className="relative">
+            <Menu as="div" className="relative" >
               <div className='flex flex-row-reverse items-center gap-2'>
-                <MenuButton className="relative shadow-md flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-white">
+                <MenuButton className="relative shadow-md flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-white" data-testid="menuThing">
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
                   <img
@@ -115,7 +115,9 @@ export default function Navbar() {
                     src={pp}
                     className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover"
                     style={{ objectFit: 'cover', objectPosition: 'center' }}
+                    
                   />
+                  
                 </MenuButton>
                 <CalendarDays onClick={()=>navigate("/calender")} className='hover:cursor-pointer'></CalendarDays>
                 
@@ -130,6 +132,7 @@ export default function Navbar() {
               <MenuItems
                 transition
                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                
               >
                 <MenuItem>
                   <Link to="/profile" className="flex items-center gap-1  text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
@@ -149,7 +152,7 @@ export default function Navbar() {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <div onClick={handleCreate} className="flex items-center gap-1 cursor-pointer text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                  <div onClick={handleCreate} className="flex items-center gap-1 cursor-pointer text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" data-testid="createButton">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
@@ -157,7 +160,7 @@ export default function Navbar() {
                   </div>
                 </MenuItem>
                 <MenuItem>
-                  <div onClick={handleLogout} className="flex items-center gap-1 cursor-pointer text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                  <div onClick={handleLogout} className="flex items-center gap-1 cursor-pointer text-decoration-none px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" data-testid="logoutButton2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                     </svg>
