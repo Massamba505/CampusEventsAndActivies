@@ -98,6 +98,7 @@ const Signup = () => {
                             <div>
                                 <label className="block text-gray-700 text-sm font-bold mb-2">First Name</label>
                                 <input
+                                data-testid="firstname"
                                     placeholder='First Name'
                                     className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                                     type="text"
@@ -109,6 +110,7 @@ const Signup = () => {
                             <div>
                                 <label className="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
                                 <input
+                                data-testid="lastname"
                                     placeholder='Last Name'
                                     className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                                     type="text"
@@ -122,6 +124,7 @@ const Signup = () => {
                         <div className="mt-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
                             <input
+                                data-testid="email"
                                 placeholder='Email'
                                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                                 type="email"
@@ -135,6 +138,7 @@ const Signup = () => {
                             <div>
                                 <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
                                 <input
+                                    data-testid="password"
                                     placeholder='Password'
                                     className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                                     type="password"
@@ -146,6 +150,7 @@ const Signup = () => {
                             <div>
                                 <label className="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
                                 <input
+                                    data-testid="confirmPassword"
                                     placeholder='Confirm Password'
                                     className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                                     type="password"

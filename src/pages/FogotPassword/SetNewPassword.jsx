@@ -80,8 +80,9 @@ const SetNewPassword = () => {
 
                 <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">New Password</label>
+                        <label htmlFor='newPassword' className="block text-sm font-medium text-gray-700">New Password</label>
                         <input
+                        id='newPassword'
                             type="password"
                             placeholder="Enter new password"
                             value={newPassword}
@@ -90,8 +91,9 @@ const SetNewPassword = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                        <label htmlFor='confirmPassword' className="block text-sm font-medium text-gray-700">Confirm New Password</label>
                         <input
+                            id='confirmPassword'
                             type="password"
                             placeholder="Confirm new password"
                             value={confirmPassword}
