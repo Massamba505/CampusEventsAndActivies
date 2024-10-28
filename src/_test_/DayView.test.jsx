@@ -4,6 +4,8 @@ import DayView from '../components/Calender/DayView';
 import '@testing-library/jest-dom';
 import React from 'react';
 import moment from 'moment';
+import { MemoryRouter } from 'react-router-dom';
+
 
 describe('DayView Component', () => {
   const testDate = '12/10/2024'; // Test date
@@ -23,7 +25,9 @@ describe('DayView Component', () => {
       json: async () => ({ data: [] }),
     });
 
-    render(<DayView date={testDate} />);
+    render(<MemoryRouter>
+    <DayView date={testDate} />
+    </MemoryRouter>);
 
     // Check that loading spinner is visible
     expect(screen.getByRole('status')).toBeInTheDocument();
@@ -41,7 +45,9 @@ describe('DayView Component', () => {
       }),
     });
 
-    render(<DayView date={testDate} />);
+    render(<MemoryRouter>
+    <DayView date={testDate} />
+    </MemoryRouter>);
 
     // Wait for the loading to finish
     await waitFor(() => {
@@ -122,7 +128,9 @@ describe('DayView Component', () => {
       }),
     });
 
-    render(<DayView date={testDate} />);
+    render(<MemoryRouter>
+    <DayView date={testDate} />
+    </MemoryRouter>);
 
     await waitFor(() => {
       expect(screen.getByText(/Error: Failed to load events/i)).toBeInTheDocument();
@@ -145,7 +153,9 @@ describe('DayView Component', () => {
       }),
     });
 
-    render(<DayView date={testDate} />);
+    render( <MemoryRouter>
+    <DayView date={testDate} />
+    </MemoryRouter>);
 
     await waitFor(() => {
       expect(global.scrollTo).toHaveBeenCalledWith({

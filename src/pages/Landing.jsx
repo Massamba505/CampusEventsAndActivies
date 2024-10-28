@@ -24,10 +24,10 @@ const LandingPage = () => {
 
           <div className="inline-flex items-center ml-5 space-x-2 sm:space-x-6 justify-end">
             <Link to={"/login"} className=" px-2 py-2 inline-flex items-center justify-center lg:px-4 text-base font-medium leading-6 text-black whitespace-no-wrap bg-white border border-transparent rounded-md shadow-sm hover:bg-gray-300 text-decoration-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
-              <button>Login</button>
+              <button data-testid="login-button">Login</button>
             </Link>
             <Link to={"/signup"} className="inline-flex px-2 py-2 text-sm items-center justify-center sm:px-4 sm:py-2 sm:text-base font-medium leading-6 text-white whitespace-no-wrap bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-500 text-decoration-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
-              <button>Get Started</button>
+              <button data-testid="signup-button">Get Started</button>
             </Link>
           </div>
 
