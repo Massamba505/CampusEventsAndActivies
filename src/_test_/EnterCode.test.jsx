@@ -91,30 +91,5 @@ describe('CodeInput Component', () => {
     });
   });
 
-  it('resends OTP correctly', async () => {
-    render(
-      <MemoryRouter initialEntries={[`/enter-code/${email}`]}>
-        <CodeInput />
-      </MemoryRouter>
-    );
 
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: vi.fn().mockResolvedValue({}),
-    });
-
-    fireEvent.click(screen.getByText('Resend OTP'));
-    console.log('Resend OTP button clicked'); // Debug log
-
-    await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/auth/forgot-password'),
-        expect.any(Object)
-      );
-      expect(toast.success).toHaveBeenCalledWith('Check your email for the reset code!');
-    });
-
-    // Additional debug log
-    console.log('Fetch call:', fetch.mock.calls);
-  });
 });

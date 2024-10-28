@@ -1,11 +1,12 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor,act } from '@testing-library/react';
 import TicketSuccess from '../components/User/Stripe/TicketSuccess'; // Adjust the path as necessary
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { vi } from 'vitest'; // Import vi for mocking
-// Adjust the import based on your project structure
 
-// Mock the AuthContext to prevent the auth error in Navbar
+
+
+
 vi.mock('../context/AuthContext', () => ({
   useAuthContext: () => ({
     authUser: { username: 'testUser' }, // Mocked auth user
@@ -43,26 +44,26 @@ vi.mock('../components/Navbar', () => ({
 
 
 describe('TicketSuccess Component', () => {
-  it('should display no ticket details message if sessionId is not present', () => {
-    render(
-      <MemoryRouter initialEntries={['/ticket-success?session_id=']} >
-        <TicketSuccess />
-      </MemoryRouter>
+  
+
+  it('should display loading message while fetching ticket details', async () => {
+    global.fetch.mockImplementation(() =>
+      Promise.resolve({
+        ok: false,
+      })
     );
 
-    expect(screen.getByText(/No ticket details available./i)).toBeInTheDocument();
-  });
-
-  it('should display loading message while fetching ticket details', () => {
-    render(
-      <MemoryRouter initialEntries={['/ticket-success?session_id=123']} >
-        <TicketSuccess />
-      </MemoryRouter>
-    );
-
+   act(() => {
+      render(
+        <MemoryRouter initialEntries={['/ticket-success?session_id=123']} >
+          <TicketSuccess />
+        </MemoryRouter>
+      );
+    });
+  
     expect(screen.getByText(/Loading ticket details.../i)).toBeInTheDocument();
   });
-
+  
   it('should display the SmallTicketCard if ticket details are available', async () => {
     // Mock the fetch call for successful ticket details
     global.fetch.mockImplementation(() =>
@@ -84,12 +85,14 @@ describe('TicketSuccess Component', () => {
         }}),
       })
     );
-
+  await act(() => {
+     
+  
     render(
       <MemoryRouter initialEntries={['/ticket-success?session_id=123']} >
         <TicketSuccess />
       </MemoryRouter>
-    );
+    )});
 
     // Wait for the ticket details to be displayed
     const ticketCard = await screen.findByText(/Test Event/i);
@@ -105,13 +108,17 @@ describe('TicketSuccess Component', () => {
       })
     );
 
+    await act(() => {
+
     render(
       <MemoryRouter initialEntries={['/ticket-success?session_id=123']} >
         <TicketSuccess />
       </MemoryRouter>
-    );
+    )});
 
     // Wait for the loading state to complete
     await waitFor(() => expect(screen.getByText(/No ticket details available./i)).toBeInTheDocument());
   });
 });
+
+

@@ -20,12 +20,13 @@ describe('SetNewPassword Component', () => {
             <MemoryRouter initialEntries={['/set-new-password/123']}>
                 <Routes>
                     <Route path="/set-new-password/:userId" element={<SetNewPassword />} />
+                    
                 </Routes>
             </MemoryRouter>
         );
 
-        expect(screen.getByLabelText(/new password/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/confirm new password/i)).toBeInTheDocument();
+        expect(screen.getByTestId(/newpassword/i)).toBeInTheDocument();
+        expect(screen.getByTestId(/confirmPassword/i)).toBeInTheDocument();
     });
 
     test('shows error when passwords do not match', async () => {
@@ -37,8 +38,8 @@ describe('SetNewPassword Component', () => {
             </MemoryRouter>
         );
 
-        fireEvent.change(screen.getByLabelText(/new password/i), { target: { value: 'Password1!' } });
-        fireEvent.change(screen.getByLabelText(/confirm new password/i), { target: { value: 'Password2!' } });
+        fireEvent.change(screen.getByTestId(/newpassword/i), { target: { value: 'Password1!' } });
+        fireEvent.change(screen.getByTestId(/confirmPassword/i), { target: { value: 'Password2!' } });
 
         fireEvent.click(screen.getByRole('button', { name: /set new password/i }));
 
@@ -56,8 +57,8 @@ describe('SetNewPassword Component', () => {
             </MemoryRouter>
         );
 
-        fireEvent.change(screen.getByLabelText(/new password/i), { target: { value: '123' } });
-        fireEvent.change(screen.getByLabelText(/confirm new password/i), { target: { value: '123' } });
+        fireEvent.change(screen.getByTestId(/newpassword/i), { target: { value: '123' } });
+        fireEvent.change(screen.getByTestId(/confirmPassword/i), { target: { value: '123' } });
 
         fireEvent.click(screen.getByRole('button', { name: /set new password/i }));
 
@@ -75,13 +76,14 @@ describe('SetNewPassword Component', () => {
         render(
             <MemoryRouter initialEntries={['/set-new-password/123']}>
                 <Routes>
-                    <Route path="/set-new-password/:userId" element={<SetNewPassword />} />
+                <Route path="/login" element={<div>Login Page</div>} />
+                <Route path="/set-new-password/:userId" element={<SetNewPassword />} />
                 </Routes>
             </MemoryRouter>
         );
 
-        fireEvent.change(screen.getByLabelText(/new password/i), { target: { value: 'Password1!' } });
-        fireEvent.change(screen.getByLabelText(/confirm new password/i), { target: { value: 'Password1!' } });
+        fireEvent.change(screen.getByTestId(/newpassword/i), { target: { value: 'Password1!' } });
+        fireEvent.change(screen.getByTestId(/confirmPassword/i), { target: { value: 'Password1!' } });
 
         fireEvent.click(screen.getByRole('button', { name: /set new password/i }));
 

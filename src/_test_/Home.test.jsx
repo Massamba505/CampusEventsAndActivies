@@ -1,40 +1,77 @@
-// src/_test_/Home.test.jsx
+// Home.test.jsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import Home from '../pages/Home';
+import '@testing-library/jest-dom';
 
-import { render, screen, fireEvent } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import { describe, it, expect } from "vitest";
-import Home from "../pages/Home"; // Adjust the import based on your file structure
+// Mock components
+vi.mock('../components/Navbar', () => ({
+  default: () => <div>Navbar</div>,
+}));
+vi.mock('../components/SearchBar', () => ({
+  default: ({ handleSearch }) => (
+    <input data-testid="search-input" onChange={(e) => handleSearch(e.target.value)} />
+  ),
+}));
+vi.mock('../components/UpcomingEvents', () => ({
+  default: () => <div>Upcoming Events</div>,
+}));
+vi.mock('../components/CategoryList', () => ({
+  default: () => <div>Category List</div>,
+}));
+vi.mock('../components/PopularEvents', () => ({
+  default: () => <div>Popular Events</div>,
+}));
+vi.mock('../components/RecommendedEvents', () => ({
+  default: () => <div>Recommended Events</div>,
+}));
+vi.mock('../components/InprogressEvents', () => ({
+  default: () => <div>In Progress Events</div>,
+}));
 
-describe("Home Component", () => {
-  it("renders the Navbar, CategoryList, SearchBar, and event sections", () => {
+// Create a mock function for navigate
+const mockNavigate = vi.fn();
+
+// Mock the useNavigate hook before all tests
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  };
+});
+
+describe('Home Component', () => {
+  it('renders without crashing', () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
+   // screen.debug();
+
+    expect(screen.getByText('Navbar')).toBeInTheDocument();
+    expect(screen.getByText('Category List')).toBeInTheDocument();
+    expect(screen.getByText('Upcoming Events')).toBeInTheDocument();
+    expect(screen.getByText('Popular Events')).toBeInTheDocument();
+    expect(screen.getByText('Recommended Events')).toBeInTheDocument();
+    expect(screen.getByText('In Progress Events')).toBeInTheDocument();
+  });
+
+  it('navigates to search page on search input', async () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     );
 
-    // Check if components are rendered
-    expect(screen.getByText(/navbar/i)).toBeInTheDocument();
-    expect(screen.getByText(/category list/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument(); // Assuming there's a placeholder in the SearchBar
-    expect(screen.getByText(/upcoming events/i)).toBeInTheDocument();
-    expect(screen.getByText(/popular events/i)).toBeInTheDocument();
-    expect(screen.getByText(/recommended events/i)).toBeInTheDocument();
-    expect(screen.getByText(/in-progress events/i)).toBeInTheDocument();
-  });
+    const searchInput = screen.getByTestId('search-input');
 
-  it("navigates to the search page with the query when a search is performed", () => {
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <Home />
-      </MemoryRouter>
-    );
+    fireEvent.change(searchInput, { target: { value: 'test' } });
+    fireEvent.blur(searchInput); 
 
-    const searchBar = screen.getByPlaceholderText(/search/i); // Adjust based on your SearchBar's placeholder
-    fireEvent.change(searchBar, { target: { value: "test" } });
-    fireEvent.keyDown(searchBar, { key: "Enter", code: "Enter" }); // Simulate pressing Enter
-
-    expect(window.location.pathname).toBe("/search");
-    expect(window.location.search).toBe("?query=test");
+    // Assert that navigate was called with the correct URL
+    expect(mockNavigate).toHaveBeenCalledWith('/search?query=test');
   });
 });
+

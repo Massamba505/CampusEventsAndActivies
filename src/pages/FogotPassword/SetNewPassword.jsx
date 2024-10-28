@@ -82,6 +82,7 @@ const SetNewPassword = () => {
                     <div>
                         <label htmlFor='newPassword' className="block text-sm font-medium text-gray-700">New Password</label>
                         <input
+                        data-testid="newpassword"
                         id='newPassword'
                             type="password"
                             placeholder="Enter new password"
@@ -93,6 +94,7 @@ const SetNewPassword = () => {
                     <div>
                         <label htmlFor='confirmPassword' className="block text-sm font-medium text-gray-700">Confirm New Password</label>
                         <input
+                        data-testid="confirmPassword"
                             id='confirmPassword'
                             type="password"
                             placeholder="Confirm new password"

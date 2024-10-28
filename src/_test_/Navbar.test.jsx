@@ -3,7 +3,7 @@ import { vi } from 'vitest';
 import Navbar from '../components/Navbar'; // Adjust the path as needed
 import { MemoryRouter, useNavigate } from 'react-router-dom'; // Importing useNavigate directly
 import { useAuthContext } from '../context/AuthContext';
-import { toast } from 'react-hot-toast';
+
 import '@testing-library/jest-dom';
 //NavBar testing
 class ResizeObserver {
