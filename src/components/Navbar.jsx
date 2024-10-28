@@ -14,6 +14,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [pp,setPp] = useState("");
   const [read,setRead] = useState("");
+  
 
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
