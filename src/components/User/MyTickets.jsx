@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { myConstant } from '../../const/const';
 import TicketCard from './TicketCard22';
+import loadingGif from '../../assets/loading.gif'
 
 const MyTickets = () => {
   const [tickets, setTickets] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
   useEffect(() => {
     const fetchTickets = async () => {
+      setLoading(true); // Set loading to true before fetching
       try {
         const response = await fetch(`${myConstant}/api/tickets`, {
           method: "GET",
@@ -25,6 +28,8 @@ const MyTickets = () => {
         setTickets(data || []);
       } catch (error) {
         toast.error(error.message);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
       }
     };
 
@@ -85,20 +90,27 @@ const MyTickets = () => {
     <div className="my-tickets">
       <h1 className="text-3xl text-center text-blue-500 font-bold mb-4">My Tickets</h1>
 
-      <div className="container flex items-center flex-col sm:flex-row sm:justify-start flex-wrap gap-4">
-        {tickets.length > 0 ? (
-          tickets.map(ticket => (
-            <TicketCard
-              key={ticket._id}
-              ticket={ticket}
-              onCancel={handleCancel}
-              onRefund={handleRefund}
-            />
-          ))
-        ) : (
-          <p>You have no tickets.</p>
-        )}
-      </div>
+      {loading ? (
+        <div className="flex flex-col justify-center items-center">
+          <img src={loadingGif} width={50} alt="loading..." />
+          <p className="text-blue-500">Getting your tickets</p>
+        </div>
+      ) : (
+        <div className="container flex items-center flex-col sm:flex-row sm:justify-start flex-wrap gap-4">
+          {tickets.length > 0 ? (
+            tickets.map(ticket => (
+              <TicketCard
+                key={ticket._id}
+                ticket={ticket}
+                onCancel={handleCancel}
+                onRefund={handleRefund}
+              />
+            ))
+          ) : (
+            <p>You have no tickets.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -66,6 +66,9 @@ export default function Customize() {
   const handleEventClick = (event) => {
     setSelectedDate(event.date); // Set the selected date
   };
+  const handleSelect = (event) => {
+    console.log(event)
+  };
 
   return (
     <div className="" style={{ height: "75vh" }}>
@@ -73,6 +76,7 @@ export default function Customize() {
         className="sm:text-sm"
         events={events}
         eventPropGetter={eventPropGetter}
+        onSelectSlot={handleSelect}
         onSelectEvent={handleEventClick} // Add the event click handler
       />
       {selectedDate && <DayView date={selectedDate} />} {/* Render DayView with selected date */}

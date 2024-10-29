@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaMapMarkerAlt, FaEnvelope } from 'react-icons/fa';
+import { FaEnvelope } from 'react-icons/fa';
 import ImageCarousel from './ImageCarousel'; // Import the carousel
 import { myConstant } from '../const/const';
 import Navbar from './Navbar';
 import { loadStripe } from '@stripe/stripe-js';
 import toast from 'react-hot-toast';
 import { UserIcon } from 'lucide-react';
-import { Spinner } from 'react-bootstrap';
 import ReportIncident from './ReportIncident';
 import MapComponent from './MapComponent';
+import loadingGif from '../assets/loading.gif'
 
 const EventDetails = () => {
   const { eventId } = useParams();
@@ -107,10 +107,8 @@ const EventDetails = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
+      <div className="flex flex-col justify-center items-center">
+        <img src={loadingGif} width={50} alt="loading..." />
       </div>
     );
   }

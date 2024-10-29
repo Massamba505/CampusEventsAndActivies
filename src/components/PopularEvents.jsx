@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { Spinner, Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import TallEventCard from './TallEventCard';
+import loadingGif from '../assets/loading.gif'
 
 const PopularEvents = () => {
   const [events, setEvents] = useState([]);
@@ -33,7 +34,12 @@ const PopularEvents = () => {
     fetchEvents();
   }, []);
   if (loading) {
-    return <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>;
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <img src={loadingGif} width={50} alt="loading..." />
+        <p className="text-blue-500">Getting popular events</p>
+      </div>
+    )
   }
 
   if (error) {

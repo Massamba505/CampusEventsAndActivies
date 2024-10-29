@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import { myConstant } from '../../const/const';
 import toast from 'react-hot-toast';
-import { Alert, Spinner } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import ShortEventCard from '../ShortEventCard';
+import loadingGif from '../../assets/loading.gif'
 
 export default function DayView({ date }) {
   const [dayEvents, setDayEvents] = useState([]);
@@ -49,25 +50,20 @@ export default function DayView({ date }) {
     });
   };
 
-  // Show loading spinner while data is being fetched
   if (loading) {
     return (
-      
-    <div className="flex flex-col mb-3 mt-2 px-2">
-      
-        <h4 className="text-decoration-underline underline-offset-4 mb-2 ml-2 sm:ml-4">
-          Events on {moment(date, 'DD/MM/YYYY').format('MMMM Do, YYYY')}
-        </h4>
-        <div className="d-flex justify-content-center mt-4">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
-    </div>
+      <div className="flex flex-col mb-3 mt-2 px-2">
+          <h4 className="text-decoration-underline underline-offset-4 mb-2 ml-2 sm:ml-4">
+            Events on {moment(date, 'DD/MM/YYYY').format('MMMM Do, YYYY')}
+          </h4>
+          <div className="flex flex-col justify-center items-center">
+            <img src={loadingGif} width={50} alt="loading..." />
+            <p className="text-blue-500">Getting you events</p>
+          </div>
+      </div>
     );
   }
-
-  // Show error alert if there's an error
+  
   if (error) {
     return <Alert variant="danger">{error}</Alert>;
   }

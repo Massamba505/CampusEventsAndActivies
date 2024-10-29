@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Spinner, Alert } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { myConstant } from "../../const/const";
 import TallEventCard from "./AdminEventCard";
 import EditEventStatus from "./EditEventStatus";
+import loadingGif from '../../assets/loading.gif'
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -64,9 +65,13 @@ const Events = () => {
 
   if (loading) {
     return (
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <div className="flex w-full flex-col mb-3 px-2">
+        <h1 className="text-3xl text-center text-blue-500 font-bold mb-4">Event Management</h1>
+        <div className="flex flex-col justify-center items-center">
+          <img src={loadingGif} width={50} alt="loading..." />
+          <p className="text-blue-500">Getting events</p>
+        </div>
+      </div>
     );
   }
 

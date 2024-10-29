@@ -3,6 +3,7 @@ import EventCard from './EventCard';
 import { myConstant } from '../../const/const';
 import { Spinner } from 'react-bootstrap';
 import toast from 'react-hot-toast';
+import loadingGif from '../../assets/loading.gif'
 
 const MyEvents = () => {
   const [events, setEvents] = useState([]);
@@ -72,9 +73,10 @@ const MyEvents = () => {
 
   if (loading) {
     return (
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <div className="flex flex-col justify-center items-center">
+        <img src={loadingGif} width={50} alt="loading..." />
+        <p className="text-blue-500">Getting events you created</p>
+      </div>
     );
   }
 

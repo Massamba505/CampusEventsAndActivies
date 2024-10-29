@@ -7,6 +7,7 @@ import SearchBar from '../components/SearchBar';
 import CategoryList from '../components/CategoryList';
 import toast from 'react-hot-toast';
 import TallEventCard from './TallEventCard';
+import loadingGif from '../assets/loading.gif'
 
 const SearchResults = () => {
   const location = useLocation();
@@ -52,10 +53,8 @@ const SearchResults = () => {
         <div className="mx-auto p-4">
           <h1 className="text-2xl font-bold mb-4">{`Search Results for "${query}"`}</h1>
           {loading ? (
-            <div className="flex items-center justify-center">
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
+            <div className="flex flex-col justify-center items-center">
+              <img src={loadingGif} width={50} alt="loading..." />
             </div>
           ) : error ? (
             <p className="text-red-500">{error}</p>

@@ -1,43 +1,41 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { myConstant } from '../const/const';
+import loadingGif from '../assets/loading.gif'
 
 // CategoriesManagement component
 const CategoriesManagement = () => {
-  const [categories, setCategories] = useState([]); // Initial state
+  const [categories, setCategories] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [editCategory, setEditCategory] = useState(null); // State for the category being edited
-  const [deleteCategoryId, setDeleteCategoryId] = useState(null); // State for the category being deleted
-
-  const [newCategory, setNewCategory] = useState({
-    name: '',
-    image: null,
-  });
-
+  const [editCategory, setEditCategory] = useState(null);
+  const [deleteCategoryId, setDeleteCategoryId] = useState(null);
+  const [newCategory, setNewCategory] = useState({ name: '', image: null });
   const [imagePreview, setImagePreview] = useState('');
+  const [loading, setLoading] = useState(false); // Loading state
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
-  // Fetch categories from the API
   const fetchCategories = async () => {
+    setLoading(true); // Start loading
     try {
-      const response = await fetch(myConstant + '/api/category',
-        {
-          method:"GET",
-          headers:{
-            "Authorization":`Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        });
+      const response = await fetch(myConstant + '/api/category', {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
       const data = await response.json();
-      setCategories(data); // Set the categories from the API response
+      setCategories(data);
     } catch (error) {
       console.error('Error fetching categories:', error);
       toast.error('Failed to fetch categories.');
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
   useEffect(() => {
-    fetchCategories(); // Fetch categories on component mount
+    fetchCategories();
   }, []);
 
   const handleInputChange = (e) => {
@@ -49,37 +47,39 @@ const CategoriesManagement = () => {
     const file = e.target.files[0];
     if (file) {
       setNewCategory({ ...newCategory, image: file });
-      setImagePreview(URL.createObjectURL(file)); // Create a URL for the selected file
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
   const handleEditClick = (category) => {
     setEditCategory(category);
-    setNewCategory({ name: category.name, image: null }); // Populate with current values
-    setImagePreview(category.image); // Show current image
+    setNewCategory({ name: category.name, image: null });
+    setImagePreview(category.image);
     setModalOpen(true);
   };
 
   const handleDeleteClick = (id) => {
-    setDeleteCategoryId(id); // Set the category ID to be deleted
+    setDeleteCategoryId(id);
   };
 
   const handleDeleteConfirm = async () => {
+    setLoading(true); // Start loading
     try {
-      await fetch(myConstant + `/api/category/${deleteCategoryId}`,
-        {
-          method:"DELETE",
-          headers:{
-            "Authorization":`Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        });
+      await fetch(myConstant + `/api/category/${deleteCategoryId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
       setCategories(categories.filter((category) => category._id !== deleteCategoryId));
-      setDeleteCategoryId(null); // Reset delete ID
+      setDeleteCategoryId(null);
       toast.success('Category deleted successfully!');
     } catch (error) {
       console.error('Error deleting category:', error);
       toast.error('Failed to delete category.');
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -91,39 +91,39 @@ const CategoriesManagement = () => {
       formData.append('image', newCategory.image);
     }
 
+    setLoading(true); // Start loading
     try {
       if (editCategory) {
         // Update existing category
-        await fetch(myConstant + `/api/category/${editCategory._id}`,
-          {
-            method:"PUT",
-            headers:{
-              "Authorization":`Bearer ${token}`,
-            },
-            body: formData,
-          });
-        setCategories(categories.map((category) => 
+        await fetch(myConstant + `/api/category/${editCategory._id}`, {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+          body: formData,
+        });
+        setCategories(categories.map((category) =>
           category._id === editCategory._id ? { ...category, name: newCategory.name, image: newCategory.image ? URL.createObjectURL(newCategory.image) : category.image } : category
         ));
         toast.success('Category updated successfully!');
       } else {
         // Add new category
-        const response = await fetch(myConstant + '/api/category',
-          {
-            method:"POST",
-            headers:{
-              "Authorization":`Bearer ${token}`,
-            },
-            body: formData,
-          });
+        const response = await fetch(myConstant + '/api/category', {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+          body: formData,
+        });
         const newCategoryData = await response.json();
-        setCategories([...categories, newCategoryData]); // Add the new category to the state
+        setCategories([...categories, newCategoryData]);
         toast.success('Category added successfully!');
       }
     } catch (error) {
       console.error('Error adding or updating category:', error);
       toast.error('Failed to add or update category.');
     } finally {
+      setLoading(false); // End loading
       // Reset modal state
       setModalOpen(false);
       setEditCategory(null);
@@ -143,28 +143,35 @@ const CategoriesManagement = () => {
       </button>
       <h1 className='text-2xl sm:text-4xl'>Available Categories</h1>
       <hr />
-      <div className="flex mt-3 flex-wrap gap-3">
-        {categories.map((category) => (
-          <div key={category._id} className="border cursor-pointer hover:scale-105 transition rounded-lg p-2 shadow-lg flex flex-col items-center w-32 sm:w-40 ">
-            <img src={category.image} alt={category.name} className="w-full h-16 sm:h-24 object-cover rounded-lg mb-2" />
-            <h2 className="font-semibold mt-2 text-xs sm:text-sm">{category.name}</h2>
-            <div className="flex space-x-2 mt-1">
-              <button
-                onClick={() => handleEditClick(category)}
-                className="bg-yellow-500 hover:scale-105 transition text-white py-1 px-2 rounded-lg text-xs"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDeleteClick(category._id)}
-                className="bg-red-500 text-white px-2 py-1 rounded-lg text-xs"
-              >
-                Delete
-              </button>
+      {loading ? (
+        <div className="flex flex-col justify-center items-center">
+          <img src={loadingGif} width={50} alt="loading..." />
+          <p className="text-blue-500">Getting all categories</p>
+        </div>
+      ) : (
+        <div className="flex mt-3 flex-wrap gap-3">
+          {categories.map((category) => (
+            <div key={category._id} className="border cursor-pointer hover:scale-105 transition rounded-lg p-2 shadow-lg flex flex-col items-center w-32 sm:w-40 ">
+              <img src={category.image} alt={category.name} className="w-full h-16 sm:h-24 object-cover rounded-lg mb-2" />
+              <h2 className="font-semibold mt-2 text-xs sm:text-sm">{category.name}</h2>
+              <div className="flex space-x-2 mt-1">
+                <button
+                  onClick={() => handleEditClick(category)}
+                  className="bg-yellow-500 hover:scale-105 transition text-white py-1 px-2 rounded-lg text-xs"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDeleteClick(category._id)}
+                  className="bg-red-500 text-white px-2 py-1 rounded-lg text-xs"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Edit or Add Modal */}
       {modalOpen && (

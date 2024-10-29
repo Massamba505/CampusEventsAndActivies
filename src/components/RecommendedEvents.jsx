@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import ShortEventCard from './ShortEventCard';
+import loadingGif from '../assets/loading.gif'
 
 const RecommendedEvents = () => {
   const [events, setEvents] = useState([]); // Ensure this is initialized as an empty array
@@ -49,10 +50,9 @@ const RecommendedEvents = () => {
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center">
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
+      <div className="flex flex-col justify-center items-center">
+        <img src={loadingGif} width={50} alt="loading..." />
+        <p className="text-blue-500">Getting you recommendation</p>
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../Navbar';
 import { myConstant } from '../../const/const';
 import toast from 'react-hot-toast';
+import loadingGif from '../../assets/loading.gif'
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -27,6 +28,7 @@ const Notification = () => {
       }
 
       const data = await response.json();
+      console.log(data)
       setNotifications(data.data); // Adjust based on your backend response structure
 
       // Optionally fetch read notifications if needed
@@ -68,7 +70,6 @@ const Notification = () => {
       if (!response.ok) {
         throw new Error('Failed to delete notification');
       }
-
       // Remove the deleted notification from the state
       setNotifications(notifications.filter(notification => notification._id !== notificationId));
       toast.success("Notification Deleted.");
@@ -89,10 +90,10 @@ const Notification = () => {
             <h1 className="text-2xl font-bold text-center mb-6">Notifications</h1>
 
             {loading && (
-                <div className="flex items-center justify-center p-6">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-600"></div>
-                <p className="ml-4 text-gray-700">Loading notifications...</p>
-                </div>
+              <div className="flex flex-col justify-center items-center">
+                <img src={loadingGif} width={50} alt="loading..." />
+                <p className="text-blue-500">Getting notifications</p>
+              </div>
             )}
 
             {error && (
