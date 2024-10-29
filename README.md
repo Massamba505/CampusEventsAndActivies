@@ -7,7 +7,7 @@ And we shall call it **EventHub**, for it shall be the thread that weaves togeth
 
 ## Introduction
 
-This is a group project for the Software Design Project (COMS3011A) module. We, the following students, have collaborated to create this project:
+This is a group project for the Software Design Project (COMS3011A) module. We, the following students, have collaborated to create this projec:
 
 - Massamba Maphalala: [Massamba505](https://github.com/Massamba505)
 - Siphelele Mthethwa: [SOMEONE1703](https://github.com/SOMEONE1703)
