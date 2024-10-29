@@ -8,6 +8,7 @@ import {
   BookAIcon,
   UserRoundCogIcon,
   CalendarCogIcon,
+  TicketMinusIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -46,6 +47,10 @@ const navLinks = [
   {
     link: "Category Managment",
     icon: BookAIcon,
+  },
+  {
+    link: "Accept Tickect",
+    icon: TicketMinusIcon,
   },
   {
     link: "Logout",

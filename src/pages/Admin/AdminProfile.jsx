@@ -10,6 +10,7 @@ import CreateEvent from "../../components/User/CreateEvent";
 import UserAccount from "../../components/Admin/TrustedAccounts.jsx";
 import MyEvents from "../../components/User/MyEvents.jsx";
 import CategoriesManagement from "../CategoryManagement.jsx";
+import TicketAcceptance from "../../components/Admin/TicketAcceptance.jsx";
 
 function Profile() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -24,6 +25,7 @@ function Profile() {
     <UserAccount key={3} />,
     <Events key={7} />,
     <CategoriesManagement key={8} />,
+    <TicketAcceptance key={9} />,
     <Logout setActiveIndex={setActiveIndex} key={6} />,
   ];
 
