@@ -46,8 +46,8 @@ const MyEvents = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(`${myConstant}/api/events/${id}/cancel`, {
-        method: 'POST',
+      const response = await fetch(`${myConstant}/api/events/${id}/`, {
+        method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',

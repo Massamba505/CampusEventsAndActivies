@@ -13,7 +13,7 @@ const TicketCard = ({ ticket }) => {
         <p className="text-gray-700"><strong>Ticket ID:</strong> {ticket._id}</p>
         <p className="text-gray-700"><strong>Event ID:</strong> {ticket.event_id}</p>
         <p className="text-gray-700"><strong>Ticket Type:</strong> {ticket.ticket_type}</p>
-        <p className="text-gray-700"><strong>Price:</strong> ${ticket.price}</p>
+        <p className="text-gray-700"><strong>Price:</strong> R{ticket.price}</p>
         <p className="text-gray-700"><strong>Event Date:</strong> {new Date(ticket.event_date).toLocaleString()}</p>
         <p className="text-gray-700"><strong>Payment Status:</strong> {ticket.payment_status}</p>
         <p className="text-gray-700"><strong>Refund Status:</strong> {ticket.refund_status}</p>

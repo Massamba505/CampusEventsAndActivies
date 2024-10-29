@@ -30,7 +30,7 @@ const TallEventCard = ({ event = {}, onGetTickets }) => {
             <div className="relative">
               <img className="mx-auto aspect-video rounded-xl object-cover w-full h-40" src={images[0]} alt={title} />
               <p className={`absolute top-0 ${!isPaid ? "bg-blue-600" : "bg-green-600"} text-white font-semibold py-1 px-3 rounded-br-lg rounded-tl-lg`}>
-                {!isPaid ? "FREE" : `$${ticketPrice}`}
+                {!isPaid ? "FREE" : `R${ticketPrice}`}
               </p>
               {discount > 0 && (
                 <p className="absolute top-0 right-0 bg-yellow-300 text-gray-800 font-semibold py-1 px-3 rounded-tr-lg rounded-bl-lg">
@@ -90,7 +90,7 @@ const TallEventCard = ({ event = {}, onGetTickets }) => {
             <div className="flex mt-2 items-center space-x-2">
               <TicketIcon className="h-4 w-4 text-gray-500" />
               <small className={`text-sm font-bold ${isPaid ? 'text-green-600' : 'text-blue-800'}`}>
-                {isPaid ? `Ticket Price: $${ticketPrice}` : 'Free Event'}
+                {isPaid ? `Ticket Price: R${ticketPrice}` : 'Free Event'}
               </small>
             </div>
 

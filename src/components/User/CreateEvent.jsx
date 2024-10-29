@@ -150,6 +150,16 @@ const CreateEvent = () => {
     setShowDropdown(false);
     
   };
+  function isTodayOrFuture(date) {
+    const today = new Date();
+    const inputDate = new Date(date);
+    
+    // Set the time of today to midnight for comparison
+    today.setHours(0, 0, 0, 0);
+    inputDate.setHours(0, 0, 0, 0);
+    
+    return inputDate >= today; // Check if inputDate is today or in the future
+}
   const filteredLocations = dummyLocations.filter((loc) =>
     loc.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -166,6 +176,22 @@ const CreateEvent = () => {
   const checkAvailability = async () => {
     try{
       const formDataObj = new FormData();
+      const dataChecking = (da) => {
+        // Create a new Date object from the 'yyyy-mm-dd' format string
+        const Daaa = new Date(da);
+        const now = new Date(); // Get the current date
+        
+        // Check if the input date is in the past
+        if (Daaa < now) {
+          return 2; // Return 2 if the date is in the past
+        }
+        
+        return 0; // Return 0 otherwise
+      };
+      
+      if (dataChecking(formData.date) === 2) {
+        return 2;
+      }
       const date = formatDate(formData.date);
       formDataObj.append('title', formData.title);
       formDataObj.append('description', formData.description);
@@ -322,7 +348,7 @@ const CreateEvent = () => {
       setLoading(false);
     }
     else if (out==2){
-      toast.error('Start time can\'t be later than end time!');
+      toast.error(' Invalid Date, start time or end time!');
       setLoading(false);
     }
     else if (out==1){
@@ -354,6 +380,7 @@ const CreateEvent = () => {
     }
     //setLoading(false);
   }
+  
   const handleSubmit = async () => {
     // e.preventDefault();
     // setLoading(true);
@@ -582,7 +609,8 @@ const CreateEvent = () => {
               id="max_attendees"
               name="max_attendees"
               type="number"
-              value={formData.max_attendees}
+              min={1}
+              value={formData.max_attendees?formData.max_attendees:1}
               onChange={handleInputChange}
               className="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               placeholder="Max Attendees"

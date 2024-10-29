@@ -23,7 +23,6 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
     discount = null,
     category = [],
   } = event;
-
   const [modalVisible, setModalVisible] = useState(false); // Control modal visibility
   const [modalVisibleD, setModalVisibleD] = useState(false); // Control modal visibility
   const [eventId, setEventId] = useState(false); // Control modal visibility
@@ -55,7 +54,7 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
           <div className="relative">
             <img className="mx-auto aspect-video rounded-xl object-cover w-full h-40" src={images[0]} alt={title} />
             <p className={`absolute top-0 ${!isPaid ? "bg-blue-600" : "bg-green-600"} text-white font-semibold py-1 px-3 rounded-br-lg rounded-tl-lg`}>
-              {!isPaid ? "FREE" : `$${ticketPrice}`}
+              {!isPaid ? "FREE" : `R${ticketPrice}`}
             </p>
             {discount > 0 && (
               <p className="absolute top-0 right-0 bg-yellow-300 text-gray-800 font-semibold py-1 px-3 rounded-tr-lg rounded-bl-lg">
@@ -121,7 +120,7 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
               <>
                 <TicketIcon className="h-4 w-4 text-green-600" />
                 <small className={`text-sm font-bold text-green-600`}>
-                  Ticket Price: ${ticketPrice}
+                  Ticket Price: R{ticketPrice}
                 </small>
               </>
             )}
@@ -135,7 +134,7 @@ const EventCard = ({ event, onDeleteEvent, onEditEvent }) => {
                   Edit
                 </button>
                 <button onClick={()=>{setModalVisibleD(true)}} className="self-start inline-flex justify-center sm:text-xl w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl shadow-md transition duration-200">
-                  Cancel Event
+                  Delete Event
                 </button>
               </div>
             ):(
