@@ -19,15 +19,23 @@ import TicketCancel from "./components/User/Stripe/TicketCancel.jsx";
 import CalendarApp from "./components/Calender/CalenderApp.jsx";
 import Notification from "./components/User/Notification.jsx";
 import AdminProfile from "./pages/Admin/AdminProfile";
+import loadingGif from './assets/loading.gif';
 
 function App() {
-  const { authUser } = useAuthContext();
-
+  const { authUser,loading } = useAuthContext();
+  if(loading){
+    return (
+      <div className="w-screen h-screen flex flex-col justify-center items-center">
+        <img src={loadingGif} alt="loading..." />
+        <p className="text-blue-500">Loading...</p>
+      </div>
+    )
+  }
   return (
     <div className="App">
       <Routes>
         {/* Public routes */}
-        <Route path="/" element={<Landing />} /> {/* should be able to access*/}
+        <Route path="/" element={!authUser ? <Landing /> : <Home />} /> {/* should be able to access*/}
         <Route path="/login" element={!authUser ? <Login /> : <Home />} />
         <Route path="/signup" element={!authUser ? <SignUp /> : <Home />} />
         <Route

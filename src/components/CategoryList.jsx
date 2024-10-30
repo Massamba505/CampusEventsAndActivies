@@ -3,9 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import "../components/categoryList.css"
+import { useEventsContext } from '../context/EventsContext';
+import comparing from '../utils/comparing';
 
 const CategoryList = () => {
-  const [categories, setCategories] = useState([]);
+  const { categories,setCategories } = useEventsContext();
+  const [allCategories, setAllCategories] = useState(categories);
   
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
@@ -24,7 +27,10 @@ const CategoryList = () => {
           throw new Error('Failed to fetch categories');
         }
         const data = await response.json();
-        setCategories(data);
+        if(!comparing(data,allCategories)){
+          setAllCategories(data);
+          setCategories(data);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -57,7 +63,7 @@ const CategoryList = () => {
       >
         <ul className="flex p-0 mb-0 px-3 justify-start items-center gap-2">
           {/* Category Buttons */}
-          {categories.map((category) => (
+          {allCategories.map((category) => (
             <li key={category._id} className="flex-shrink-0 text-sm sm:text-base border rounded-lg border-gray-500 shadow-md">
               <Link
                 to={`/search?query=${category.name}`}

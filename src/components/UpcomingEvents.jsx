@@ -5,10 +5,13 @@ import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import ShortEventCard from './ShortEventCard';
 import loadingGif from '../assets/loading.gif'
+import { useEventsContext } from '../context/EventsContext';
+import comparing from '../utils/comparing';
 
 const UpcomingEvents = () => {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { upcomingEvents,setUpcomingEvents } = useEventsContext();
+  const [events, setEvents] = useState(upcomingEvents);
+  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const sliderRef = useRef(null);
@@ -20,7 +23,11 @@ const UpcomingEvents = () => {
         const data = await response.json();
 
         if (response.ok) {
-          setEvents(data.data);
+          if(!comparing(data.data,events)){
+            setEvents(data.data);
+            setUpcomingEvents(data.data);
+          }
+          // setEvents(data.data);
         } else {
           setError(`Error: ${data.error}`);
           toast.error(`Error: ${data.error}`);
@@ -29,22 +36,22 @@ const UpcomingEvents = () => {
         console.error('Error fetching events:', error);
         setError('Error fetching events');
         toast.error('Error fetching events');
-      } finally {
-        setLoading(false);
-      }
+      } //finally {
+        // setLoading(false);
+      // }
     };
 
     fetchEvents();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex flex-col justify-center items-center">
-        <img src={loadingGif} width={50} alt="loading..." />
-        <p className="text-blue-500">Getting up comming events</p>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex flex-col justify-center items-center">
+  //       <img src={loadingGif} width={50} alt="loading..." />
+  //       <p className="text-blue-500">Getting up comming events</p>
+  //     </div>
+  //   );
+  // }
 
   if (error) {
     return <Alert variant="danger">{error}</Alert>;
