@@ -133,7 +133,7 @@ const Login = () => {
                 </button>
               </div>
 
-              <div className="block">
+              {/* <div className="block">
                 <button
                   onClick={handleGoogleLogin}
                   type="button"
@@ -146,7 +146,7 @@ const Login = () => {
                   />
                   Continue with GitHub
                 </button>
-              </div>
+              </div> */}
             </div>
           </form>
         </div>
