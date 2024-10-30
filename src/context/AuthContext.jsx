@@ -29,7 +29,7 @@ export const AuthContextProvider = ({ children }) => {
 
             if (authUser){
                 const mytoken = authUser.token;
-                if(mytoken !== token){
+                if(mytoken === token){
                     setLoading(false);
                     return;
                 }
