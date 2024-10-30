@@ -19,35 +19,7 @@ export const EventsProvider = ({ children }) => {
     const [inProgressEvents, setInProgressEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Fetch all events and specific categories if token is available
-    const fetchEvents = async () => {
-        const storedData = localStorage.getItem("events-app");
-        if (!storedData) {
-            setLoading(false);
-            return;
-        }
-        const { token } = JSON.parse(storedData);
-        if (!token) {
-            setLoading(false);
-            return;
-        }
-        try {
-            await Promise.all([
-                events.length === 0 && fetchThings(`${myConstant}/api/events`, setEvents, token),
-                categories.length === 0 && fetchThings(`${myConstant}/api/category`, setCategories, token),
-                upcomingEvents.length === 0 && fetchThings(`${myConstant}/api/events/upcoming-events`, setUpcomingEvents, token),
-                popularEvents.length === 0 && fetchThings(`${myConstant}/api/events/popular`, setPopularEvents, token),
-                recommendedEvents.length === 0 && fetchThings(`${myConstant}/api/events/recommendation`, setRecommendedEvents, token),
-                inProgressEvents.length === 0 && fetchThings(`${myConstant}/api/events/inprogress-events`, setInProgressEvents, token),
-            ].filter(Boolean));
-        } catch (error) {
-            console.error("Error fetching events:", error);
-            toast.error("Error fetching events");
-        } finally {
-            setLoading(false);
-        }
-    };
-
+    // Fetch data for a specific URL and update the corresponding state
     const fetchThings = async (url, setState, token) => {
         try {
             const response = await fetch(url, {
@@ -63,15 +35,43 @@ export const EventsProvider = ({ children }) => {
             }
 
             const data = await response.json();
-            if(data.data){
-                setState(data.data);
-            }
-            else{
-                setState(data);
-            }
+            setState(data.data || data);
         } catch (error) {
             console.error(`Error fetching from ${url}:`, error);
             toast.error(`Error fetching from ${url}: ${error.message}`);
+        }
+    };
+
+    // Fetch all required data if token is available
+    const fetchEvents = async () => {
+        const storedData = localStorage.getItem("events-app");
+        if (!storedData) {
+            setLoading(false);
+            return;
+        }
+
+        const { token } = JSON.parse(storedData);
+        if (!token) {
+            setLoading(false);
+            return;
+        }
+
+        const fetchOperations = [
+            events.length === 0 && fetchThings(`${myConstant}/api/events`, setEvents, token),
+            categories.length === 0 && fetchThings(`${myConstant}/api/category`, setCategories, token),
+            upcomingEvents.length === 0 && fetchThings(`${myConstant}/api/events/upcoming-events`, setUpcomingEvents, token),
+            popularEvents.length === 0 && fetchThings(`${myConstant}/api/events/popular`, setPopularEvents, token),
+            recommendedEvents.length === 0 && fetchThings(`${myConstant}/api/events/recommendation`, setRecommendedEvents, token),
+            inProgressEvents.length === 0 && fetchThings(`${myConstant}/api/events/inprogress-events`, setInProgressEvents, token),
+        ].filter(Boolean);
+
+        try {
+            await Promise.all(fetchOperations);
+        } catch (error) {
+            console.error("Error fetching events:", error);
+            toast.error("Error fetching events");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -81,7 +81,7 @@ export const EventsProvider = ({ children }) => {
     }, []);
 
     return (
-        <EventsContext.Provider value={{ 
+        <EventsContext.Provider value={{
             events, 
             setEvents, 
             categories, 
