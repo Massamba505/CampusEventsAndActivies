@@ -378,7 +378,7 @@ const CreateEvent = () => {
       setLoading(false);
     }
     else if (out==7){
-      toast.error('Ticket Price must be greater than 1!');
+      toast.error('Ticket Price must be greater than 10!');
       setLoading(false);
     }
     else if (out==9){
