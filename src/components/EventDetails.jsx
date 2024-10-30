@@ -95,7 +95,9 @@ const EventDetails = () => {
           setBusRoutes(temp);
         }
       } catch (error) {
-        setError(error.message);
+        //setError(error.message);
+        toast.error("Error fetching Busses.");
+        setBusRoutes(["Error fetching Busses from transport API"]);
       } finally {
         setLoading(false);
       }

@@ -192,6 +192,29 @@ const CreateEvent = () => {
       if (dataChecking(formData.date) === 2) {
         return 2;
       }
+      const convertToTime2 = (timeStr) => {
+        const [hours, minutes, seconds = '00'] = timeStr.split(':');
+        const date = new Date();
+        date.setHours(parseInt(hours, 10), parseInt(minutes, 10), parseInt(seconds, 10), 0);
+        return date;
+      };
+
+      let formStart = convertToTime2(formData.start_time);
+      let formEnd = convertToTime2(formData.end_time);
+      if (formStart.getTime() > formEnd.getTime()) {
+        console.log("Start time cannot be after end time");
+        return 2;
+      }
+      console.log(formData);
+      if(formData.is_paid){
+        if (formData.ticket_price<=1){
+          return 7;
+        }
+      }
+      if (formData.max_attendees<1||formData.max_attendees%1!=0){
+        return 8;
+      }
+
       const date = formatDate(formData.date);
       formDataObj.append('title', formData.title);
       formDataObj.append('description', formData.description);
@@ -349,6 +372,14 @@ const CreateEvent = () => {
     }
     else if (out==2){
       toast.error(' Invalid Date, start time or end time!');
+      setLoading(false);
+    }
+    else if (out==7){
+      toast.error('Ticket Price must be greater than 1!');
+      setLoading(false);
+    }
+    else if (out==8){
+      toast.error('Max attendees must be whole and greater than 1!');
       setLoading(false);
     }
     else if (out==1){
@@ -609,8 +640,8 @@ const CreateEvent = () => {
               id="max_attendees"
               name="max_attendees"
               type="number"
-              min={1}
-              value={formData.max_attendees?formData.max_attendees:1}
+              
+              value={formData.max_attendees}
               onChange={handleInputChange}
               className="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               placeholder="Max Attendees"

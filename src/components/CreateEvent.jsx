@@ -168,6 +168,44 @@ const CreateEvent = () => {
   const checkAvailability = async () => {
     try{
       const formDataObj = new FormData();
+      const dataChecking = (da) => {
+        // Create a new Date object from the 'yyyy-mm-dd' format string
+        const Daaa = new Date(da);
+        const now = new Date(); // Get the current date
+        
+        // Check if the input date is in the past
+        if (Daaa < now) {
+          return 2; // Return 2 if the date is in the past
+        }
+        
+        return 0; // Return 0 otherwise
+      };
+      
+      if (dataChecking(formData.date) === 2) {
+        return 2;
+      }
+      const convertToTime2 = (timeStr) => {
+        const [hours, minutes, seconds = '00'] = timeStr.split(':');
+        const date = new Date();
+        date.setHours(parseInt(hours, 10), parseInt(minutes, 10), parseInt(seconds, 10), 0);
+        return date;
+      };
+
+      let formStart = convertToTime2(formData.start_time);
+      let formEnd = convertToTime2(formData.end_time);
+      if (formStart.getTime() > formEnd.getTime()) {
+        console.log("Start time cannot be after end time");
+        return 2;
+      }
+      console.log(formData);
+      if(formData.is_paid){
+        if (formData.ticket_price<=1){
+          return 7;
+        }
+      }
+      if (formData.max_attendees<1||formData.max_attendees%1!=0){
+        return 8;
+      }
       const date = formatDate(formData.date);
       formDataObj.append('title', formData.title);
       formDataObj.append('description', formData.description);
@@ -336,6 +374,14 @@ const CreateEvent = () => {
       toast.success('Venue Available, Creating event');
       setStatus("Creating...");
       handleSubmit();
+    }
+    else if (out==7){
+      toast.error('Ticket Price must be greater than 1!');
+      setLoading(false);
+    }
+    else if (out==8){
+      toast.error('Max attendees must be whole and greater than 1!');
+      setLoading(false);
     }
     else if (out==4){
       toast.error('Some error occured!');
