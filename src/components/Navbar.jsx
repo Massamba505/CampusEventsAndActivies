@@ -121,7 +121,7 @@ export default function Navbar() {
                                     </Link>
                                 </MenuItem>
                                 <MenuItem>
-                                    <button onClick={handleLogout} className="flex items-center gap-1 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <button onClick={handleLogout} className="flex w-full items-center gap-1 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Logout
                                     </button>
                                 </MenuItem>

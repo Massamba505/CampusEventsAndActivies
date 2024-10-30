@@ -22,15 +22,15 @@ export const EventsProvider = ({ children }) => {
     // Fetch all events and specific categories if token is available
     const fetchEvents = async () => {
         const storedData = localStorage.getItem("events-app");
-        const { token } = storedData ? JSON.parse(storedData) : {};
-
+        if (!storedData) {
+            setLoading(false);
+            return;
+        }
+        const { token } = JSON.parse(storedData);
         if (!token) {
             setLoading(false);
             return;
         }
-
-        setLoading(true);
-
         try {
             await Promise.all([
                 events.length === 0 && fetchThings(`${myConstant}/api/events`, setEvents, token),
