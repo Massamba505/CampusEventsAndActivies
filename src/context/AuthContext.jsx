@@ -27,19 +27,21 @@ export const AuthContextProvider = ({ children }) => {
                 return;
             }
 
-            // if (authUser){
-            //     const mytoken = authUser.token;
-            //     if(mytoken === token){
-            //         setLoading(false);
-            //         return;
-            //     }
-            //     else{
-            //         localStorage.removeItem("events-app");
-            //         setAuthUser(null);
-            //         setLoading(false);
-            //         return;
-            //     }
-            // }
+            if (authUser){
+                if(authUser.role){
+                    const mytoken = authUser.token;
+                    if(mytoken === token){
+                        setLoading(false);
+                        return;
+                    }
+                    else{
+                        localStorage.removeItem("events-app");
+                        setAuthUser(null);
+                        setLoading(false);
+                        return;
+                    }
+                }
+            }
 
 
             try {
