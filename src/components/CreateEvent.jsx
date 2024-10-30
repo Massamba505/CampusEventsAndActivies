@@ -40,7 +40,7 @@ const CreateEvent = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [status,setStatus] = useState('Creating...');
+  const [status,setStatus] = useState('Checking Availability...');
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
   useEffect(() => {
@@ -199,8 +199,11 @@ const CreateEvent = () => {
       }
       console.log(formData);
       if(formData.is_paid){
-        if (formData.ticket_price<=1){
+        if (formData.ticket_price<=10){
           return 7;
+        }
+        if (formData.ticket_price>=99999){
+          return 9;
         }
       }
       if (formData.max_attendees<1||formData.max_attendees%1!=0){
@@ -362,7 +365,8 @@ const CreateEvent = () => {
       setLoading(false);
     }
     else if (out==2){
-      toast.error('Start time can\'t be later than end time!');
+      //toast.error('Start time can\'t be later than end time!');
+      toast.error(' Invalid Date, start time or end time!');
       setLoading(false);
     }
     else if (out==1){
@@ -381,6 +385,10 @@ const CreateEvent = () => {
     }
     else if (out==8){
       toast.error('Max attendees must be whole and greater than 1!');
+      setLoading(false);
+    }
+    else if (out==9){
+      toast.error('Ticket Price must be less than 99999!');
       setLoading(false);
     }
     else if (out==4){

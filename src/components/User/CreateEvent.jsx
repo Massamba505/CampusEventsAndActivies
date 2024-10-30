@@ -38,7 +38,7 @@ const CreateEvent = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [status,setStatus] = useState('Creating...');
+  const [status,setStatus] = useState('Checking Availability...');
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
 
   useEffect(() => {
@@ -207,8 +207,11 @@ const CreateEvent = () => {
       }
       console.log(formData);
       if(formData.is_paid){
-        if (formData.ticket_price<=1){
+        if (formData.ticket_price<=10){
           return 7;
+        }
+        if (formData.ticket_price>=99999){
+          return 9;
         }
       }
       if (formData.max_attendees<1||formData.max_attendees%1!=0){
@@ -376,6 +379,10 @@ const CreateEvent = () => {
     }
     else if (out==7){
       toast.error('Ticket Price must be greater than 1!');
+      setLoading(false);
+    }
+    else if (out==9){
+      toast.error('Ticket Price must be less than 99999!');
       setLoading(false);
     }
     else if (out==8){
