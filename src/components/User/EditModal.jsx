@@ -31,7 +31,7 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [status,setStatus] = useState('Checking Availability...');
+  const [status, setStatus] = useState("Checking Availability...");
 
   const token = JSON.parse(localStorage.getItem("events-app"))["token"];
 
@@ -111,30 +111,29 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
     };
     const fetchVenues = async () => {
       try {
-        const response = await fetch(myConstant + '/api/venues/',
-          {
-            method:"GET",
-            headers:{
-              "Authorization":`Bearer ${token}`,
-              "Content-Type": "application/json"
-            }
-          });
+        const response = await fetch(myConstant + "/api/venues/", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         if (!response.ok) {
-          throw new Error('Failed to fetch Venues');
+          throw new Error("Failed to fetch Venues");
         }
         while (dummyLocations.length > 0) {
           dummyLocations.pop();
         }
         const data = await response.json();
         //console.log(data);
-        for (let i=0;i<data.length;i++){
-          if (data[i].status){
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].status) {
             dummyLocations.push(data[i].name);
           }
         }
       } catch (error) {
-        console.error('Error fetching Venues:', error);
-        toast.error('Error fetching Venues');
+        console.error("Error fetching Venues:", error);
+        toast.error("Error fetching Venues");
       }
     };
     fetchVenues();
@@ -162,31 +161,36 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
   };
 
   const checkAvailability = async () => {
-    try{
+    try {
       const formDataObj = new FormData();
       const dataChecking = (da) => {
         // Create a new Date object from the 'yyyy-mm-dd' format string
         const Daaa = new Date(da);
         const now = new Date(); // Get the current date
-        
+
         // Check if the input date is in the past
         if (Daaa < now) {
           return 2; // Return 2 if the date is in the past
         }
-        
+
         return 0; // Return 0 otherwise
       };
-      
+
       if (dataChecking(formData.date) === 2) {
         return 2;
       }
       const convertToTime2 = (timeStr) => {
-        const [hours, minutes, seconds = '00'] = timeStr.split(':');
+        const [hours, minutes, seconds = "00"] = timeStr.split(":");
         const date = new Date();
-        date.setHours(parseInt(hours, 10), parseInt(minutes, 10), parseInt(seconds, 10), 0);
+        date.setHours(
+          parseInt(hours, 10),
+          parseInt(minutes, 10),
+          parseInt(seconds, 10),
+          0
+        );
         return date;
       };
-      
+
       let formStart = convertToTime2(formData.start_time);
       let formEnd = convertToTime2(formData.end_time);
       if (formStart.getTime() > formEnd.getTime()) {
@@ -194,51 +198,53 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
         return 2;
       }
       //console.log(formData);
-      if(formData.is_paid){
-        if (formData.ticket_price<=10){
+      if (formData.is_paid) {
+        if (formData.ticket_price <= 10) {
           return 7;
         }
-        if (formData.ticket_price>=99999){
+        if (formData.ticket_price >= 99999) {
           return 9;
         }
       }
-      if (formData.max_attendees<1||formData.max_attendees%1!=0){
+      if (formData.max_attendees < 1 || formData.max_attendees % 1 != 0) {
         return 8;
       }
       const date = formatDate(formData.date);
-      formDataObj.append('title', formData.title);
-      formDataObj.append('description', formData.description);
-      formDataObj.append('location', formData.location);
-      formDataObj.append('date', date);
-      formDataObj.append('startTime', formData.start_time);
-      formDataObj.append('endTime', formData.end_time);
-      formDataObj.append('isPaid', formData.is_paid);
-      formDataObj.append('ticketPrice', formData.is_paid ? formData.ticket_price : 0);
-      formDataObj.append('maxAttendees', formData.max_attendees || 0);
-      formDataObj.append('category', JSON.stringify(formData.category));
-      formDataObj.append('food_stalls', formData.food_stalls);
+      formDataObj.append("title", formData.title);
+      formDataObj.append("description", formData.description);
+      formDataObj.append("location", formData.location);
+      formDataObj.append("date", date);
+      formDataObj.append("startTime", formData.start_time);
+      formDataObj.append("endTime", formData.end_time);
+      formDataObj.append("isPaid", formData.is_paid);
+      formDataObj.append(
+        "ticketPrice",
+        formData.is_paid ? formData.ticket_price : 0
+      );
+      formDataObj.append("maxAttendees", formData.max_attendees || 0);
+      formDataObj.append("category", JSON.stringify(formData.category));
+      formDataObj.append("food_stalls", formData.food_stalls);
 
-      
       //get the venues  from group2a
-      let venueMap={};
+      let venueMap = {};
       const response1 = await fetch(
         `https://group2afunctionapp.azurewebsites.net/api/getVENUE?code=lVPnP4OFOCMQEJe3ZcIOQfywgWO9Ag5WtiixpUIwv340AzFuYZT3dQ%3D%3D`
       );
       if (!response1.ok) {
         const resData = await response1.json();
-        toast.error(resData.error || 'Error fetching Group 2 api venues' );
+        toast.error(resData.error || "Error fetching Group 2 api venues");
         return -1;
       }
       const data1 = await response1.json();
-      for (let i=0;i<data1.length;i++){
-        if (formData.location==data1[i]["VENUE_NAME"]){
-          if (data1[i]["VENUE_STATUS"]=="Unavailable"){
+      for (let i = 0; i < data1.length; i++) {
+        if (formData.location == data1[i]["VENUE_NAME"]) {
+          if (data1[i]["VENUE_STATUS"] == "Unavailable") {
             return 1;
           }
         }
-        venueMap[data1[i]["VENUE_ID"]]=data1[i]["VENUE_NAME"];
+        venueMap[data1[i]["VENUE_ID"]] = data1[i]["VENUE_NAME"];
       }
-      
+
       //get the Bookings from group2a
       const response2 = await fetch(
         `https://group2afunctionapp.azurewebsites.net/api/getBOOKING?code=JDsgJhmxzmtNJeOdiPSKbEAPlrI61hA5RDMlGKh4OzxyAzFuGvO2yQ%3D%3D`
@@ -246,159 +252,158 @@ const EditEvent = ({ eventId, modalVisible, setModalVisible, onUpdate }) => {
       if (!response2.ok) {
         console.log("Bookings 1 error");
         const resData = await response2.json();
-        toast.error(resData.error || 'Error fetching Group 2 api schedule' );
+        toast.error(resData.error || "Error fetching Group 2 api schedule");
         return -2;
       }
       const data2 = await response2.json();
-      for (let i = 0; i < data2.length; i++){
+      for (let i = 0; i < data2.length; i++) {
         if (formData.location == venueMap[data2[i]["VENUE_ID"]]) {
-          if (formData.date == data2[i]["DATE"].split('T')[0]) {
+          if (formData.date == data2[i]["DATE"].split("T")[0]) {
             const convertToTime = (timeStr) => {
-              const [hours, minutes, seconds = '00'] = timeStr.split(':');
+              const [hours, minutes, seconds = "00"] = timeStr.split(":");
               const date = new Date();
-              date.setHours(parseInt(hours, 10), parseInt(minutes, 10), parseInt(seconds, 10), 0);
+              date.setHours(
+                parseInt(hours, 10),
+                parseInt(minutes, 10),
+                parseInt(seconds, 10),
+                0
+              );
               return date;
             };
-      
+
             let formStart = convertToTime(formData.start_time);
             let formEnd = convertToTime(formData.end_time);
             let eventStart = convertToTime(data2[i]["START_TIME"]);
             let eventEnd = convertToTime(data2[i]["END_TIME"]);
-            
+
             if (formStart > formEnd) {
               console.log("Start time cannot be later than end time");
               return 2;
             }
 
             if (formStart < eventEnd && formEnd > eventStart) {
-              console.log('Clash of events');
+              console.log("Clash of events");
               return 3;
-            } 
-            
+            }
           }
         }
       }
-      
+
       //get the events from our backend
       const response3 = await fetch(`${myConstant}/api/events`, {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (!response3.ok) {
         console.log("events 2 error");
         const resData = await response3.json();
-        toast.error(resData.error || 'Error getting our events' );
+        toast.error(resData.error || "Error getting our events");
         return -3;
       }
       const datax = await response3.json();
-      const data3=datax.data;
+      const data3 = datax.data;
       //console.log("What");
       //console.log(data3);
-      for (let i = 0; i < data3.length; i++){
-        if (data3[i].isCancelled){
+      for (let i = 0; i < data3.length; i++) {
+        if (data3[i].isCancelled) {
           continue;
         }
         //console.log(`${formData.location}:${data3[i]["location"]}`);
-        if (formData.location == data3[i]["location"]){
+        if (formData.location == data3[i]["location"]) {
           //console.log("happened1");
-          let temp_date = data3[i]["date"].replace(/\//g, '-').split('-');
-          temp_date = temp_date.reverse().join('-');
+          let temp_date = data3[i]["date"].replace(/\//g, "-").split("-");
+          temp_date = temp_date.reverse().join("-");
           //console.log(temp_date);
           //console.log(`${formData.date}:${temp_date}`);
-          if (formData.date == temp_date){
+          if (formData.date == temp_date) {
             //console.log("happened2");
             const convertToTime = (timeStr) => {
-              const [hours, minutes, seconds = '00'] = timeStr.split(':');
+              const [hours, minutes, seconds = "00"] = timeStr.split(":");
               const date = new Date();
-              date.setHours(parseInt(hours, 10), parseInt(minutes, 10), parseInt(seconds, 10), 0);
+              date.setHours(
+                parseInt(hours, 10),
+                parseInt(minutes, 10),
+                parseInt(seconds, 10),
+                0
+              );
               return date;
             };
-      
+
             let formStart = convertToTime(formData.start_time);
             let formEnd = convertToTime(formData.end_time);
             let eventStart = convertToTime(data3[i]["startTime"]);
             let eventEnd = convertToTime(data3[i]["endTime"]);
-            
+
             if (formStart > formEnd) {
               console.log("Start time cannot be after end time");
               return 2;
             }
 
             if (formStart < eventEnd && formEnd > eventStart) {
-              console.log('Clash of events');
-              return 3;
-            } 
-            
+              console.log(data3[i]);
+              console.log(formData);
+              console.log("Clash of events");
+              return 0;
+            }
           }
         }
       }
       return 0;
-
     } catch (err) {
-      setError('Error Checking Availability event. Please try again.');
+      setError("Error Checking Availability event. Please try again.");
       console.log(err.message);
       return 4;
-    } 
+    }
   };
-  const creator= async(e)=>{
+  const creator = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
     setStatus("Checking Availability...");
-    let out=await checkAvailability();
-    if (out==3){
-      toast.error('Venue Booked, Choose a different time');
+    let out = await checkAvailability();
+    if (out == 3) {
+      toast.error("Venue Booked, Choose a different time");
       setLoading(false);
-    }
-    else if (out==2){
-      toast.error(' Invalid Date, start time or end time!');
+    } else if (out == 2) {
+      toast.error(" Invalid Date, start time or end time!");
       setLoading(false);
-    }
-    else if (out==1){
-      toast.error('Venue Unavailable!');
+    } else if (out == 1) {
+      toast.error("Venue Unavailable!");
       setLoading(false);
-    }
-    else if (out==0){
+    } else if (out == 0) {
       console.log("Start editing");
-      toast.success('Venue Available, Editing event');
+      toast.success("Venue Available, Editing event");
       setStatus("Editing...");
       handleSubmit();
-    }
-    else if (out==7){
-      toast.error('Ticket Price must be greater than 1!');
+    } else if (out == 7) {
+      toast.error("Ticket Price must be greater than 1!");
       setLoading(false);
-    }
-    else if (out==8){
-      toast.error('Max attendees must be whole and greater than 1!');
+    } else if (out == 8) {
+      toast.error("Max attendees must be whole and greater than 1!");
       setLoading(false);
-    }
-    else if (out==9){
-      toast.error('Ticket Price must be less than 99999!');
+    } else if (out == 9) {
+      toast.error("Ticket Price must be less than 99999!");
       setLoading(false);
-    }
-    else if (out==4){
-      toast.error('Some error occured!');
+    } else if (out == 4) {
+      toast.error("Some error occured!");
       setLoading(false);
-    }
-    else{
-      toast.error('Error checking Availability');
-      if (out==-1){
+    } else {
+      toast.error("Error checking Availability");
+      if (out == -1) {
         console.log("Fetch venues");
-      }
-      else if (out==-2){
+      } else if (out == -2) {
         console.log("Fetch bookings");
-      }
-      else if (out==-3){
+      } else if (out == -3) {
         console.log("Fetch our events");
       }
       setLoading(false);
     }
     //setLoading(false);
-  }
+  };
 
   const handleSubmit = async () => {
     // e.preventDefault();
