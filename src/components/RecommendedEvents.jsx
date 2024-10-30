@@ -34,10 +34,11 @@ const RecommendedEvents = () => {
           if (data.count === 0) {
             setHasPreferences(false);
           }
-          
-          if(!comparing(data.data,events)){
-            setEvents(data.data);
-            setRecommendedEvents(data.data);
+          if (data.data){
+            if(!comparing(data.data,events)){
+              setEvents(data.data);
+              setRecommendedEvents(data.data);
+            }
           }
         } else {
           setError(`Error: ${data.error}`);

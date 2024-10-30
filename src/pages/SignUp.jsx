@@ -192,7 +192,7 @@ const Signup = () => {
                                 </button>
                             </div>
 
-                            <div className="block">
+                            {/* <div className="block">
                                 <button
                                     onClick={handleGoogleLogin}
                                     type="button"
@@ -201,7 +201,7 @@ const Signup = () => {
                                     <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub" className="h-[18px] w-[18px]" />
                                     Continue with GitHub
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </form>
                 </div>
