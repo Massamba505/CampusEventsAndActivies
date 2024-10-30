@@ -67,12 +67,12 @@ const CategoryList = () => {
             <li key={category._id} className="flex-shrink-0 text-sm sm:text-base border rounded-lg border-gray-500 shadow-md">
               <Link
                 to={`/search?query=${category.name}`}
-                className="flex items-center sm:space-x-3 text-black text-decoration-none font-bold py-1 px-4 rounded-lg hover:scale-105 hover:bg-gray-100 transition-all duration-200"
+                className="flex items-center sm:space-x-1 text-black text-decoration-none font-bold py-1 px-3 rounded-lg hover:scale-105 hover:bg-gray-100 transition-all duration-200"
               >
                 <img 
                   src={category.image} 
                   alt={category.name}
-                  className="w-8 h-8 md:w-12 md:h-12 rounded mr-2"
+                  className="w-8 h-8 md:w-8 md:h-8 rounded mr-2"
                 />
                 <span>{category.name}</span>
               </Link>

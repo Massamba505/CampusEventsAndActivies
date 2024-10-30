@@ -21,7 +21,7 @@ function SearchBar({ handleSearch }) {
         <input
           id="q"
           name="q"
-          className="inline rounded-md sm:text-xl sm:w-2/5 border p-2 rounded-r-none bg-white leading-5"
+          className="inline rounded-md sm:text-xl sm:w-2/5 w-9/12 border p-2 rounded-r-none bg-white leading-5"
           placeholder="Keyword"
           type="search"
           value={searchTerm}
