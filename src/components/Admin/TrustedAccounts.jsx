@@ -2,18 +2,17 @@ import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { myConstant } from '../../const/const';
 import { XIcon } from 'lucide-react';
-import loadingGif from '../../assets/loading.gif'
+import loadingGif from '../../assets/loading.gif';
 
 const UserAccount = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Fetch users from backend
     const fetchUsers = async () => {
-      setLoading(true); // Set loading to true
+      setLoading(true);
       try {
         const response = await fetch(myConstant + '/api/user/all', {
           method: 'GET',
@@ -27,7 +26,7 @@ const UserAccount = () => {
       } catch (error) {
         console.error('Error fetching users', error.message);
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
     fetchUsers();
@@ -44,7 +43,7 @@ const UserAccount = () => {
   };
 
   const updateUserRole = async (role) => {
-    setLoading(true); // Set loading to true when updating user role
+    setLoading(true);
     try {
       const token = JSON.parse(localStorage.getItem('events-app'))['token'];
       const response = await fetch(myConstant + `/api/user/${selectedUser._id}/role`, {
@@ -62,7 +61,7 @@ const UserAccount = () => {
       }
 
       const data = await response.json();
-      setSelectedUser(data); // Update selected user with new data
+      setSelectedUser(data);
       const me_id = JSON.parse(localStorage.getItem('events-app'))['id'];
       const updatedUsers = users.map((user) => (user._id === data._id ? data : user));
       if (me_id === data._id) {
@@ -74,12 +73,25 @@ const UserAccount = () => {
     } catch (error) {
       console.log(error.message);
     } finally {
-      setLoading(false); // Set loading to false after updating
+      setLoading(false);
+    }
+  };
+
+  const getRoleColorClass = (role) => {
+    switch (role) {
+      case 'admin':
+        return 'bg-[#22313f]';
+      case 'organizer':
+        return 'bg-[#6ec189]';
+      case 'user':
+        return 'bg-[#00bbf0]';
+      default:
+        return 'bg-gray-500';
     }
   };
 
   return (
-    <div className="container mx-auto">
+    <div className={`container mx-auto bg-white ${getRoleColorClass(selectedUser?.role)} p-4 rounded-lg`}>
       <h1 className="text-3xl text-center text-blue-500 font-bold mb-4">User Management</h1>
       {loading ? (
         <div className="flex flex-col justify-center items-center">
@@ -93,7 +105,7 @@ const UserAccount = () => {
               <div
                 key={user._id}
                 onClick={() => openModal(user)}
-                className="p-2 hover:bg-gray-100 shadow-md rounded-lg flex items-center space-x-4 cursor-pointer transition duration-150 ease-in-out"
+                className={`p-2 ${getRoleColorClass(user.role)} shadow-md rounded-lg flex items-center space-x-4 cursor-pointer transition duration-150 ease-in-out`}
               >
                 <img
                   src={user.profile_picture || '/default-avatar.png'}
@@ -101,9 +113,11 @@ const UserAccount = () => {
                   className="w-10 h-10 rounded-full object-cover"
                 />
                 <div>
-                  <span className="text-base font-semibold">{user.fullname}</span><br />
-                  <small className="text-xs text-gray-600">{user.email}</small><br />
-                  <small className="text-xs text-gray-600">Role: {user.role}</small>
+                  <span className="text-base font-semibold text-white">{user.fullname}</span><br />
+                  <small className="text-xs text-gray-200">{user.email}</small><br />
+                  <small className="text-xs font-semibold text-white">
+                    Role: {user.role}
+                  </small>
                 </div>
               </div>
             ))}
@@ -132,26 +146,29 @@ const UserAccount = () => {
               <strong>Email:</strong> {selectedUser.email}
             </p>
             <p>
-              <strong>Role:</strong> {selectedUser.role}
+              <strong>Role:</strong>{' '}
+              <span className={`${getRoleColorClass(selectedUser.role)} text-white`}>
+                {selectedUser.role}
+              </span>
             </p>
             <p>
               <strong>About:</strong> {selectedUser.about || 'No about available.'}
             </p>
             <div className="mt-4 space-y-2">
               <button
-                className="w-full bg-blue-500 text-white py-2 rounded-lg"
+                className="w-full bg-[#6ec189] text-white py-2 rounded-lg"
                 onClick={() => updateUserRole('organizer')}
               >
                 Make Organizer
               </button>
               <button
-                className="w-full bg-green-500 text-white py-2 rounded-lg"
+                className="w-full bg-[#00bbf0] text-white py-2 rounded-lg"
                 onClick={() => updateUserRole('user')}
               >
                 Make User
               </button>
               <button
-                className="w-full bg-yellow-500 text-white py-2 rounded-lg"
+                className="w-full bg-[#22313f] text-white py-2 rounded-lg"
                 onClick={() => updateUserRole('admin')}
               >
                 Make Admin
