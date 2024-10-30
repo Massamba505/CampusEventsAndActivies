@@ -25,17 +25,17 @@ const ShortEventCard = ({ event }) => {
           <img
             src={images[0] || 'placeholder-image-url'}
             alt={title}
-            className="w-full h-full object-contain"
+            className="mx-auto aspect-video rounded-md object-cover w-full h-28 sm:h-32"
           />
         </div>
 
         {/* Info Section */}
-        <div className="py-2 pl-2 flex-1">
+        <div className="py-1 pl-2 flex-1">
           <h3 className="text-lg font-semibold text-gray-800">
             {truncateString(title, 40)}
           </h3>
 
-          <div className="flex items-center mt-1 space-x-1">
+          <div className="flex items-center mt-0 space-x-1">
             <CalendarDaysIcon className="h-4 w-4 text-gray-500" />
             <small className="text-xs font-semibold text-gray-500">{date}</small>
           </div>
