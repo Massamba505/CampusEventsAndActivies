@@ -6,6 +6,8 @@ import PopularEvents from '../components/PopularEvents';
 import { useNavigate } from 'react-router-dom';
 import RecommendedEvents from '../components/RecommendedEvents';
 import InprogressEvents from '../components/InprogressEvents';
+import { useEventsContext } from '../context/EventsContext';
+import loadingGif from '../assets/loading.gif';
 
 const Home = () => {
 
@@ -15,6 +17,16 @@ const Home = () => {
     if(search.trim()){
       navigate(`/search?query=${search}`);
     }
+  }
+  const {loading } = useEventsContext();
+
+  if(loading){
+    return (
+      <div className="w-screen h-screen flex flex-col justify-center items-center">
+        <img src={loadingGif} alt="loading..." />
+        <p className="text-blue-500">loading...</p>
+      </div>
+    )
   }
 
   return (

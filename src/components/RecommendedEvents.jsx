@@ -5,10 +5,13 @@ import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import ShortEventCard from './ShortEventCard';
 import loadingGif from '../assets/loading.gif'
+import { useEventsContext } from '../context/EventsContext';
+import comparing from '../utils/comparing';
 
 const RecommendedEvents = () => {
-  const [events, setEvents] = useState([]); // Ensure this is initialized as an empty array
-  const [loading, setLoading] = useState(true);
+  const { recommendedEvents,setRecommendedEvents } = useEventsContext();
+  const [events, setEvents] = useState(recommendedEvents); // Ensure this is initialized as an empty array
+  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [hasPreferences, setHasPreferences] = useState(true);
 
@@ -31,7 +34,11 @@ const RecommendedEvents = () => {
           if (data.count === 0) {
             setHasPreferences(false);
           }
-          setEvents(data.data || []); // Ensure data.data is an array
+          
+          if(!comparing(data.data,events)){
+            setEvents(data.data);
+            setRecommendedEvents(data.data);
+          }
         } else {
           setError(`Error: ${data.error}`);
           toast.error(`Error: ${data.error}`);
@@ -40,22 +47,11 @@ const RecommendedEvents = () => {
         console.error('Error fetching events:', error);
         setError('Error fetching events');
         toast.error('Error fetching events');
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchEvents();
   }, [token]);
-
-  if (loading) {
-    return (
-      <div className="flex flex-col justify-center items-center">
-        <img src={loadingGif} width={50} alt="loading..." />
-        <p className="text-blue-500">Getting you recommendation</p>
-      </div>
-    );
-  }
 
   if (error) {
     return <Alert variant="danger">{error}</Alert>;

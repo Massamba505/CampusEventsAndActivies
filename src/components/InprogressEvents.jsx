@@ -4,11 +4,12 @@ import toast from 'react-hot-toast';
 import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import TallEventCard from './TallEventCard';
-import loadingGif from '../assets/loading.gif'
+import { useEventsContext } from '../context/EventsContext';
+import comparing from '../utils/comparing';
 
 const InprogressEvents = () => {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { inProgressEvents,setInProgressEvents } = useEventsContext();
+  const [events, setEvents] = useState(inProgressEvents);
   const [error, setError] = useState(null);
 
   const sliderRef = useRef(null);
@@ -19,33 +20,23 @@ const InprogressEvents = () => {
         const data = await response.json();
 
         if (response.ok) {
-          setEvents(data.data);
+          if(!comparing(data.data,events)){
+            setEvents(data.data);
+            setInProgressEvents(data.data);
+          }
         } else {
           toast.error(`Error: ${data.error}`);
+          setError(`Error: ${data.error}`);
         }
       } catch (error) {
         console.error('Error fetching events:', error);
         toast.error('Error fetching events');
-      } finally {
-        setLoading(false);
+        setError('Error fetching events');
       }
     };
 
     fetchEvents();
   }, []);
-
-  if (loading) {
-    return (
-      <div className="flex flex-col mb-3 px-2">
-        <hr/>
-        <div className="flex flex-col justify-center items-center">
-          <img src={loadingGif} width={50} alt="loading..." />
-          <p className="text-blue-500">Checking in progress events</p>
-        </div>
-      </div>
-    )
-  }
-
   if (error) {
     return <Alert variant="danger">{error}</Alert>;
   }

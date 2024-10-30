@@ -4,11 +4,12 @@ import toast from 'react-hot-toast';
 import { myConstant } from '../const/const';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import TallEventCard from './TallEventCard';
-import loadingGif from '../assets/loading.gif'
+import comparing from '../utils/comparing';
+import { useEventsContext } from '../context/EventsContext';
 
 const PopularEvents = () => {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { popularEvents,setPopularEvents } = useEventsContext();
+  const [events, setEvents] = useState(popularEvents);
   const [error, setError] = useState(null);
 
   const sliderRef = useRef(null);
@@ -17,30 +18,24 @@ const PopularEvents = () => {
       try {
         const response = await fetch(myConstant + '/api/events/popular');
         const data = await response.json();
-
         if (response.ok) {
-          setEvents(data.data);
+          if(!comparing(data.data,events)){
+            setEvents(data.data);
+            setPopularEvents(data.data);
+          }
         } else {
           toast.error(`Error: ${data.error}`);
+          setError(`${data.error}`);
         }
       } catch (error) {
+        setError('Error fetching events');
         console.error('Error fetching events:', error);
         toast.error('Error fetching events');
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchEvents();
   }, []);
-  if (loading) {
-    return (
-      <div className="flex flex-col justify-center items-center">
-        <img src={loadingGif} width={50} alt="loading..." />
-        <p className="text-blue-500">Getting popular events</p>
-      </div>
-    )
-  }
 
   if (error) {
     return <Alert variant="danger">{error}</Alert>;
