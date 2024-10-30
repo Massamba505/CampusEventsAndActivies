@@ -23,9 +23,10 @@ const MyTickets = () => {
         if (!response.ok) {
           throw new Error('Failed to fetch tickets');
         }
-
         const data = await response.json();
-        setTickets(data || []);
+        //console.log(data);
+        const data2 = data.filter(item => item.event_id !== null);
+        setTickets(data2 || []);
       } catch (error) {
         toast.error(error.message);
       } finally {
@@ -85,7 +86,7 @@ const MyTickets = () => {
       toast.error(error.message);
     }
   };
-
+  //console.log(tickets);
   return (
     <div className="my-tickets">
       <h1 className="text-3xl text-center text-blue-500 font-bold mb-4">My Tickets</h1>

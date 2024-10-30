@@ -24,6 +24,7 @@ const EventDetails = () => {
   const token = JSON.parse(localStorage.getItem('events-app'))["token"];
   const [coords,setCoords]=useState("");
   const [busRoutes,setBusRoutes]=useState([]);
+  const [show_report,setShow_report]=useState(false);
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -37,6 +38,35 @@ const EventDetails = () => {
           let out=await fetchVenue(data.data.location);
           //console.log(out);
           setCoords(out);
+        }
+        if (data.data.date && data.data.startTime && data.data.endTime) {
+            // Parse the event date in DD/MM/YYYY format
+            const [day, month, year] = data.data.date.split('/').map(Number);
+            const eventDate = new Date(year, month - 1, day); // Note: month is 0-indexed in JavaScript
+        
+            // Parse start and end times in HH:MM format
+            const [startHour, startMinute] = data.data.startTime.split(':').map(Number);
+            const [endHour, endMinute] = data.data.endTime.split(':').map(Number);
+        
+            // Create Date objects for the start and end times on the event date
+            const startDateTime = new Date(eventDate);
+            startDateTime.setHours(startHour, startMinute, 0, 0);
+        
+            const endDateTime = new Date(eventDate);
+            endDateTime.setHours(endHour, endMinute, 0, 0);
+        
+            // Get the current date and time
+            const currentDateTime = new Date();
+            console.log(startDateTime);
+            console.log(endDateTime);
+            console.log(currentDateTime);
+            // Check if the current date and time is within the event time range
+            if (currentDateTime >= startDateTime && currentDateTime <= endDateTime) {
+                console.log("happening")  ;
+              setShow_report(true);
+            } else {
+                setShow_report(false);
+            }
         }
         if (data.data["date"]){
           let temp_date = data.data["date"].replace(/\//g, '-').split('-');
@@ -203,7 +233,7 @@ const EventDetails = () => {
       toast.error(error.message)
     }
   };
-
+  
   return (
     <div>
       <Navbar/>   
@@ -215,7 +245,7 @@ const EventDetails = () => {
             {title}
           </h1>
           <div className='absolute top-2 right-2 text-white'>
-            <ReportIncident
+            {show_report&&<ReportIncident
                 incidentDetails={{
                   title: title,
                   date: date,
@@ -224,7 +254,7 @@ const EventDetails = () => {
                   group: "events"
                 }}
                 token={externalToken}
-              />
+              />}
           </div>
         </div>
 
